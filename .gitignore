@@ -1,0 +1,11 @@
+# Ignore Visual Studio Code configurations
+.vscode/
+
+# Ignore build files
+build.*/*/
+!build.*/reports/
+*.log
+
+# Ignore server files
+.ipcache/
+.run/
