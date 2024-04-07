@@ -42,7 +42,7 @@ myproject_kernel.xclbin: ./build/kernel_wrapper.xo
 
 # Building Host
 host: myproject_host_cl.cpp ${PWD}/libs/xcl2.cpp 
-	$(CXX) $(CXXFLAGS) $(CXX_MACROS) src/host.cpp ${PWD}/libs/xcl2.cpp -o host.exe $(LDFLAGS)
+	$(CXX) myproject_host_cl.cpp ${PWD}/libs/xcl2.cpp -o host.exe $(CXX_LIBRARIES) $(CXX_SETTINGS)
 
 .PHONY: kernel
 kernel: myproject_kernel.xclbin
