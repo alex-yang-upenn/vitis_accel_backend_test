@@ -41,7 +41,7 @@ myproject_kernel.xclbin: ./build/kernel_wrapper.xo
 	v++ -l -t hw --config ./u55c.cfg ./build/kernel_wrapper.xo -o kernel_wrapper.xclbin
 
 # Building Host
-host: src/host.cpp ${PWD}/libs/xcl2.cpp 
+host: myproject_host_cl.cpp ${PWD}/libs/xcl2.cpp 
 	$(CXX) $(CXXFLAGS) $(CXX_MACROS) src/host.cpp ${PWD}/libs/xcl2.cpp -o host.exe $(LDFLAGS)
 
 .PHONY: kernel
