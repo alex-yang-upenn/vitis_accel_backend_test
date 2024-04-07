@@ -26,7 +26,6 @@ CXX_LIBRARIES += -I$(XILINX_XRT)/include/ -I$(XILINX_VIVADO)/include/ -I$(XILINX
 				 -I$(PWD)/libs/ -I$(PWD)/firmware/ -I$(PWD)/firmware/nnet_utils/ \
 				 -L$(XILINX_XRT)/lib/ -lOpenCL -lrt -lstdc++ -lpthread
 CXX_SETTINGS +=  -Wall -std=c++11 -Wno-unknown-pragmas -g -O0 
-CXX_MACROS += -DHLS4ML_DATA_DIR=./ -DXCL_BIN_FILENAME=myproject_kernel.xclbin
 
 KERN_LIBRARIES += -I./ -I./firmware/ -I./firmware/weights -I./firmware/nnet_utils/
 
