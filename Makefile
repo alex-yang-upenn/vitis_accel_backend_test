@@ -35,10 +35,10 @@ all: host kernel
 # Building kernel
 ./build/myproject_kernel.xo: kernel_wrapper.cpp
 	mkdir -p ./build
-	v++ -c -t hw --config ./u55c.cfg kernel_wrapper.cpp firmware/myproject.cpp -o ./build/kernel_wrapper.xo $(KERN_LIBRARIES)
+	v++ -c -t hw --config ./u55c.cfg kernel_wrapper.cpp firmware/myproject.cpp -o ./build/myproject_kernel.xo $(KERN_LIBRARIES)
  
-myproject_kernel.xclbin: ./build/kernel_wrapper.xo
-	v++ -l -t hw --config ./u55c.cfg ./build/kernel_wrapper.xo -o kernel_wrapper.xclbin
+myproject_kernel.xclbin: ./build/myproject_kernel.xo
+	v++ -l -t hw --config ./u55c.cfg ./build/myproject_kernel.xo -o kernel_wrapper.xclbin
 
 # Building Host
 host: myproject_host_cl.cpp ${PWD}/libs/xcl2.cpp 
