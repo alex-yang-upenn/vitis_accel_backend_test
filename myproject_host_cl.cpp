@@ -73,12 +73,12 @@ int main(int argc, char** argv) {
             }
             std::stringstream in(iline); 
             std::stringstream pred(pline); 
-            std::string token
-            while (in >> token) { // Extract tokens using stringstream
+            std::string token;
+            while (in >> token) {
                 in_buffer_t tmp = atof(token);
                 inputData.push_back(tmp);
             }
-            while (pred >> token) { // Extract tokens using stringstream
+            while (pred >> token) {
                 out_buffer_t tmp = atof(token);
                 outputPredictions.push_back(tmp);
             }
