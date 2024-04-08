@@ -50,5 +50,5 @@ kernel: myproject_kernel.xclbin
 # Cleaning stuff
 .PHONY: clean
 clean:
-    -rm -rf build\* \*.xclbin
-    -rm -rf \*.log \*.jou \*.rpt \*.csv \*.mdb
+	-rm -rf build* *.xclbin
+	-rm -rf *.log *.jou *.rpt *.csv *.mdb
