@@ -27,7 +27,7 @@ extern "C" {
     \param in Input Vector
     \param out Output Vector
 */
-  void alveo_hls4ml(const in_buffer_t *in, out_buffer_t *out) {
+  void kernel_wrapper(const in_buffer_t *in, out_buffer_t *out) {
     hls::stream<input_t> input("input");
     hls::stream<result_t> output("output");
     #pragma HLS STREAM variable=input depth=DATA_SIZE_IN

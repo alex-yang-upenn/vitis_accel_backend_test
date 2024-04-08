@@ -32,7 +32,7 @@ extern "C" {
     \param in Input Vector
     \param out Output Vector
 */
-  void alveo_hls4ml(const in_buffer_t *in, out_buffer_t *out) {
+  void kernel_wrapper(const in_buffer_t *in, out_buffer_t *out) {
     in_buffer_t in_buf[BATCHSIZE][DATA_SIZE_IN];
     out_buffer_t out_buf[BATCHSIZE][DATA_SIZE_OUT];
     #pragma HLS ARRAY_RESHAPE   variable=in_buf  complete dim=2
