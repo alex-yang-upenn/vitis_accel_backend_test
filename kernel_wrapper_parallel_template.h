@@ -1,9 +1,3 @@
-/*******************************************************************************
-Description:
-    HLS pragmas can be used to optimize the design : improve throughput, reduce latency and 
-    device resource utilization of the resulting RTL code
-    This is a wrapper to be used with an hls4ml project
-*******************************************************************************/
 #ifndef WRAPPER_H
 #define WRAPPER_H
 
@@ -17,20 +11,13 @@ DO NOT fully use up assigned HBM memory.
 */
 #define BATCHSIZE 8192
 
-#ifdef IS_DENSE
-#define DATA_SIZE_IN N_INPUT_1_1
-#endif
-
-#ifdef IS_CONV1D
-#define DATA_SIZE_IN (N_INPUT_1_1 * N_INPUT_2_1)
-#endif
-
-#ifdef IS_CONV2D
-#define DATA_SIZE_IN (N_INPUT_1_1 * N_INPUT_2_1 * N_INPUT_3_1)
-#endif
-
+#define DATA_SIZE_IN // for inp in model.get_input_variables(): inp.size_cpp()
 #define INSTREAMSIZE (BATCHSIZE * DATA_SIZE_IN)
-#define DATA_SIZE_OUT N_LAYER_11 // Update accordingly
+
+#define DATA_SIZE_OUT // for out in model.get_output_variables(): out.size_cpp()
 #define OUTSTREAMSIZE (BATCHSIZE * DATA_SIZE_OUT)
+
+typedef /*inp.type.name*/ in_buffer_t;
+typedef /*out.type.name*/ out_buffer_t; 
 
 #endif

@@ -16,7 +16,7 @@
 #define EXPAND_STRING(var) STRINGIFY(var)
 
 
-void runFPGAHelper(fpgaObj<input_t, output_t> &theFPGA) {
+void runFPGAHelper(fpgaObj<in_buffer_t, out_buffer_t> &theFPGA) {
     std::stringstream ss;
     ss << (theFPGA.runFPGA()).str();
     theFPGA.write_ss_safe(ss.str());
@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
     
     std::string xclbinFilename = argv[1];
 
-    fpgaObj<input_data_t, output_data_t> fpga(INSTREAMSIZE, OUTSTREAMSIZE, NUM_CU, NBUFFER, 100);
+    fpgaObj<in_buffer_t, out_buffer_t> fpga(INSTREAMSIZE, OUTSTREAMSIZE, NUM_CU, NBUFFER, 100);
 
     /* 
     get_xil_devices() is a utility API which will find the xilinx
@@ -61,8 +61,8 @@ int main(int argc, char** argv) {
         std::cerr << "Error: Could not open tb_output_predictions.dat" << std::endl;
     }
 
-    std::vector<input_t> inputData;
-    std::vector<result_t> outputPredictions;
+    std::vector<in_buffer_t> inputData;
+    std::vector<out_buffer_t> outputPredictions;
     if (fin.is_open() && fpr.is_open()) {
         int e = 0;
         std::string iline;
@@ -73,12 +73,13 @@ int main(int argc, char** argv) {
             }
             std::stringstream in(iline); 
             std::stringstream pred(pline); 
+            std::string token
             while (in >> token) { // Extract tokens using stringstream
-                input_t tmp = atof(token);
+                in_buffer_t tmp = atof(token);
                 inputData.push_back(tmp);
             }
             while (pred >> token) { // Extract tokens using stringstream
-                result_t tmp = atof(token);
+                out_buffer_t tmp = atof(token);
                 outputPredictions.push_back(tmp);
             }
         }
@@ -93,7 +94,7 @@ int main(int argc, char** argv) {
 
     // Padding rest of buffer with arbitrary values
     for (int i = n; i < NUM_CU * NBUFFER * INSTREAMSIZE) {
-        fpga.source_in[i] = (input_t)(1234.567);
+        fpga.source_in[i] = (in_buffer_t)(1234.567);
     }
 
     std::vector<std::thread> hostAccelerationThreads;
