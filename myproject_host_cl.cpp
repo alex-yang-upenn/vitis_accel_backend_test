@@ -75,11 +75,11 @@ int main(int argc, char** argv) {
             std::stringstream pred(pline); 
             std::string token;
             while (in >> token) {
-                in_buffer_t tmp = atof(token);
+                in_buffer_t tmp = stof(token);
                 inputData.push_back(tmp);
             }
             while (pred >> token) {
-                out_buffer_t tmp = atof(token);
+                out_buffer_t tmp = stof(token);
                 outputPredictions.push_back(tmp);
             }
         }
@@ -93,7 +93,7 @@ int main(int argc, char** argv) {
     }
 
     // Padding rest of buffer with arbitrary values
-    for (int i = n; i < NUM_CU * NBUFFER * INSTREAMSIZE) {
+    for (int i = n; i < NUM_CU * NBUFFER * INSTREAMSIZE; i++) {
         fpga.source_in[i] = (in_buffer_t)(1234.567);
     }
 
