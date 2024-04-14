@@ -47,7 +47,7 @@ int main(int argc, char** argv) {
 
     std::cout << "Writing output predictions to tb_data/tb_output_predictions.dat" << std::endl;
       
-    std::cout << "Loading input data from tb_data/tb_input_features.dat" 
+    std::cout << "Loading input data from tb_data/tb_input_features.dat " 
               << "and output predictions from tb_data/tb_output_features.dat" << std::endl;
     
     std::ifstream fpr("tb_data/tb_output_predictions.dat");
