@@ -2,8 +2,11 @@
 .vscode/
 
 # Ignore build files
-build.*/*/
-!build.*/reports/
+build/*/
+!build/reports/
+!build/logs/
+!build/*.xo
+!build/*.mdb
 *.log
 
 # Ignore server files
