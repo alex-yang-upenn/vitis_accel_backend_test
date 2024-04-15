@@ -1,0 +1,209 @@
+INFO-FLOW: Workspace /home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution opened at Mon Apr 15 05:47:50 UTC 2024
+Execute       send_msg_by_id INFO @200-1505@%s%s  vitis 
+INFO: [HLS 200-1505] Using flow_target 'vitis'
+Execute       send_msg_by_id INFO @200-435@%s%s 'open_solution -flow_target vitis' config_interface -m_axi_latency=64 
+INFO: [HLS 200-435] Setting 'open_solution -flow_target vitis' configuration: config_interface -m_axi_latency=64
+Execute       config_interface -m_axi_latency=64 
+Command       config_interface done; 0.17 sec.
+Execute       send_msg_by_id INFO @200-435@%s%s 'open_solution -flow_target vitis' config_interface -m_axi_alignment_byte_size=64 
+INFO: [HLS 200-435] Setting 'open_solution -flow_target vitis' configuration: config_interface -m_axi_alignment_byte_size=64
+Execute       config_interface -m_axi_alignment_byte_size=64 
+Command       config_interface done; 0.16 sec.
+Execute       send_msg_by_id INFO @200-435@%s%s 'open_solution -flow_target vitis' config_interface -m_axi_max_widen_bitwidth=512 
+INFO: [HLS 200-435] Setting 'open_solution -flow_target vitis' configuration: config_interface -m_axi_max_widen_bitwidth=512
+Execute       config_interface -m_axi_max_widen_bitwidth=512 
+Command       config_interface done; 0.16 sec.
+INFO-FLOW: Setting macro_cmd open_solution -flow_target vitis configuration: config_interface -default_interface=kernel
+Execute       config_interface -default_interface=kernel 
+Command       config_interface done; 0.15 sec.
+Execute       send_msg_by_id INFO @200-435@%s%s 'open_solution -flow_target vitis' config_rtl -register_reset_num=3 
+INFO: [HLS 200-435] Setting 'open_solution -flow_target vitis' configuration: config_rtl -register_reset_num=3
+Execute       config_rtl -register_reset_num=3 
+Command       config_rtl done; 0.16 sec.
+Command     open_solution done; 1.72 sec.
+Execute     set_part xcu55c-fsvh2892-2L-e 
+INFO: [HLS 200-1510] Running: set_part xcu55c-fsvh2892-2L-e 
+Execute       create_platform xcu55c-fsvh2892-2L-e -board  
+DBG:HLSDevice: Trying to load device library: /tools/Xilinx/Vitis_HLS/2022.2/lib/lnx64.o/libxv_hlsvwrap.so
+DBG:HLSDevice: first parts/arch.xml in RDI_DATADIR: /tools/Xilinx/Vivado/2022.2/data/parts/arch.xml
+DBG:HLSDevice: init success
+INFO: [HLS 200-1611] Setting target device to 'xcu55c-fsvh2892-2L-e'
+Command       create_platform done; 2.45 sec.
+Execute       source /tools/Xilinx/Vitis_HLS/2022.2/common/technology/xilinx/common/xilinx.gen 
+Execute         source /tools/Xilinx/Vitis_HLS/2022.2/common/technology/xilinx/interface/plb46.gen 
+Execute         source /tools/Xilinx/Vitis_HLS/2022.2/common/technology/xilinx/interface/axi4.gen 
+Execute         source /tools/Xilinx/Vitis_HLS/2022.2/common/technology/xilinx/interface/nativeAXI4.gen 
+Execute           source /tools/Xilinx/Vitis_HLS/2022.2/common/technology/xilinx/interface/saxilite.gen 
+Execute         source /tools/Xilinx/Vitis_HLS/2022.2/common/technology/xilinx/scripts/xilinxcoregen.gen 
+Execute         source /tools/Xilinx/Vitis_HLS/2022.2/common/technology/xilinx/interface/XilEDKCoreGen.gen 
+Execute         source /tools/Xilinx/Vitis_HLS/2022.2/common/technology/xilinx/ip/dds_compiler.gen 
+Execute         source /tools/Xilinx/Vitis_HLS/2022.2/common/technology/xilinx/ip/xfft.gen 
+Execute         source /tools/Xilinx/Vitis_HLS/2022.2/common/technology/xilinx/ip/xfir.gen 
+Execute         source /tools/Xilinx/Vitis_HLS/2022.2/common/technology/xilinx/ip/util.gen 
+Execute         source /tools/Xilinx/Vitis_HLS/2022.2/common/technology/xilinx/DSP48/dsp48.gen 
+Command       ap_source done; 0.11 sec.
+Execute       ap_part_info -name xcu55c-fsvh2892-2L-e -data info 
+Execute       config_compile -quiet -complex-mul-dsp=0 
+Command     set_part done; 2.98 sec.
+Execute     create_clock -period 300.000000MHz -name default 
+INFO: [HLS 200-1510] Running: create_clock -period 300.000000MHz -name default 
+Execute       ap_set_clock -name default -period 3.333 -unit ns -default=false 
+INFO: [SYN 201-201] Setting up clock 'default' with a period of 3.333ns.
+Command     create_clock done; 0.19 sec.
+Execute     config_dataflow -strict_mode warning 
+INFO: [HLS 200-1510] Running: config_dataflow -strict_mode warning 
+Command     config_dataflow done; 0.14 sec.
+Execute     config_export -deadlock_detection sim 
+INFO: [HLS 200-1510] Running: config_export -deadlock_detection sim 
+WARNING: [HLS 200-483] The 'config_export -deadlock_detection' command is deprecated and will be removed in a future release. Use 'config_rtl -deadlock_detection' as its replacement.
+INFO: [HLS 200-1907] Replacing 'config_export -deadlock_detection=sim' with 'config_rtl -deadlock_detection=sim' in current solution file
+Command     config_export done; 0.18 sec.
+Execute     config_interface -m_axi_conservative_mode=1 
+INFO: [HLS 200-1510] Running: config_interface -m_axi_conservative_mode=1 
+Command     config_interface done; 0.18 sec.
+Execute     config_interface -m_axi_addr64 
+INFO: [HLS 200-1510] Running: config_interface -m_axi_addr64 
+Command     config_interface done; 0.15 sec.
+Execute     config_interface -m_axi_auto_max_ports=0 
+INFO: [HLS 200-1510] Running: config_interface -m_axi_auto_max_ports=0 
+Command     config_interface done; 0.18 sec.
+Execute     config_export -format xo -ipname kernel_wrapper 
+INFO: [HLS 200-1510] Running: config_export -format xo -ipname kernel_wrapper 
+INFO: [HLS 200-1907] Replacing 'config_export -deadlock_detection=sim' with 'config_rtl -deadlock_detection=sim' in current solution file
+Command     config_export done; 0.15 sec.
+Execute     source /home/ayvol/vitis_accel_backend_test/hls_config.tcl 
+Execute       config_interface -m_axi_auto_max_ports=true 
+INFO: [HLS 200-1510] Running: config_interface -m_axi_auto_max_ports=true 
+Command       config_interface done; 0.15 sec.
+Execute       config_interface -m_axi_offset slave 
+INFO: [HLS 200-1510] Running: config_interface -m_axi_offset slave 
+Command       config_interface done; 0.14 sec.
+Command     ap_source done; 0.29 sec.
+Execute     csynth_design 
+INFO: [HLS 200-1510] Running: csynth_design 
+Execute       elaborate -effort=medium -skip_syncheck=0 -keep_printf=0 -skip_cdt=0 -skip_transform=0 -ng=0 -g=0 -opt_fp=0 -from_csynth_design=1 
+INFO: [HLS 200-111] Finished File checks and directory preparation: CPU user time: 0.01 seconds. CPU system time: 0 seconds. Elapsed time: 0.02 seconds; current allocated memory: 754.199 MB.
+INFO: [HLS 200-10] Analyzing design file '/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp' ... 
+INFO-FLOW: Compiling one TU...
+INFO-FLOW: Handling /home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp as C++
+Execute         ap_part_info -name xcu55c-fsvh2892-2L-e -data info 
+INFO-FLOW: Running: GCC PP 39
+INFO-FLOW: Source preprocessing
+Execute         ap_eval exec -ignorestderr /tools/Xilinx/Vitis_HLS/2022.2/lnx64/tools/clang-3.9-csynth/bin/clang /home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp -foptimization-record-file=/home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/myproject.cpp.clang.diag.yml -mllvm -pass-remarks-missed=reflow|pasta|unroll -mllvm -pass-remarks=reflow|pasta|unroll|inline -fno-limit-debug-info -gcc-toolchain /tools/Xilinx/Vitis_HLS/2022.2/tps/lnx64/gcc-8.3.0 -fhls -fno-exceptions -E -I/home/ayvol/vitis_accel_backend_test -I/home/ayvol/vitis_accel_backend_test/firmware -I/home/ayvol/vitis_accel_backend_test/firmware/weights -I/home/ayvol/vitis_accel_backend_test/firmware/nnet_utils -std=c++11 -fno-math-errno -c -emit-llvm -mllvm -disable-llvm-optzns -Werror=implicit-function-declaration -Werror=implicit-hls-streams -Werror=return-type -Wpragmas -Wunused-parameter -Wdump-hls-pragmas -Wno-error=dump-hls-pragmas -fno-threadsafe-statics -fno-use-cxa-atexit -target fpga64-xilinx-linux-gnu -fno-threadsafe-statics -fno-use-cxa-atexit -D__VITIS_HLS__ -DAESL_SYN -D__SYNTHESIS__ -D__HLS_SYN__ -I /tools/Xilinx/Vitis_HLS/2022.2/common/technology/autopilot -I /tools/Xilinx/Vitis_HLS/2022.2/common/technology/autopilot/ap_sysc -include etc/autopilot_ssdm_op.h -D__DSP48E2__ -I /usr/include/x86_64-linux-gnu -o /home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/myproject.pp.0.cpp -hls-platform-db-name=/tools/Xilinx/Vitis_HLS/2022.2/common/technology/xilinx/common/platform.db -hls-platform-name=virtexuplus_medium -device-resource-info=BRAM_4032.000000_DSP_9024.000000_FF_2607360.000000_LUT_1303680.000000_SLICE_162960.000000_SLR_3.000000_URAM_960.000000 -device-name-info=xcu55c-fsvh2892-2L-e > /home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/myproject.cpp.clang.out.log 2> /home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/myproject.cpp.clang.err.log 
+Command         ap_eval done; 0.99 sec.
+INFO-FLOW: Done: GCC PP 39 time: 1 seconds per iteration
+Execute         set_directive_top kernel_wrapper -name=kernel_wrapper 
+Execute         source /tools/Xilinx/Vitis_HLS/2022.2/tps/tcl/tcllib1.11.1/yaml/huddle.tcl 
+Execute         source /tools/Xilinx/Vitis_HLS/2022.2/tps/tcl/tcllib1.11.1/yaml/json2huddle.tcl 
+INFO-FLOW: Source syntax check for synthesis
+Execute         ap_eval exec -ignorestderr /tools/Xilinx/Vitis_HLS/2022.2/lnx64/tools/clang-3.9-csynth/bin/clang -foptimization-record-file=/home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/clang.diag.yml -mllvm -pass-remarks-missed=reflow|pasta|unroll -mllvm -pass-remarks=reflow|pasta|unroll|inline -fsyntax-only -fhls -target fpga64-xilinx-linux-gnu /home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/myproject.pp.0.cpp -hls-platform-db-name=/tools/Xilinx/Vitis_HLS/2022.2/common/technology/xilinx/common/platform.db -hls-platform-name=virtexuplus_medium -device-resource-info=BRAM_4032.000000_DSP_9024.000000_FF_2607360.000000_LUT_1303680.000000_SLICE_162960.000000_SLR_3.000000_URAM_960.000000 -device-name-info=xcu55c-fsvh2892-2L-e > /home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/clang.out.log 2> /home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/clang.err.log 
+Command         ap_eval done; 2.85 sec.
+Execute         clang_tidy xilinx-systemc-detector -desc systemc-detector /home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/myproject.pp.0.cpp std=c++11 -target fpga  -directive=/home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/.systemc_flag 
+INFO-FLOW: exec /tools/Xilinx/Vitis_HLS/2022.2/lnx64/tools/clang-3.9-csynth/bin/clang-tidy -header-filter=.* --checks=-*,xilinx-systemc-detector -import-directive=/home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/.systemc_flag -fix-errors /home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/myproject.pp.0.cpp -- -std=c++11 -target fpga -fhls -ferror-limit=0
+Command         clang_tidy done; 2.16 sec.
+INFO-FLOW: Running: clang-tidy CDT preprocess 39
+Execute         clang_tidy xilinx-directive2pragma -desc directive2pragma /home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/myproject.pp.0.cpp std=c++11 -target fpga  -directive=/home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/all.directive.json 
+INFO-FLOW: exec /tools/Xilinx/Vitis_HLS/2022.2/lnx64/tools/clang-3.9-csynth/bin/clang-tidy -header-filter=.* --checks=-*,xilinx-directive2pragma -import-directive=/home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/all.directive.json -fix-errors /home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/myproject.pp.0.cpp -- -std=c++11 -target fpga -fhls -ferror-limit=0
+Command         clang_tidy done; 2.18 sec.
+Execute         clang_tidy xilinx-remove-assert -desc remove-assert /home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/myproject.pp.0.cpp std=c++11 -target fpga  
+INFO-FLOW: exec /tools/Xilinx/Vitis_HLS/2022.2/lnx64/tools/clang-3.9-csynth/bin/clang-tidy -header-filter=.* --checks=-*,xilinx-remove-assert -fix-errors /home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/myproject.pp.0.cpp -- -std=c++11 -target fpga -fhls -ferror-limit=0
+Command         clang_tidy done; 2.98 sec.
+INFO-FLOW: Done: clang-tidy CDT preprocess 39 time: 5.2 seconds per iteration
+INFO-FLOW: Calling xilinx-label-all-loops ... 
+INFO-FLOW: Calling xilinx-aggregate-on-hls-vector ... 
+Execute         clang_tidy -errorcheck -desc loop-label xilinx-label-all-loops,xilinx-aggregate-on-hls-vector,,xilinx-warn-mayneed-no-ctor-attribute /home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/myproject.pp.0.cpp std=c++11 -target fpga  
+Execute           ap_eval exec -ignorestderr /tools/Xilinx/Vitis_HLS/2022.2/lnx64/tools/clang-3.9-csynth/bin/clang-tidy -export-fixes=/home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/myproject.pp.0.cpp.clang-tidy.loop-label.diag.yml -header-filter=.* --checks=-*,xilinx-label-all-loops,xilinx-aggregate-on-hls-vector,,xilinx-warn-mayneed-no-ctor-attribute -fix-errors /home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/myproject.pp.0.cpp -- -std=c++11 -target fpga -fhls -ferror-limit=0 > /home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/myproject.pp.0.cpp.clang-tidy.loop-label.out.log 2> /home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/myproject.pp.0.cpp.clang-tidy.loop-label.err.log 
+Command           ap_eval done; 4.04 sec.
+Execute           source /tools/Xilinx/Vitis_HLS/2022.2/tps/tcl/tcllib1.11.1/yaml/yaml.tcl 
+Command         clang_tidy done; 4.4 sec.
+Execute         ap_eval exec -ignorestderr /tools/Xilinx/Vitis_HLS/2022.2/lnx64/tools/clang-3.9-csynth/bin/xilinx-dataflow-lawyer -export-fixes=/home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/myproject.pp.0.cpp.xilinx-dataflow-lawyer.diag.yml /home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/myproject.pp.0.cpp -- -std=c++11 -target fpga -fhls -ferror-limit=0 -fstrict-dataflow > /home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/myproject.pp.0.cpp.xilinx-dataflow-lawyer.out.log 2> /home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/myproject.pp.0.cpp.xilinx-dataflow-lawyer.err.log 
+Command         ap_eval done; 2.3 sec.
+WARNING: [HLS 214-113] Either use an argument of the function or declare the variable inside the dataflow loop body (/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp:47:68)
+WARNING: [HLS 214-113] Either use an argument of the function or declare the variable inside the dataflow loop body (/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp:47:72)
+WARNING: [HLS 214-113] Either use an argument of the function or declare the variable inside the dataflow loop body (/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp:59:72)
+WARNING: [HLS 214-113] Either use an argument of the function or declare the variable inside the dataflow loop body (/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp:59:76)
+WARNING: [HLS 214-113] Either use an argument of the function or declare the variable inside the dataflow loop body (/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp:71:75)
+WARNING: [HLS 214-113] Either use an argument of the function or declare the variable inside the dataflow loop body (/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp:71:80)
+WARNING: [HLS 214-113] Either use an argument of the function or declare the variable inside the dataflow loop body (/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp:84:72)
+WARNING: [HLS 214-113] Either use an argument of the function or declare the variable inside the dataflow loop body (/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp:84:77)
+WARNING: [HLS 214-113] Either use an argument of the function or declare the variable inside the dataflow loop body (/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp:88:76)
+WARNING: [HLS 214-113] Either use an argument of the function or declare the variable inside the dataflow loop body (/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp:88:81)
+WARNING: [HLS 214-113] Either use an argument of the function or declare the variable inside the dataflow loop body (/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp:96:72)
+WARNING: [HLS 214-113] Either use an argument of the function or declare the variable inside the dataflow loop body (/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp:96:77)
+WARNING: [HLS 214-113] Either use an argument of the function or declare the variable inside the dataflow loop body (/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp:100:76)
+WARNING: [HLS 214-113] Either use an argument of the function or declare the variable inside the dataflow loop body (/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp:100:81)
+WARNING: [HLS 214-113] Either use an argument of the function or declare the variable inside the dataflow loop body (/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp:108:72)
+WARNING: [HLS 214-113] Either use an argument of the function or declare the variable inside the dataflow loop body (/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp:108:77)
+Execute         send_msg_by_id WARNING @200-471@%s%s 16 /home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp 
+WARNING: [HLS 200-471] Dataflow form checks found 16 issue(s) in file /home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp
+Command         send_msg_by_id done; 0.23 sec.
+Execute         ap_part_info -name xcu55c-fsvh2892-2L-e -data info 
+INFO-FLOW: compiling source code to llvm bc
+Execute         ap_eval exec -ignorestderr /tools/Xilinx/Vitis_HLS/2022.2/lnx64/tools/clang-3.9-csynth/bin/clang -foptimization-record-file=/home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/myproject.pp.0.cpp.clang.diag.yml -mllvm -pass-remarks-missed=reflow|pasta|unroll -mllvm -pass-remarks=reflow|pasta|unroll|inline -fno-limit-debug-info -fhls -flto -fno-exceptions -Wno-error=c++11-narrowing /home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/myproject.pp.0.cpp -I/home/ayvol/vitis_accel_backend_test -I/home/ayvol/vitis_accel_backend_test/firmware -I/home/ayvol/vitis_accel_backend_test/firmware/weights -I/home/ayvol/vitis_accel_backend_test/firmware/nnet_utils -std=c++11 -fno-math-errno -c -emit-llvm -mllvm -disable-llvm-optzns -Werror=implicit-function-declaration -Werror=implicit-hls-streams -Werror=return-type -Wpragmas -Wunused-parameter -Wdump-hls-pragmas -Wno-error=dump-hls-pragmas -fno-threadsafe-statics -fno-use-cxa-atexit -target fpga64-xilinx-linux-gnu -D__VITIS_HLS__ -DAESL_SYN -D__SYNTHESIS__ -D__HLS_SYN__ -I /tools/Xilinx/Vitis_HLS/2022.2/common/technology/autopilot -I /tools/Xilinx/Vitis_HLS/2022.2/common/technology/autopilot/ap_sysc -include etc/autopilot_ssdm_op.h -D__DSP48E2__ -g -o /home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/myproject.bc -hls-platform-db-name=/tools/Xilinx/Vitis_HLS/2022.2/common/technology/xilinx/common/platform.db -hls-platform-name=virtexuplus_medium -device-resource-info=BRAM_4032.000000_DSP_9024.000000_FF_2607360.000000_LUT_1303680.000000_SLICE_162960.000000_SLR_3.000000_URAM_960.000000 -device-name-info=xcu55c-fsvh2892-2L-e > /home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/myproject.pp.0.cpp.clang.out.log 2> /home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/myproject.pp.0.cpp.clang.err.log 
+Command         ap_eval done; 3.33 sec.
+WARNING: [HLS 207-5292] unused parameter 'keep' (/home/ayvol/vitis_accel_backend_test/firmware/nnet_utils/nnet_helpers.h:285:99)
+WARNING: [HLS 207-5292] unused parameter 'data' (/home/ayvol/vitis_accel_backend_test/firmware/nnet_utils/nnet_code_gen.h:11:36)
+WARNING: [HLS 207-5292] unused parameter 'buffer' (/home/ayvol/vitis_accel_backend_test/firmware/nnet_utils/nnet_code_gen.h:12:36)
+WARNING: [HLS 207-5292] unused parameter 'partition' (/home/ayvol/vitis_accel_backend_test/firmware/nnet_utils/nnet_code_gen.h:13:44)
+WARNING: [HLS 207-5292] unused parameter 'data' (/home/ayvol/vitis_accel_backend_test/firmware/nnet_utils/nnet_code_gen.h:21:24)
+WARNING: [HLS 207-5292] unused parameter 'buffer' (/home/ayvol/vitis_accel_backend_test/firmware/nnet_utils/nnet_code_gen.h:22:24)
+WARNING: [HLS 207-5292] unused parameter 'partition' (/home/ayvol/vitis_accel_backend_test/firmware/nnet_utils/nnet_code_gen.h:23:32)
+INFO: [HLS 200-10] Analyzing design file '/home/ayvol/vitis_accel_backend_test/kernel_wrapper.cpp' ... 
+INFO-FLOW: Compiling one TU...
+INFO-FLOW: Handling /home/ayvol/vitis_accel_backend_test/kernel_wrapper.cpp as C++
+Execute         ap_part_info -name xcu55c-fsvh2892-2L-e -data info 
+INFO-FLOW: Running: GCC PP 39
+INFO-FLOW: Source preprocessing
+Execute         ap_eval exec -ignorestderr /tools/Xilinx/Vitis_HLS/2022.2/lnx64/tools/clang-3.9-csynth/bin/clang /home/ayvol/vitis_accel_backend_test/kernel_wrapper.cpp -foptimization-record-file=/home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/kernel_wrapper.cpp.clang.diag.yml -mllvm -pass-remarks-missed=reflow|pasta|unroll -mllvm -pass-remarks=reflow|pasta|unroll|inline -fno-limit-debug-info -gcc-toolchain /tools/Xilinx/Vitis_HLS/2022.2/tps/lnx64/gcc-8.3.0 -fhls -fno-exceptions -E -I/home/ayvol/vitis_accel_backend_test -I/home/ayvol/vitis_accel_backend_test/firmware -I/home/ayvol/vitis_accel_backend_test/firmware/weights -I/home/ayvol/vitis_accel_backend_test/firmware/nnet_utils -std=c++11 -fno-math-errno -c -emit-llvm -mllvm -disable-llvm-optzns -Werror=implicit-function-declaration -Werror=implicit-hls-streams -Werror=return-type -Wpragmas -Wunused-parameter -Wdump-hls-pragmas -Wno-error=dump-hls-pragmas -fno-threadsafe-statics -fno-use-cxa-atexit -target fpga64-xilinx-linux-gnu -fno-threadsafe-statics -fno-use-cxa-atexit -D__VITIS_HLS__ -DAESL_SYN -D__SYNTHESIS__ -D__HLS_SYN__ -I /tools/Xilinx/Vitis_HLS/2022.2/common/technology/autopilot -I /tools/Xilinx/Vitis_HLS/2022.2/common/technology/autopilot/ap_sysc -include etc/autopilot_ssdm_op.h -D__DSP48E2__ -I /usr/include/x86_64-linux-gnu -o /home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/kernel_wrapper.pp.0.cpp -hls-platform-db-name=/tools/Xilinx/Vitis_HLS/2022.2/common/technology/xilinx/common/platform.db -hls-platform-name=virtexuplus_medium -device-resource-info=BRAM_4032.000000_DSP_9024.000000_FF_2607360.000000_LUT_1303680.000000_SLICE_162960.000000_SLR_3.000000_URAM_960.000000 -device-name-info=xcu55c-fsvh2892-2L-e > /home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/kernel_wrapper.cpp.clang.out.log 2> /home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/kernel_wrapper.cpp.clang.err.log 
+Command         ap_eval done; 0.99 sec.
+INFO-FLOW: Done: GCC PP 39 time: 1 seconds per iteration
+Execute         set_directive_top kernel_wrapper -name=kernel_wrapper 
+Command         set_directive_top done; 0.21 sec.
+INFO-FLOW: Source syntax check for synthesis
+Execute         ap_eval exec -ignorestderr /tools/Xilinx/Vitis_HLS/2022.2/lnx64/tools/clang-3.9-csynth/bin/clang -foptimization-record-file=/home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/clang.diag.yml -mllvm -pass-remarks-missed=reflow|pasta|unroll -mllvm -pass-remarks=reflow|pasta|unroll|inline -fsyntax-only -fhls -target fpga64-xilinx-linux-gnu /home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/kernel_wrapper.pp.0.cpp -hls-platform-db-name=/tools/Xilinx/Vitis_HLS/2022.2/common/technology/xilinx/common/platform.db -hls-platform-name=virtexuplus_medium -device-resource-info=BRAM_4032.000000_DSP_9024.000000_FF_2607360.000000_LUT_1303680.000000_SLICE_162960.000000_SLR_3.000000_URAM_960.000000 -device-name-info=xcu55c-fsvh2892-2L-e > /home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/clang.out.log 2> /home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/clang.err.log 
+Command         ap_eval done; error code: 1; 1.14 sec.
+ERROR: [HLS 207-1181] expected ',' or '>' in template-parameter-list (/tools/Xilinx/Vitis_HLS/2022.2/common/technology/autopilot/hls_stream_39.h:52:37)
+ERROR: [HLS 207-3557] too few template arguments for class template 'stream' (/tools/Xilinx/Vitis_HLS/2022.2/common/technology/autopilot/hls_stream_39.h:72:81)
+INFO: [HLS 207-4520] template is declared here (/tools/Xilinx/Vitis_HLS/2022.2/common/technology/autopilot/hls_stream_39.h:53:7)
+ERROR: [HLS 207-3557] too few template arguments for class template 'stream' (/tools/Xilinx/Vitis_HLS/2022.2/common/technology/autopilot/hls_stream_39.h:75:93)
+ERROR: [HLS 207-1181] expected ',' or '>' in template-parameter-list (/tools/Xilinx/Vitis_HLS/2022.2/common/technology/autopilot/hls_stream_39.h:163:37)
+ERROR: [HLS 207-3557] too few template arguments for class template 'stream' (/home/ayvol/vitis_accel_backend_test/firmware/myproject.h:12:10)
+INFO: [HLS 207-4520] template is declared here (/tools/Xilinx/Vitis_HLS/2022.2/common/technology/autopilot/hls_stream_39.h:164:7)
+ERROR: [HLS 207-3557] too few template arguments for class template 'stream' (/home/ayvol/vitis_accel_backend_test/firmware/myproject.h:13:10)
+ERROR: [HLS 207-3557] too few template arguments for class template 'stream' (/home/ayvol/vitis_accel_backend_test/kernel_wrapper.cpp:4:52)
+ERROR: [HLS 207-3557] too few template arguments for class template 'stream' (/home/ayvol/vitis_accel_backend_test/kernel_wrapper.cpp:16:50)
+ERROR: [HLS 207-3557] too few template arguments for class template 'stream' (/home/ayvol/vitis_accel_backend_test/kernel_wrapper.cpp:31:10)
+ERROR: [HLS 207-3557] too few template arguments for class template 'stream' (/home/ayvol/vitis_accel_backend_test/kernel_wrapper.cpp:32:10)
+WARNING: [HLS 207-5544] invalid variable expr  (/home/ayvol/vitis_accel_backend_test/kernel_wrapper.cpp:33:29)
+WARNING: [HLS 207-5544] invalid variable expr  (/home/ayvol/vitis_accel_backend_test/kernel_wrapper.cpp:34:29)
+INFO-FLOW: Error in clang_39_open_source : 
+INFO-FLOW: Caught error in elaborate:  
+    while executing
+"ap_compile_CCPP $srcf $skip_transform CFLAGS $skip_cdt $objdir $is_xip"
+    (procedure "AP::ap_compile_one_tu_39" line 48)
+    invoked from within
+"AP::ap_compile_one_tu_39 $srcfile $skip_transform $dbgInfo $skip_cdt "$cflags""
+    ("foreach" body line 10)
+    invoked from within
+"foreach fentry $dut_files {
+        #puts "file: $fentry"
+        set fatt [lindex $fentry 1]
+        array set opt $fatt
+        set srcfile $opt(nam..."
+    (procedure "AP::compile_dut_files_39" line 4)
+    invoked from within
+"AP::compile_dut_files_39 $dut_files $dbgInfo $skip_cdt $skip_transform"
+    (procedure "AP::compile" line 103)
+    invoked from within
+"AP::compile 1 $skip_cdt $skip_transform"
+    (procedure "ap_internal_elaborate" line 83)
+    invoked from within
+"ap_internal_elaborate "
+Command       elaborate done; error code: 2; 33.13 sec.
+INFO-FLOW: Caught error in csynth_design:  
+    while executing
+"ap_internal_csynth_design "
+Command     csynth_design done; error code: 2; 33.14 sec.
+INFO: [HLS 200-111] Finished Command csynth_design CPU user time: 18.24 seconds. CPU system time: 1.24 seconds. Elapsed time: 33.14 seconds; current allocated memory: 11.074 MB.
+Command   ap_source done; error code: 1; 40.25 sec.
+Execute   cleanup_all 

@@ -1,0 +1,112 @@
+
+****** Vitis HLS - High-Level Synthesis from C, C++ and OpenCL v2022.2 (64-bit)
+  **** SW Build 3670227 on Oct 13 2022
+  **** IP Build 3669848 on Fri Oct 14 08:30:02 MDT 2022
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+
+source /tools/Xilinx/Vitis_HLS/2022.2/scripts/vitis_hls/hls.tcl -notrace
+INFO: [HLS 200-10] Running '/tools/Xilinx/Vitis_HLS/2022.2/bin/unwrapped/lnx64.o/vitis_hls'
+/tools/Xilinx/Vitis_HLS/2022.2/tps/tcl/tcl8.5/tzdata/UTC can't be opened.
+INFO: [HLS 200-10] For user 'user' on host 'egl' (Linux_x86_64 version 5.10.187.release.2.9.0r4-amd64) on Mon Apr 15 05:47:49 UTC 2024
+INFO: [HLS 200-10] On os Ubuntu 20.04.4 LTS
+INFO: [HLS 200-10] In directory '/home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper'
+Sourcing Tcl script 'kernel_wrapper.tcl'
+INFO: [HLS 200-1510] Running: open_project kernel_wrapper 
+INFO: [HLS 200-10] Creating and opening project '/home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper'.
+INFO: [HLS 200-1510] Running: set_top kernel_wrapper 
+INFO: [HLS 200-1510] Running: add_files /home/ayvol/vitis_accel_backend_test/kernel_wrapper.cpp -cflags  -I /home/ayvol/vitis_accel_backend_test -I /home/ayvol/vitis_accel_backend_test/firmware -I /home/ayvol/vitis_accel_backend_test/firmware/weights -I /home/ayvol/vitis_accel_backend_test/firmware/nnet_utils -std=c++11 
+INFO: [HLS 200-10] Adding design file '/home/ayvol/vitis_accel_backend_test/kernel_wrapper.cpp' to the project
+INFO: [HLS 200-1510] Running: add_files /home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp -cflags  -I /home/ayvol/vitis_accel_backend_test -I /home/ayvol/vitis_accel_backend_test/firmware -I /home/ayvol/vitis_accel_backend_test/firmware/weights -I /home/ayvol/vitis_accel_backend_test/firmware/nnet_utils -std=c++11 
+INFO: [HLS 200-10] Adding design file '/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp' to the project
+INFO: [HLS 200-1510] Running: open_solution -flow_target vitis solution 
+INFO: [HLS 200-10] Creating and opening solution '/home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution'.
+INFO: [HLS 200-1505] Using flow_target 'vitis'
+Resolution: For help on HLS 200-1505 see www.xilinx.com/cgi-bin/docs/rdoc?v=2022.2;t=hls+guidance;d=200-1505.html
+INFO: [HLS 200-435] Setting 'open_solution -flow_target vitis' configuration: config_interface -m_axi_latency=64
+INFO: [HLS 200-435] Setting 'open_solution -flow_target vitis' configuration: config_interface -m_axi_alignment_byte_size=64
+INFO: [HLS 200-435] Setting 'open_solution -flow_target vitis' configuration: config_interface -m_axi_max_widen_bitwidth=512
+INFO: [HLS 200-435] Setting 'open_solution -flow_target vitis' configuration: config_rtl -register_reset_num=3
+INFO: [HLS 200-1510] Running: set_part xcu55c-fsvh2892-2L-e 
+INFO: [HLS 200-1611] Setting target device to 'xcu55c-fsvh2892-2L-e'
+INFO: [HLS 200-1510] Running: create_clock -period 300.000000MHz -name default 
+INFO: [SYN 201-201] Setting up clock 'default' with a period of 3.333ns.
+INFO: [HLS 200-1510] Running: config_dataflow -strict_mode warning 
+INFO: [HLS 200-1510] Running: config_export -deadlock_detection sim 
+WARNING: [HLS 200-483] The 'config_export -deadlock_detection' command is deprecated and will be removed in a future release. Use 'config_rtl -deadlock_detection' as its replacement.
+INFO: [HLS 200-1907] Replacing 'config_export -deadlock_detection=sim' with 'config_rtl -deadlock_detection=sim' in current solution file
+INFO: [HLS 200-1510] Running: config_interface -m_axi_conservative_mode=1 
+INFO: [HLS 200-1510] Running: config_interface -m_axi_addr64 
+INFO: [HLS 200-1510] Running: config_interface -m_axi_auto_max_ports=0 
+INFO: [HLS 200-1510] Running: config_export -format xo -ipname kernel_wrapper 
+INFO: [HLS 200-1907] Replacing 'config_export -deadlock_detection=sim' with 'config_rtl -deadlock_detection=sim' in current solution file
+INFO: [HLS 200-1510] Running: config_interface -m_axi_auto_max_ports=true 
+INFO: [HLS 200-1510] Running: config_interface -m_axi_offset slave 
+INFO: [HLS 200-1510] Running: csynth_design 
+INFO: [HLS 200-111] Finished File checks and directory preparation: CPU user time: 0.01 seconds. CPU system time: 0 seconds. Elapsed time: 0.02 seconds; current allocated memory: 754.199 MB.
+INFO: [HLS 200-10] Analyzing design file '/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp' ... 
+WARNING: [HLS 214-113] Either use an argument of the function or declare the variable inside the dataflow loop body (/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp:47:68)
+Resolution: For help on HLS 214-113 see www.xilinx.com/cgi-bin/docs/rdoc?v=2022.2;t=hls+guidance;d=214-113.html
+WARNING: [HLS 214-113] Either use an argument of the function or declare the variable inside the dataflow loop body (/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp:47:72)
+Resolution: For help on HLS 214-113 see www.xilinx.com/cgi-bin/docs/rdoc?v=2022.2;t=hls+guidance;d=214-113.html
+WARNING: [HLS 214-113] Either use an argument of the function or declare the variable inside the dataflow loop body (/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp:59:72)
+Resolution: For help on HLS 214-113 see www.xilinx.com/cgi-bin/docs/rdoc?v=2022.2;t=hls+guidance;d=214-113.html
+WARNING: [HLS 214-113] Either use an argument of the function or declare the variable inside the dataflow loop body (/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp:59:76)
+Resolution: For help on HLS 214-113 see www.xilinx.com/cgi-bin/docs/rdoc?v=2022.2;t=hls+guidance;d=214-113.html
+WARNING: [HLS 214-113] Either use an argument of the function or declare the variable inside the dataflow loop body (/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp:71:75)
+Resolution: For help on HLS 214-113 see www.xilinx.com/cgi-bin/docs/rdoc?v=2022.2;t=hls+guidance;d=214-113.html
+WARNING: [HLS 214-113] Either use an argument of the function or declare the variable inside the dataflow loop body (/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp:71:80)
+Resolution: For help on HLS 214-113 see www.xilinx.com/cgi-bin/docs/rdoc?v=2022.2;t=hls+guidance;d=214-113.html
+WARNING: [HLS 214-113] Either use an argument of the function or declare the variable inside the dataflow loop body (/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp:84:72)
+Resolution: For help on HLS 214-113 see www.xilinx.com/cgi-bin/docs/rdoc?v=2022.2;t=hls+guidance;d=214-113.html
+WARNING: [HLS 214-113] Either use an argument of the function or declare the variable inside the dataflow loop body (/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp:84:77)
+Resolution: For help on HLS 214-113 see www.xilinx.com/cgi-bin/docs/rdoc?v=2022.2;t=hls+guidance;d=214-113.html
+WARNING: [HLS 214-113] Either use an argument of the function or declare the variable inside the dataflow loop body (/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp:88:76)
+Resolution: For help on HLS 214-113 see www.xilinx.com/cgi-bin/docs/rdoc?v=2022.2;t=hls+guidance;d=214-113.html
+WARNING: [HLS 214-113] Either use an argument of the function or declare the variable inside the dataflow loop body (/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp:88:81)
+Resolution: For help on HLS 214-113 see www.xilinx.com/cgi-bin/docs/rdoc?v=2022.2;t=hls+guidance;d=214-113.html
+WARNING: [HLS 214-113] Either use an argument of the function or declare the variable inside the dataflow loop body (/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp:96:72)
+Resolution: For help on HLS 214-113 see www.xilinx.com/cgi-bin/docs/rdoc?v=2022.2;t=hls+guidance;d=214-113.html
+WARNING: [HLS 214-113] Either use an argument of the function or declare the variable inside the dataflow loop body (/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp:96:77)
+Resolution: For help on HLS 214-113 see www.xilinx.com/cgi-bin/docs/rdoc?v=2022.2;t=hls+guidance;d=214-113.html
+WARNING: [HLS 214-113] Either use an argument of the function or declare the variable inside the dataflow loop body (/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp:100:76)
+Resolution: For help on HLS 214-113 see www.xilinx.com/cgi-bin/docs/rdoc?v=2022.2;t=hls+guidance;d=214-113.html
+WARNING: [HLS 214-113] Either use an argument of the function or declare the variable inside the dataflow loop body (/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp:100:81)
+Resolution: For help on HLS 214-113 see www.xilinx.com/cgi-bin/docs/rdoc?v=2022.2;t=hls+guidance;d=214-113.html
+WARNING: [HLS 214-113] Either use an argument of the function or declare the variable inside the dataflow loop body (/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp:108:72)
+Resolution: For help on HLS 214-113 see www.xilinx.com/cgi-bin/docs/rdoc?v=2022.2;t=hls+guidance;d=214-113.html
+WARNING: [HLS 214-113] Either use an argument of the function or declare the variable inside the dataflow loop body (/home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp:108:77)
+Resolution: For help on HLS 214-113 see www.xilinx.com/cgi-bin/docs/rdoc?v=2022.2;t=hls+guidance;d=214-113.html
+WARNING: [HLS 200-471] Dataflow form checks found 16 issue(s) in file /home/ayvol/vitis_accel_backend_test/firmware/myproject.cpp
+Resolution: For help on HLS 200-471 see www.xilinx.com/cgi-bin/docs/rdoc?v=2022.2;t=hls+guidance;d=200-471.html
+WARNING: [HLS 207-5292] unused parameter 'keep' (/home/ayvol/vitis_accel_backend_test/firmware/nnet_utils/nnet_helpers.h:285:99)
+WARNING: [HLS 207-5292] unused parameter 'data' (/home/ayvol/vitis_accel_backend_test/firmware/nnet_utils/nnet_code_gen.h:11:36)
+WARNING: [HLS 207-5292] unused parameter 'buffer' (/home/ayvol/vitis_accel_backend_test/firmware/nnet_utils/nnet_code_gen.h:12:36)
+WARNING: [HLS 207-5292] unused parameter 'partition' (/home/ayvol/vitis_accel_backend_test/firmware/nnet_utils/nnet_code_gen.h:13:44)
+WARNING: [HLS 207-5292] unused parameter 'data' (/home/ayvol/vitis_accel_backend_test/firmware/nnet_utils/nnet_code_gen.h:21:24)
+WARNING: [HLS 207-5292] unused parameter 'buffer' (/home/ayvol/vitis_accel_backend_test/firmware/nnet_utils/nnet_code_gen.h:22:24)
+WARNING: [HLS 207-5292] unused parameter 'partition' (/home/ayvol/vitis_accel_backend_test/firmware/nnet_utils/nnet_code_gen.h:23:32)
+INFO: [HLS 200-10] Analyzing design file '/home/ayvol/vitis_accel_backend_test/kernel_wrapper.cpp' ... 
+ERROR: [HLS 207-1181] expected ',' or '>' in template-parameter-list (/tools/Xilinx/Vitis_HLS/2022.2/common/technology/autopilot/hls_stream_39.h:52:37)
+ERROR: [HLS 207-3557] too few template arguments for class template 'stream' (/tools/Xilinx/Vitis_HLS/2022.2/common/technology/autopilot/hls_stream_39.h:72:81)
+INFO: [HLS 207-4520] template is declared here (/tools/Xilinx/Vitis_HLS/2022.2/common/technology/autopilot/hls_stream_39.h:53:7)
+ERROR: [HLS 207-3557] too few template arguments for class template 'stream' (/tools/Xilinx/Vitis_HLS/2022.2/common/technology/autopilot/hls_stream_39.h:75:93)
+ERROR: [HLS 207-1181] expected ',' or '>' in template-parameter-list (/tools/Xilinx/Vitis_HLS/2022.2/common/technology/autopilot/hls_stream_39.h:163:37)
+ERROR: [HLS 207-3557] too few template arguments for class template 'stream' (/home/ayvol/vitis_accel_backend_test/firmware/myproject.h:12:10)
+INFO: [HLS 207-4520] template is declared here (/tools/Xilinx/Vitis_HLS/2022.2/common/technology/autopilot/hls_stream_39.h:164:7)
+ERROR: [HLS 207-3557] too few template arguments for class template 'stream' (/home/ayvol/vitis_accel_backend_test/firmware/myproject.h:13:10)
+ERROR: [HLS 207-3557] too few template arguments for class template 'stream' (/home/ayvol/vitis_accel_backend_test/kernel_wrapper.cpp:4:52)
+ERROR: [HLS 207-3557] too few template arguments for class template 'stream' (/home/ayvol/vitis_accel_backend_test/kernel_wrapper.cpp:16:50)
+ERROR: [HLS 207-3557] too few template arguments for class template 'stream' (/home/ayvol/vitis_accel_backend_test/kernel_wrapper.cpp:31:10)
+ERROR: [HLS 207-3557] too few template arguments for class template 'stream' (/home/ayvol/vitis_accel_backend_test/kernel_wrapper.cpp:32:10)
+WARNING: [HLS 207-5544] invalid variable expr  (/home/ayvol/vitis_accel_backend_test/kernel_wrapper.cpp:33:29)
+WARNING: [HLS 207-5544] invalid variable expr  (/home/ayvol/vitis_accel_backend_test/kernel_wrapper.cpp:34:29)
+INFO: [HLS 200-111] Finished Command csynth_design CPU user time: 18.24 seconds. CPU system time: 1.24 seconds. Elapsed time: 33.14 seconds; current allocated memory: 11.074 MB.
+ 
+    while executing
+"source kernel_wrapper.tcl"
+    ("uplevel" body line 1)
+    invoked from within
+"uplevel \#0 [list source $arg] "
+
+INFO: [HLS 200-112] Total CPU user time: 20.75 seconds. Total CPU system time: 1.67 seconds. Total elapsed time: 41.61 seconds; peak allocated memory: 765.273 MB.
+INFO: [Common 17-206] Exiting vitis_hls at Mon Apr 15 05:48:29 2024...

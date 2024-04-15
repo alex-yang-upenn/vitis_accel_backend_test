@@ -2,13 +2,13 @@
 .vscode/
 
 # Ignore build files
-build/*/
-build/*
-!build/reports/
-!build/logs/
-!build/*.xo
-!build/*.mdb
-*.log
+# build/*/
+# build/*
+# !build/reports/
+# !build/logs/
+# !build/*.xo
+# !build/*.mdb
+# *.log
 
 # Ignore server files
 .ipcache/
