@@ -51,4 +51,4 @@ kernel: myproject_kernel.xclbin
 .PHONY: clean
 clean:
 	-rm -rf build* *.xclbin*
-	-rm -rf *.log *.jou *.rpt *.csv *.mdb
+	-rm -rf *.log *.jou *.rpt *.csv *.mdb *.ltx *.exe

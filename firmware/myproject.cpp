@@ -4,28 +4,34 @@
 #include "parameters.h"
 
 void myproject(
-    input_t fc1_input[N_INPUT_1_1],
-    result_t layer13_out[N_LAYER_11]
+    hls::stream<input_t> &input_2,
+    hls::stream<result_t> &layer25_out
 ) {
 
     // hls-fpga-machine-learning insert IO
-    #pragma HLS ARRAY_RESHAPE variable=fc1_input complete dim=0
-    #pragma HLS ARRAY_PARTITION variable=layer13_out complete dim=0
-    #pragma HLS INTERFACE ap_vld port=fc1_input,layer13_out 
-    #pragma HLS PIPELINE 
+    #pragma HLS INTERFACE axis port=input_2,layer25_out 
+    #pragma HLS DATAFLOW 
 
 #ifndef __SYNTHESIS__
     static bool loaded_weights = false;
     if (!loaded_weights) {
         // hls-fpga-machine-learning insert load weights
-        nnet::load_weights_from_txt<weight2_t, 1024>(w2, "w2.txt");
-        nnet::load_weights_from_txt<bias2_t, 64>(b2, "b2.txt");
-        nnet::load_weights_from_txt<weight5_t, 2048>(w5, "w5.txt");
-        nnet::load_weights_from_txt<bias5_t, 32>(b5, "b5.txt");
-        nnet::load_weights_from_txt<weight8_t, 1024>(w8, "w8.txt");
-        nnet::load_weights_from_txt<bias8_t, 32>(b8, "b8.txt");
-        nnet::load_weights_from_txt<weight11_t, 160>(w11, "w11.txt");
-        nnet::load_weights_from_txt<bias11_t, 5>(b11, "b11.txt");
+        nnet::load_weights_from_txt<weight2_t, 432>(w2, "w2.txt");
+        nnet::load_weights_from_txt<bias2_t, 16>(b2, "b2.txt");
+        nnet::load_weights_from_txt<weight6_t, 2304>(w6, "w6.txt");
+        nnet::load_weights_from_txt<bias6_t, 16>(b6, "b6.txt");
+        nnet::load_weights_from_txt<weight10_t, 3456>(w10, "w10.txt");
+        nnet::load_weights_from_txt<bias10_t, 24>(b10, "b10.txt");
+        nnet::load_weights_from_txt<weight15_t, 4032>(w15, "w15.txt");
+        nnet::load_weights_from_txt<bias15_t, 42>(b15, "b15.txt");
+        nnet::load_weights_from_txt<bn_dense_0_scale_t, 42>(s17, "s17.txt");
+        nnet::load_weights_from_txt<bn_dense_0_bias_t, 42>(b17, "b17.txt");
+        nnet::load_weights_from_txt<weight19_t, 2688>(w19, "w19.txt");
+        nnet::load_weights_from_txt<bias19_t, 64>(b19, "b19.txt");
+        nnet::load_weights_from_txt<bn_dense_1_scale_t, 64>(s21, "s21.txt");
+        nnet::load_weights_from_txt<bn_dense_1_bias_t, 64>(b21, "b21.txt");
+        nnet::load_weights_from_txt<output_dense_weight_t, 640>(w23, "w23.txt");
+        nnet::load_weights_from_txt<output_dense_bias_t, 10>(b23, "b23.txt");
         loaded_weights = true;
     }
 #endif
@@ -36,34 +42,71 @@ void myproject(
 
     // hls-fpga-machine-learning insert layers
 
-    layer2_t layer2_out[N_LAYER_2];
-    #pragma HLS ARRAY_PARTITION variable=layer2_out complete dim=0
-    nnet::dense<input_t, layer2_t, config2>(fc1_input, layer2_out, w2, b2); // fc1
+    hls::stream<layer2_t> layer2_out("layer2_out");
+    #pragma HLS STREAM variable=layer2_out depth=900
+    nnet::conv_2d_cl<input_t, layer2_t, config2>(input_2, layer2_out, w2, b2); // fused_convbn_0
 
-    layer4_t layer4_out[N_LAYER_2];
-    #pragma HLS ARRAY_PARTITION variable=layer4_out complete dim=0
-    nnet::relu<layer2_t, layer4_t, relu_config4>(layer2_out, layer4_out); // relu1
+    hls::stream<layer4_t> layer4_out("layer4_out");
+    #pragma HLS STREAM variable=layer4_out depth=900
+    nnet::relu<layer2_t, layer4_t, relu_config4>(layer2_out, layer4_out); // conv_act_0
 
-    layer5_t layer5_out[N_LAYER_5];
-    #pragma HLS ARRAY_PARTITION variable=layer5_out complete dim=0
-    nnet::dense<layer4_t, layer5_t, config5>(layer4_out, layer5_out, w5, b5); // fc2
+    hls::stream<layer5_t> layer5_out("layer5_out");
+    #pragma HLS STREAM variable=layer5_out depth=225
+    nnet::pooling2d_cl<layer4_t, layer5_t, config5>(layer4_out, layer5_out); // pool_0
 
-    layer7_t layer7_out[N_LAYER_5];
-    #pragma HLS ARRAY_PARTITION variable=layer7_out complete dim=0
-    nnet::relu<layer5_t, layer7_t, relu_config7>(layer5_out, layer7_out); // relu2
+    hls::stream<layer6_t> layer6_out("layer6_out");
+    #pragma HLS STREAM variable=layer6_out depth=169
+    nnet::conv_2d_cl<layer5_t, layer6_t, config6>(layer5_out, layer6_out, w6, b6); // fused_convbn_1
 
-    layer8_t layer8_out[N_LAYER_8];
-    #pragma HLS ARRAY_PARTITION variable=layer8_out complete dim=0
-    nnet::dense<layer7_t, layer8_t, config8>(layer7_out, layer8_out, w8, b8); // fc3
+    hls::stream<layer8_t> layer8_out("layer8_out");
+    #pragma HLS STREAM variable=layer8_out depth=169
+    nnet::relu<layer6_t, layer8_t, relu_config8>(layer6_out, layer8_out); // conv_act_1
 
-    layer10_t layer10_out[N_LAYER_8];
-    #pragma HLS ARRAY_PARTITION variable=layer10_out complete dim=0
-    nnet::relu<layer8_t, layer10_t, relu_config10>(layer8_out, layer10_out); // relu3
+    hls::stream<layer9_t> layer9_out("layer9_out");
+    #pragma HLS STREAM variable=layer9_out depth=36
+    nnet::pooling2d_cl<layer8_t, layer9_t, config9>(layer8_out, layer9_out); // pool_1
 
-    layer11_t layer11_out[N_LAYER_11];
-    #pragma HLS ARRAY_PARTITION variable=layer11_out complete dim=0
-    nnet::dense<layer10_t, layer11_t, config11>(layer10_out, layer11_out, w11, b11); // output
+    hls::stream<layer10_t> layer10_out("layer10_out");
+    #pragma HLS STREAM variable=layer10_out depth=16
+    nnet::conv_2d_cl<layer9_t, layer10_t, config10>(layer9_out, layer10_out, w10, b10); // fused_convbn_2
 
-    nnet::softmax<layer11_t, result_t, softmax_config13>(layer11_out, layer13_out); // softmax
+    hls::stream<layer12_t> layer12_out("layer12_out");
+    #pragma HLS STREAM variable=layer12_out depth=16
+    nnet::relu<layer10_t, layer12_t, relu_config12>(layer10_out, layer12_out); // conv_act_2
+
+    hls::stream<layer13_t> layer13_out("layer13_out");
+    #pragma HLS STREAM variable=layer13_out depth=4
+    nnet::pooling2d_cl<layer12_t, layer13_t, config13>(layer12_out, layer13_out); // pool_2
+
+    auto& layer14_out = layer13_out;
+    hls::stream<layer15_t> layer15_out("layer15_out");
+    #pragma HLS STREAM variable=layer15_out depth=1
+    nnet::dense<layer13_t, layer15_t, config15>(layer14_out, layer15_out, w15, b15); // dense_0
+
+    hls::stream<layer17_t> layer17_out("layer17_out");
+    #pragma HLS STREAM variable=layer17_out depth=1
+    nnet::normalize<layer15_t, layer17_t, config17>(layer15_out, layer17_out, s17, b17); // bn_dense_0
+
+    hls::stream<layer18_t> layer18_out("layer18_out");
+    #pragma HLS STREAM variable=layer18_out depth=1
+    nnet::relu<layer17_t, layer18_t, relu_config18>(layer17_out, layer18_out); // dense_act_0
+
+    hls::stream<layer19_t> layer19_out("layer19_out");
+    #pragma HLS STREAM variable=layer19_out depth=1
+    nnet::dense<layer18_t, layer19_t, config19>(layer18_out, layer19_out, w19, b19); // dense_1
+
+    hls::stream<layer21_t> layer21_out("layer21_out");
+    #pragma HLS STREAM variable=layer21_out depth=1
+    nnet::normalize<layer19_t, layer21_t, config21>(layer19_out, layer21_out, s21, b21); // bn_dense_1
+
+    hls::stream<layer22_t> layer22_out("layer22_out");
+    #pragma HLS STREAM variable=layer22_out depth=1
+    nnet::relu<layer21_t, layer22_t, relu_config22>(layer21_out, layer22_out); // dense_act_1
+
+    hls::stream<layer23_t> layer23_out("layer23_out");
+    #pragma HLS STREAM variable=layer23_out depth=1
+    nnet::dense<layer22_t, layer23_t, config23>(layer22_out, layer23_out, w23, b23); // output_dense
+
+    nnet::softmax<layer23_t, result_t, softmax_config25>(layer23_out, layer25_out); // output_softmax
 
 }
