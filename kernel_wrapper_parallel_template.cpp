@@ -1,5 +1,5 @@
 #include "kernel_wrapper.h"
-#include "firmware/myproject.cpp"
+#include "firmware/myproject.h"
 
 static void read_input(const in_buffer_t *in, in_buffer_t (&in_buf)[BATCHSIZE][DATA_SIZE_IN]) {
   for (int i = 0; i < BATCHSIZE; i++) {
