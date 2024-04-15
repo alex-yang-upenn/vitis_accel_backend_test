@@ -18,7 +18,7 @@
 typedef ap_fixed<16,6> in_buffer_t;
 typedef ap_fixed<16,6> out_buffer_t;
 
-typedef input_t in_stream_t
-typedef result_t out_stream_t
+typedef input_t in_stream_t;
+typedef result_t out_stream_t;
 
 #endif
