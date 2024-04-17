@@ -1,20 +1,20 @@
 #include "kernel_wrapper.h"
-#include "firmware/myproject.h"
+#include "firmware/myproject.cpp"
 
-static void read_input(const in_buffer_t *in, hls::stream<in_stream_t> &input, int n) {
+static void read_input(const in_buffer_t *in, hls::stream<input_t> &input, int n) {
   for (int i = 0; i < DATA_SIZE_IN; i++) {
     #pragma HLS PIPELINE
-    in_stream_t tmp;
-    for (int j = 0; j < DEPTH; j++) {
+    input_t tmp;
+    for (int j = 0; j < NNET_ARRAY_DEPTH; j++) {
       #pragma HLS UNROLL
-      tmp[j] = in[(n * DATA_SIZE_IN * DEPTH) + (i * DEPTH) + j];
+      tmp[j] = in[(n * DATA_SIZE_IN * NNET_ARRAY_DEPTH) + (i * NNET_ARRAY_DEPTH) + j];
     }
     input << tmp;
   }
 }
 
-static void write_result(out_buffer_t *out, hls::stream<out_stream_t> &output, int n) {
-  out_stream_t tmp = output.read();
+static void write_result(out_buffer_t *out, hls::stream<result_t> &output, int n) {
+  result_t tmp = output.read();
   for (int i = 0; i < DATA_SIZE_OUT; i++) {
     #pragma HLS UNROLL
     out[(n * DATA_SIZE_OUT) + i] = tmp[i];
@@ -28,8 +28,8 @@ extern "C" {
     \param out Output Vector
 */
   void kernel_wrapper(const in_buffer_t *in, out_buffer_t *out) {
-    hls::stream<in_stream_t> input("input");
-    hls::stream<out_stream_t> output("output");
+    hls::stream<input_t> input("input");
+    hls::stream<result_t> output("output");
     #pragma HLS STREAM variable=input depth=DATA_SIZE_IN
     #pragma HLS STREAM variable=output depth=1
     
