@@ -1,5 +1,5 @@
 #include "kernel_wrapper.h"
-#include "firmware/myproject.cpp"
+#include "firmware/myproject.h"
 
 static void read_input(const in_buffer_t *in, hls::stream<input_t> &input, int n) {
   for (int i = 0; i < DATA_SIZE_IN; i++) {
