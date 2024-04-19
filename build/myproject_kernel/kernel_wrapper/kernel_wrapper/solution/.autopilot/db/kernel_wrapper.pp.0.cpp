@@ -1336,7 +1336,7 @@ struct ap_int_base : public ssdm_int<_AP_W, _AP_S> {
       int NZeros = 0;
       int i = 0;
       bool hitNonZero = false;
-      for (i = 0; i < __N - 1; ++i) {
+      VITIS_LOOP_1211_1: for (i = 0; i < __N - 1; ++i) {
         ap_int_base<64, false> t;
         t.V = ({ typename _ap_type::remove_const<__typeof__(this->V)>::type __Result__ = 0; __typeof__(this->V) __Val2__ = this->V; __builtin_bit_part_select((void*)(&__Result__), (void*)(&__Val2__), _AP_W - i * 64 - 64, _AP_W - i * 64 - 1); __Result__; });
         NZeros += hitNonZero ? 0 : __builtin_clzll(t.V);
@@ -2310,7 +2310,7 @@ struct ap_range_ref {
     bool reverse = l_index > h_index;
     unsigned low = reverse ? h_index : l_index;
     unsigned high = reverse ? l_index : h_index;
-    for (unsigned i = low; i != high; ++i) {
+    VITIS_LOOP_676_1: for (unsigned i = low; i != high; ++i) {
 
 #pragma HLS unroll
 
@@ -2324,7 +2324,7 @@ struct ap_range_ref {
     bool reverse = l_index > h_index;
     unsigned low = reverse ? h_index : l_index;
     unsigned high = reverse ? l_index : h_index;
-    for (unsigned i = low; i != high; ++i) {
+    VITIS_LOOP_690_1: for (unsigned i = low; i != high; ++i) {
 
 #pragma HLS unroll
 
@@ -2338,7 +2338,7 @@ struct ap_range_ref {
     bool reverse = l_index > h_index;
     unsigned low = reverse ? h_index : l_index;
     unsigned high = reverse ? l_index : h_index;
-    for (unsigned i = low; i != high; ++i) {
+    VITIS_LOOP_704_1: for (unsigned i = low; i != high; ++i) {
 
 #pragma HLS unroll
 
@@ -3937,7 +3937,7 @@ struct ap_fixed_base : ssdm_int<_AP_W, _AP_S> {
       int NZeros = 0;
       int i = 0;
       bool hitNonZero = false;
-      for (i = 0; i < __N - 1; ++i) {
+      VITIS_LOOP_1245_1: for (i = 0; i < __N - 1; ++i) {
         ap_int_base<64, false> t;
         t.range(0, 63) = this->range(_AP_W - i * 64 - 64, _AP_W - i * 64 - 1);
         NZeros += hitNonZero ? 0 : __builtin_clzll(t.V);
@@ -6773,9 +6773,9 @@ template <typename T, unsigned N> struct array {
         if (&other == this)
             return *this;
 
-        (static_cast <bool> (N == other.size && "Array sizes must match.") ? void (0) : __assert_fail ("N == other.size && \"Array sizes must match.\"", "/home/ayvol/vitis_accel_backend_test/firmware/nnet_utils/nnet_types.h", 25, __extension__ __PRETTY_FUNCTION__));
+        (__builtin_assume(static_cast <bool> (N == other.size && "Array sizes must match.")));
 
-        for (unsigned i = 0; i < N; i++) {
+        VITIS_LOOP_27_1: for (unsigned i = 0; i < N; i++) {
 #pragma HLS UNROLL
  data[i] = other[i];
         }
@@ -6788,7 +6788,7 @@ template <typename T, unsigned N, T (*func)(T)> class lookup_table {
   public:
     lookup_table(T from, T to) : range_start(from), range_end(to), base_div(ap_uint<16>(N) / T(to - from)) {
         T step = (range_end - range_start) / ap_uint<16>(N);
-        for (size_t i = 0; i < N; i++) {
+        VITIS_LOOP_40_1: for (size_t i = 0; i < N; i++) {
             T num = range_start + ap_uint<16>(i) * step;
             T sample = func(num);
             samples[i] = sample;
@@ -6875,9 +6875,6 @@ typedef ap_fixed<18,8,AP_RND,AP_SAT> output_softmax_inv_table_t;
 # 18 "/home/ayvol/vitis_accel_backend_test/kernel_wrapper.h"
 typedef ap_fixed<16,6> in_buffer_t;
 typedef ap_fixed<16,6> out_buffer_t;
-
-typedef input_t in_stream_t;
-typedef result_t out_stream_t;
 # 2 "/home/ayvol/vitis_accel_backend_test/kernel_wrapper.cpp" 2
 # 1 "/home/ayvol/vitis_accel_backend_test/firmware/myproject.h" 1
 
@@ -6892,7 +6889,7 @@ typedef result_t out_stream_t;
 # 26 "/tools/Xilinx/Vitis_HLS/2022.2/common/technology/autopilot/hls_stream_39.h"
 namespace hls {
 # 52 "/tools/Xilinx/Vitis_HLS/2022.2/common/technology/autopilot/hls_stream_39.h"
-template<typename __STREAM_T__, int 3=0>
+template<typename __STREAM_T__, int DEPTH=0>
 class stream;
 
 template<typename __STREAM_T__>
@@ -7003,16 +7000,16 @@ class stream<__STREAM_T__, 0>
     __STREAM_T__ V __attribute__((no_ctor));
 };
 
-template<typename __STREAM_T__, int 3>
+template<typename __STREAM_T__, int DEPTH>
 class stream : public stream<__STREAM_T__, 0> {
   public:
     inline __attribute__((always_inline)) __attribute__((nodebug)) stream() {
-      __fpga_set_stream_depth(&this->V, 3);
+      __fpga_set_stream_depth(&this->V, DEPTH);
     }
 
     inline __attribute__((always_inline)) __attribute__((nodebug)) stream(const char* name) {
       (void)(name);
-      __fpga_set_stream_depth(&this->V, 3);
+      __fpga_set_stream_depth(&this->V, DEPTH);
     }
 };
 }
@@ -7028,11 +7025,11 @@ void myproject(
 );
 # 3 "/home/ayvol/vitis_accel_backend_test/kernel_wrapper.cpp" 2
 
-static void read_input(const in_buffer_t *in, hls::stream<in_stream_t> &input, int n) {
-  for (int i = 0; i < (32 * 32); i++) {
+static void read_input(const in_buffer_t *in, hls::stream<input_t> &input, int n) {
+  VITIS_LOOP_5_1: for (int i = 0; i < (32 * 32); i++) {
 #pragma HLS PIPELINE
- in_stream_t tmp;
-    for (int j = 0; j < 3; j++) {
+ input_t tmp;
+    VITIS_LOOP_8_2: for (int j = 0; j < 3; j++) {
 #pragma HLS UNROLL
  tmp[j] = in[(n * (32 * 32) * 3) + (i * 3) + j];
     }
@@ -7040,9 +7037,9 @@ static void read_input(const in_buffer_t *in, hls::stream<in_stream_t> &input, i
   }
 }
 
-static void write_result(out_buffer_t *out, hls::stream<out_stream_t> &output, int n) {
-  out_stream_t tmp = output.read();
-  for (int i = 0; i < 10; i++) {
+static void write_result(out_buffer_t *out, hls::stream<result_t> &output, int n) {
+  result_t tmp = output.read();
+  VITIS_LOOP_18_1: for (int i = 0; i < 10; i++) {
 #pragma HLS UNROLL
  out[(n * 10) + i] = tmp[i];
   }
@@ -7054,13 +7051,17 @@ extern "C" {
 
 
 
-  void kernel_wrapper(const in_buffer_t *in, out_buffer_t *out) {
-    hls::stream<in_stream_t> input("input");
-    hls::stream<out_stream_t> output("output");
+  __attribute__((sdx_kernel("kernel_wrapper", 0))) void kernel_wrapper(const in_buffer_t *in, out_buffer_t *out) {
+#line 26 "/home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper.tcl"
+#pragma HLSDIRECTIVE TOP name=kernel_wrapper
+# 30 "/home/ayvol/vitis_accel_backend_test/kernel_wrapper.cpp"
+
+    hls::stream<input_t> input("input");
+    hls::stream<result_t> output("output");
 #pragma HLS STREAM variable=input depth=(32 * 32)
 #pragma HLS STREAM variable=output depth=1
 
- for (int n = 0; n < 8192; n++) {
+ VITIS_LOOP_36_1: for (int n = 0; n < 8192; n++) {
 #pragma HLS DATAFLOW
  read_input(in, input, n);
       myproject(input, output);
