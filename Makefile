@@ -22,6 +22,7 @@ CXX := $(XILINX_VIVADO)/tps/lnx64/gcc-6.2.0/bin/g++
 $(warning [WARNING]: g++ version older. Using g++ provided by the tool : $(CXX))
 endif
 
+CXX_SOURCES += ${PWD}/libs/xcl2.cpp ${PWD}/libs/FpgaObj.cpp ${PWD}/libs/HbmFpga.cpp
 CXX_LIBRARIES += -I$(XILINX_XRT)/include/ -I$(XILINX_VIVADO)/include/ -I$(XILINX_HLS)/include/ \
 				 -I$(PWD)/libs/ -I$(PWD)/firmware/ -I$(PWD)/firmware/nnet_utils/ \
 				 -L$(XILINX_XRT)/lib/ -lOpenCL -lrt -lstdc++ -lpthread
@@ -41,8 +42,8 @@ myproject_kernel.xclbin: ./build/myproject_kernel.xo
 	v++ -l -t hw --config ./u55c.cfg ./build/myproject_kernel.xo -o kernel_wrapper.xclbin
 
 # Building Host
-host: myproject_host_cl.cpp ${PWD}/libs/xcl2.cpp 
-	$(CXX) myproject_host_cl.cpp ${PWD}/libs/xcl2.cpp -o host $(CXX_LIBRARIES) $(CXX_SETTINGS)
+host: myproject_host_cl.cpp $(CXX_SOURCES)
+	$(CXX) myproject_host_cl.cpp $(CXX_SOURCES) -o host $(CXX_LIBRARIES) $(CXX_SETTINGS)
 
 .PHONY: kernel
 kernel: myproject_kernel.xclbin
