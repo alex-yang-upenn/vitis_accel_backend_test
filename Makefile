@@ -42,7 +42,7 @@ myproject_kernel.xclbin: ./build/myproject_kernel.xo
 
 # Building Host
 host: myproject_host_cl.cpp ${PWD}/libs/xcl2.cpp 
-	$(CXX) myproject_host_cl.cpp ${PWD}/libs/xcl2.cpp -o host.exe $(CXX_LIBRARIES) $(CXX_SETTINGS)
+	$(CXX) myproject_host_cl.cpp ${PWD}/libs/xcl2.cpp -o host $(CXX_LIBRARIES) $(CXX_SETTINGS)
 
 .PHONY: kernel
 kernel: myproject_kernel.xclbin
@@ -50,5 +50,7 @@ kernel: myproject_kernel.xclbin
 # Cleaning stuff
 .PHONY: clean
 clean:
-	-rm -rf build* *.xclbin*
+	-rm -rf host
+	-rm -rf *.xclbin*
+	-rm -rf build*
 	-rm -rf *.log *.jou *.rpt *.csv *.mdb *.ltx
