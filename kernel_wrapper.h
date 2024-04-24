@@ -4,7 +4,8 @@
 #include "firmware/defines.h"
 
 #define NUM_CU 4
-#define NBUFFER 8
+#define NUM_THREAD 8
+#define NUM_CHANNEL 4
 
 /* Calculate according to FPGA specs (HBM PC memory size) and size of input layer. 
 DO NOT fully use up assigned HBM memory. 

@@ -11,32 +11,22 @@
 #include "xcl2.hpp"
 
 template <class T, class U>
-class fpgaObj {
+class FpgaObj {
   public:
-    /**
-     * \brief Vector containing all inputs to the kernels
-    */
-    std::vector<T,aligned_allocator<T>> source_in;
-
-    /**
-     * \brief Vector where all outputs from the kernels will be written to
-    */
-    std::vector<U,aligned_allocator<U>> source_hw_results;
-
-    /**
-     * \brief Object to store any potential error codes thrown by OpenCL functions
-    */
-    cl_int err;
-
-    /**
-     * \brief Stringstream logging information from runFPGA() for every thread ran on this object
-    */
-    std::stringstream ss;
+    std::vector<T,aligned_allocator<T>> source_in;  // Vector containing inputs to all kernels
+    std::vector<U,aligned_allocator<U>> source_hw_results;  // Vector containing all outputs from all kernels
+    cl_int err;  // Stores potential error codes thrown by OpenCL functions
+    std::stringstream ss;  // Logs information from runFPGA(). Every thread logs to this stringstream
 
     /**
      * \brief Constructor. Reserves and allocates buffers in host memory.
+     * \param kernInputSize Total size of all input buffers
+     * \param kernOutputSize Total size of all output buffers
+     * \param numCU Number of compute units physically instantiated in the FPGA
+     * \param numThreads Number of threads host cpu will use to drive the FPGA
+     * \param numEpochs Number of times to loop over the data (for testing purposes)
     */
-    fpgaObj(int kernInputSize, int kernOutputSize, int numRegions, int numThreads, int n_iter);
+    FpgaObj(int kernInputSize, int kernOutputSize, int numCU, int numThreads, int numEpochs);
 
     /**
      * \brief Initializes OpenCL objects using the given devices and program
@@ -46,9 +36,9 @@ class fpgaObj {
     void initializeOpenCL(std::vector<cl::Device> &devices, cl::Program::Binaries &bins);
 
     /**
-     * \brief Creates OpenCL pointer objects and buffers for device inputs and outputs
+     * \brief Creates OpenCL pointer objects and buffers for device inputs and outputs. Implemented by subclasses
     */
-    void allocateHostMemory();
+    virtual void allocateHostMemory(int chan_per_port) = 0;
 
     /**
      * \brief Logs information about thread completion
@@ -62,173 +52,65 @@ class fpgaObj {
     void finishRun();
 
     /**
-     * \brief Migrates input to FPGA , executes kernels, and migrates output to host memory
+     * \brief Migrates input to FPGA , executes kernels, and migrates output to host memory. Run this function in numThreads different threads
+     * \return Stringstream containing logs of the run
     */
     std::stringstream runFPGA();
 
-  private:
-    /**
-     * \brief The number of inputs each kernel object runs
-    */
+  protected:
     int _kernInputSize;
-
-    /**
-     * \brief The number of outputs each kernel object produces
-    */
     int _kernOutputSize;
-
-    /**
-     * \brief The number of regions the FPGA is split into. Each region contains
-     * a copy of alveo_hls4ml.cpp
-    */
-    int _numSLR;
-
-    /**
-     * \brief The number of threads spawned to accelerate the data reading and writing
-     * process
-    */
+    int _numCU;
     int _numThreads;
+    int _numEpochs;
+
+    int ikern;  // Counter tracking which virtual kernel is being run
+    std::vector<bool> isFirstRun;  // Vector tracking whether each virtual kernel is being run for the first time
+    mutable std::mutex mtx;  // Mutex for ikern, isFirstRun, and get_info_lock()
+    mutable std::vector<std::mutex> mtxi;  // Mutexes for each virtual kernel and associate resources
+
+    int ithr;  // Counter tracking the threads that ran to completion (for logging purposes)
+    mutable std::mutex smtx; // Mutex for ithr and write_ss_safe()
+
+    cl::Program program;  // Object containing the Program (built from kernel_wrapper.cpp) that runs on each physical compute unit
+    cl::Context context;  // Object containing the Device Context
+    std::vector<cl::CommandQueue> q;  // Vector containing Command Queue objects controlling physical compute units
+    std::vector<cl::Kernel> krnl_xil;  // Vector containing virtual kernel objects
+    std::vector<cl_mem_ext_ptr_t> buf_in_ext;  // Vector containing Pointer objects that map host memory to FPGA input.
+    std::vector<cl_mem_ext_ptr_t> buf_out_ext;  // Vector containing Pointer objects that map host memory to FPGA output.
+    std::vector<cl::Buffer> buffer_in;  // Vector containing Buffer objects for FPGA inputs, corresponding to physical compute units
+    std::vector<cl::Buffer> buffer_out;  // Vector containing Buffer objects for FPGA outputs, corresponding to physical compute units
+    std::vector<cl::Event> write_event;  // Vector of Event objects, used as flags indicating completion of transferring inputs to physical compute units
+    std::vector<cl::Event> kern_event;  // Vector of Event objects, used as flags indicating completion of computation by physical compute units
+    std::vector<cl::Event> read_event;  // Vector of Event objects, used as flags indicating completion of transferring outputs from physical compute units
+    std::vector<std::vector<cl::Event>> writeList;  // enqueueNDRangeKernel requires a vector of Event objects and checks each for completion
+    std::vector<std::vector<cl::Event>> kernList;  // enqueueMigrateMemObjects requires a vector of Event objects and checks each for completion
 
     /**
-     * \brief A counter tracking which kernel object is being run
-    */
-    int ikern;
-
-    /**
-     * \brief A counter tracking the number of threads ran on this object
-    */
-    int ithr;
-
-    /**
-     * \brief The number of times to iterate over the input buffers.
-    */
-    int _n_iter;
-
-    /**
-     * \brief Vector tracking whether each kernel object is being run over its inputs for
-     * the first time
-    */
-    std::vector<bool> isFirstRun;
-
-    /**
-     * \brief Mutex to ensure thread safety for ikern, isFirstRun, and get_info_lock()
-    */
-    mutable std::mutex mtx;
-
-    /**
-     * \brief Mutexes to ensure thread safety for each individual kernel obejct and associate resources
-    */
-    mutable std::vector<std::mutex> mtxi;
-
-    /**
-     * \brief Mutex to ensure thread safety for ithr and write_ss_safe()
-    */
-    mutable std::mutex smtx;
-
-    /**
-     * \brief OpenCL object containing the program (obtained from building
-     * alveo_hls4ml.cpp) that will run on the FPGA Compute Units
-    */
-    cl::Program program;
-
-    /**
-     * \brief OpenCL object containing the device context
-    */
-    cl::Context context;
-    
-    /**
-     * \brief Vector containing queues of OpenCL commands.
-     * Each queue corresponds to one Compute Unit on the FPGA 
-    */
-    std::vector<cl::CommandQueue> q;
-
-    /**
-     * \brief Vector containing the OpenCL kernel objects
-    */
-    std::vector<cl::Kernel> krnl_xil;
-
-    /**
-     * \brief Vector containing OpenCL pointers that map host memory to FPGA input.
-     * One pointer is created for each OpenCL kernel object.
-    */
-    std::vector<cl_mem_ext_ptr_t> buf_in_ext;
-
-    /**
-     * \brief Vector containing OpenCL pointers that map host memory to FPGA output.
-     * One pointer is created for each OpenCL kernel object.
-    */
-    std::vector<cl_mem_ext_ptr_t> buf_out_ext;
-
-    /**
-     * \brief Vector containing OpenCL buffers where FPGA inputs are written to.
-     * One buffer is created for each OpenCL kernel object.
-    */
-    std::vector<cl::Buffer> buffer_in;
-
-    /**
-     * \brief Vector containing OpenCL buffers where FPGA outputs are written to.
-     * One buffer is created for each OpenCL kernel object.
-    */
-    std::vector<cl::Buffer> buffer_out;
-    
-    /**
-     * \brief Vector of Event objects used as flags that indicate completion of
-     * migrating inputs to FPGA. Each Event corresponds to one Kernel object.
-    */
-    std::vector<cl::Event> write_event;
-
-    /**
-     * \brief Vector of Event objects used as flags that indicate completion of
-     * Kernel execution on FPGA. Each Event corresponds to one Kernel object.
-    */
-    std::vector<cl::Event> kern_event;
-
-    /**
-     * \brief Vector of Event objects used as flags that indicate completion of
-     * migrating outputs to host. Each Event corresponds to one Kernel object.
-    */
-    std::vector<cl::Event> read_event;
-
-    /**
-     * \brief Vectors here are passed to enqueueNDRangeKernel to ensure write events
-     * are completed before kernel execution
-    */
-    std::vector<std::vector<cl::Event>> writeList;
-
-    /**
-     * \brief Vectors here are passed to enqueueNDRangeKernel to ensure kernel execution
-     * is complete before migrating output to host memory
-    */
-    std::vector<std::vector<cl::Event>> kernList;
-
-    /**
-     * \brief Initializes OpenCL objects using the given devices and program
-     * \return Returns a pair, with the first entry containing the index of the kernel object being 
-     * run, and the second entry indicating whether this is the first time it is being run
+     * \brief Tracks the index of the virtual kernel being run, and whether it is being run for the first time
+     * \return Returns a pair: (index, first run indicator)
     */
     std::pair<int,bool> get_info_lock();
 
     /**
-     * \brief Locks the appropriate mutex to ensure thread safety for the kernel object being run
-     * \param ik The index of the kernel object being run
+     * \brief Locks the appropriate mutex to ensure thread safety for the virtual kernel being run
+     * \param ik The index of the virtual kernel being run
     */
     void get_ilock(int ik);
 
     /**
-     * \brief Unlocks the appropriate mutex to ensure thread safety for the kernel object being run
-     * \param ik The index of the kernel object being run
+     * \brief Unlocks the appropriate mutex for the virtual kernel that has finished running
+     * \param ik The index of the virtual kernel that has finished running
     */
     void release_ilock(int ik);
     
     /**
-    * \brief An callback function, settable by OpenCL Events, that prints to console a string describing 
-    * the operations performed by the OpenCL runtime.
+    * \brief **UNTESTED** Callback function for Event objects that prints a description of the operation performed by the OpenCL runtime.
     */ 
     void event_cb(cl_event event1, cl_int cmd_status, void *data);
 
     /**
-     * \brief Sets event_cb() as an OpenCL Event's callback function.
-     * \param event 
+     * \brief **UNTESTED** Sets event_cb() as an Event's callback function.
     */
     void set_callback(const char *queue_name, cl::Event event);
 
