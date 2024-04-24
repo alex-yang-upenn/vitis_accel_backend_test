@@ -9,7 +9,6 @@
 #include "kernel_wrapper.h"
 #include "libs/FpgaObj.h"
 #include "libs/HbmFpga.h"
-
 #include "libs/timing.h"
 #include "libs/xcl2.hpp"
 
@@ -17,7 +16,7 @@
 #define EXPAND_STRING(var) STRINGIFY(var)
 
 
-void runFPGAHelper(fpgaObj<in_buffer_t, out_buffer_t> &fpga) {
+void runFPGAHelper(FpgaObj<in_buffer_t, out_buffer_t> &fpga) {
     std::stringstream ss;
     ss << (fpga.runFPGA()).str();
     fpga.write_ss_safe(ss.str());
