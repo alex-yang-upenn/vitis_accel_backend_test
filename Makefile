@@ -42,8 +42,8 @@ myproject_kernel.xclbin: ./build/myproject_kernel.xo
 	v++ -l -t hw --config ./u55c.cfg ./build/myproject_kernel.xo -o kernel_wrapper.xclbin
 
 # Building Host
-host: myproject_host_cl.cpp $(CXX_SOURCES)
-	$(CXX) myproject_host_cl.cpp $(CXX_SOURCES) -o host $(CXX_LIBRARIES) $(CXX_SETTINGS)
+host: $(CXX_SOURCES) myproject_host_cl.cpp 
+	$(CXX) $(CXX_SOURCES) myproject_host_cl.cpp -o host $(CXX_LIBRARIES) $(CXX_SETTINGS)
 
 .PHONY: kernel
 kernel: myproject_kernel.xclbin

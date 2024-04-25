@@ -1,5 +1,4 @@
-#ifndef TIMING_H
-#define TIMING_H
+#pragma once
 
 #include <chrono>
 #include <ctime>
@@ -78,5 +77,3 @@ void print_nanoseconds(std::string prefix, std::chrono::time_point<std::chrono::
           << microseconds.count() << ":"
           << nanoseconds.count() << "\n";
 }
-
-#endif

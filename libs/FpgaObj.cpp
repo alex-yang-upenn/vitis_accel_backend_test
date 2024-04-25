@@ -1,12 +1,5 @@
 #include "FpgaObj.h"
 
-#include <iostream>
-#include <iomanip>
-#include <memory>
-#include <stdio.h>
-
-#include "timing.h"
-
 template <class T, class U>
 FpgaObj<T, U>::FpgaObj(int kernInputSize, int kernOutputSize, int numCU, int numThreads, int numEpochs): 
         _kernInputSize(kernInputSize),

@@ -1,5 +1,4 @@
-#ifndef HBMFPGA_H
-#define HBMFPGA_H
+#pragma once
 
 #include "FpgaObj.h"
 
@@ -12,5 +11,3 @@ class HbmFpga : public FpgaObj<V, W> {
 
     void allocateHostMemory(int chan_per_port);
 };
-
-#endif

@@ -1,13 +1,17 @@
-#ifndef FPGAOBJ_H
-#define FPGAOBJ_H
+#pragma once
 
+#include <iostream>
+#include <iomanip>
+#include <memory>
 #include <mutex>
 #include <stdlib.h>
 #include <string>
+#include <stdio.h>
 #include <sstream>
 #include <thread>
 #include <vector>
 
+#include "timing.h"
 #include "xcl2.hpp"
 
 template <class T, class U>
@@ -115,5 +119,3 @@ class FpgaObj {
     void set_callback(const char *queue_name, cl::Event event);
 
 };
-
-#endif

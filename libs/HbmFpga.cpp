@@ -1,7 +1,5 @@
 #include "HbmFpga.h"
 
-#include "xcl2.hpp"
-
 // HBM Pseudo-channel(PC) requirements
 #define MAX_HBM_PC_COUNT 32
 #define PC_NAME(n) n | XCL_MEM_TOPOLOGY
