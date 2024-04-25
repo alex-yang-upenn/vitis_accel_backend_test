@@ -45,7 +45,7 @@ SOURCES = libs/xcl2.cpp libs/FpgaObj.cpp libs/HbmFpga.cpp myproject_host_cl.cpp
 OBJECTS = $(patsubst %.cpp,%.o,$(SOURCES))
 
 host: $(OBJECTS)
-	$(CXX) $(LDFLAGS) $^ -o $@
+	$(CXX) $^ -o $@ $(LDFLAGS)
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
@@ -56,7 +56,7 @@ kernel: myproject_kernel.xclbin
 # Cleaning stuff
 .PHONY: clean
 clean:
-	-rm -rf host
+	-rm -rf host libs/*.o
 	-rm -rf *.xclbin*
 	-rm -rf build*
 	-rm -rf *.log *.jou *.rpt *.csv *.mdb *.ltx
