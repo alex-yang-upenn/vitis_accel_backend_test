@@ -1,4 +1,4 @@
-#include "HbmFpga.h"
+#include "HbmFpga.hpp"
 
 // HBM Pseudo-channel(PC) requirements
 #define MAX_HBM_PC_COUNT 32
