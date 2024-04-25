@@ -1,4 +1,4 @@
-#include "timing.h"
+#include "timing.hpp"
 
 void print_nanoseconds(std::string prefix, std::chrono::time_point<std::chrono::system_clock> now, int ik) {
     auto duration = now.time_since_epoch();

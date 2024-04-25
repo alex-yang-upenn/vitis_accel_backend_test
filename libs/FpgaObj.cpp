@@ -1,4 +1,4 @@
-#include "FpgaObj.h"
+#include "FpgaObj.hpp"
 
 template <class T, class U>
 FpgaObj<T, U>::FpgaObj(int kernInputSize, int kernOutputSize, int numCU, int numThreads, int numEpochs): 

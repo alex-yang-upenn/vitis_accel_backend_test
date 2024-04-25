@@ -11,7 +11,7 @@
 #include <thread>
 #include <vector>
 
-#include "timing.h"
+#include "timing.hpp"
 #include "xcl2.hpp"
 
 template <class T, class U>

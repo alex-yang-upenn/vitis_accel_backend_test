@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FpgaObj.h"
+#include "FpgaObj.hpp"
 
 template <class V, class W>
 class HbmFpga : public FpgaObj<V, W> {
