@@ -7,10 +7,10 @@
 #include <vector>
 
 #include "kernel_wrapper.h"
-#include "libs/FpgaObj.hpp"
-#include "libs/HbmFpga.hpp"
-#include "libs/timing.hpp"
-#include "libs/xcl2.hpp"
+#include "FpgaObj.hpp"
+#include "HbmFpga.hpp"
+#include "timing.hpp"
+#include "xcl2.hpp"
 
 #define STRINGIFY(var) #var
 #define EXPAND_STRING(var) STRINGIFY(var)

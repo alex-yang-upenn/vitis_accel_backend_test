@@ -41,14 +41,9 @@ INCLUDES += -I$(XILINX_XRT)/include/ -I$(XILINX_VIVADO)/include/ -I$(XILINX_HLS)
 CXXFLAGS += -Wall -std=c++11 -Wno-unknown-pragmas -g -O0 
 LDFLAGS = -L$(XILINX_XRT)/lib/ -lstdc++ -lpthread -lrt -lOpenCL
 
-SOURCES = libs/xcl2.cpp libs/FpgaObj.cpp libs/HbmFpga.cpp myproject_host_cl.cpp   
-OBJECTS = $(patsubst %.cpp,%.o,$(SOURCES))
+host: myproject_host_cl.cpp libs/xcl2.cpp
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS) 
 
-host: $(OBJECTS)
-	$(CXX) $^ -o $@ $(LDFLAGS) $(CXXFLAGS)
-
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
 
 .PHONY: kernel
 kernel: myproject_kernel.xclbin
