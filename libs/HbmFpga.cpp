@@ -10,6 +10,11 @@ const int pc[MAX_HBM_PC_COUNT] = {
     PC_NAME(24), PC_NAME(25), PC_NAME(26), PC_NAME(27), PC_NAME(28), PC_NAME(29), PC_NAME(30), PC_NAME(31)};
 
 template <class V, class W>
+HbmFpga<V,W>::HbmFpga(int kernInputSize, int kernOutputSize, int numCU, int numThreads, int numEpochs)
+        : FpgaObj<V, W>(kernInputSize, kernOutputSize, numCU, numThreads, numEpochs) {
+}
+
+template <class V, class W>
 void HbmFpga<V, W>::allocateHostMemory(int chan_per_port) {
     // Create Pointer objects for the ports for each virtual compute unit
     // Assigning Pointers to specific HBM PC's using cl_mem_ext_ptr_t type and corresponding PC flags
