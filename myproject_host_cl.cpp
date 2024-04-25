@@ -7,9 +7,9 @@
 #include <vector>
 
 #include "kernel_wrapper.h"
-#include "libs/FpgaObj.h"
-#include "libs/HbmFpga.h"
-#include "libs/timing.h"
+#include "libs/FpgaObj.hpp"
+#include "libs/HbmFpga.hpp"
+#include "libs/timing.hpp"
 #include "libs/xcl2.hpp"
 
 #define STRINGIFY(var) #var
