@@ -29,7 +29,7 @@ void HbmFpga<V, W>::allocateHostMemory(int chan_per_port) {
             this.buf_in_ext.push_back(buf_in_ext_tmp);
 
             cl_mem_ext_ptr_t buf_out_ext_tmp;
-            buf_out_ext_tmp.obj = this.source_hw_results.data() + ((ib*tbis._numCU + ik) * this._kernOutputSize);
+            buf_out_ext_tmp.obj = this.source_hw_results.data() + ((ib*this._numCU + ik) * this._kernOutputSize);
             buf_out_ext_tmp.param = 0;
             int out_flags = 0;
             for (int i = 0; i < chan_per_port; i++) {
@@ -49,13 +49,13 @@ void HbmFpga<V, W>::allocateHostMemory(int chan_per_port) {
     ensure that user buffer is used when user creates Buffer/Mem object with CL_MEM_USE_HOST_PTR */
     size_t vector_size_in_bytes = sizeof(V) * this._kernInputSize;
     size_t vector_size_out_bytes = sizeof(W) * this._kernOutputSize;
-    for (int ib = 0; ib < _numThreads; ib++) {
-        for (int ik = 0; ik < _numCU; ik++) {
-            cl::Buffer buffer_in_tmp (context, 
+    for (int ib = 0; ib < this._numThreads; ib++) {
+        for (int ik = 0; ik < this._numCU; ik++) {
+            cl::Buffer buffer_in_tmp (this.context, 
                     CL_MEM_USE_HOST_PTR | CL_MEM_EXT_PTR_XILINX | CL_MEM_READ_ONLY,
                     vector_size_in_bytes,
                     &(this.buf_in_ext[ib*_numCU + ik]));
-            cl::Buffer buffer_out_tmp(context,
+            cl::Buffer buffer_out_tmp(this.context,
                     CL_MEM_USE_HOST_PTR | CL_MEM_EXT_PTR_XILINX | CL_MEM_WRITE_ONLY,
                     vector_size_out_bytes,
                     &(this.buf_out_ext[ib*_numCU + ik]));
