@@ -45,7 +45,7 @@ SOURCES = libs/xcl2.cpp libs/FpgaObj.cpp libs/HbmFpga.cpp myproject_host_cl.cpp
 OBJECTS = $(patsubst %.cpp,%.o,$(SOURCES))
 
 host: $(OBJECTS)
-	$(CXX) $^ -o $@ $(LDFLAGS)
+	$(CXX) $^ -o $@ $(LDFLAGS) $(CXXFLAGS)
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
