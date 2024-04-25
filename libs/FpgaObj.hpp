@@ -35,9 +35,9 @@ class FpgaObj {
 			_kernOutputSize(kernOutputSize),
 			_numCU(numCU),
 			_numThreads(numThreads),
+			_numEpochs(numEpochs),
 			ikern(0), 
-			ithr(0),
-			_numEpochs(numEpochs) {
+			ithr(0) {
 				source_in.reserve(_kernInputSize * _numCU * _numThreads);
 				source_hw_results.reserve(_kernOutputSize * _numCU * _numThreads);
 				isFirstRun.reserve(_numCU * _numThreads);

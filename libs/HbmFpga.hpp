@@ -21,10 +21,10 @@ class HbmFpga : public FpgaObj<V, W> {
     void allocateHostMemory(int chan_per_port) {
         // Create Pointer objects for the ports for each virtual compute unit
         // Assigning Pointers to specific HBM PC's using cl_mem_ext_ptr_t type and corresponding PC flags
-        for (int ib = 0; ib < this._numThreads; ib++) {
-            for (int ik = 0; ik < this._numCU; ik++) {
+        for (int ib = 0; ib < this->_numThreads; ib++) {
+            for (int ik = 0; ik < this->_numCU; ik++) {
                 cl_mem_ext_ptr_t buf_in_ext_tmp;
-                buf_in_ext_tmp.obj = this.source_in.data() + ((ib*this._numCU + ik) * this._kernInputSize);
+                buf_in_ext_tmp.obj = this->source_in.data() + ((ib*this->_numCU + ik) * this->_kernInputSize);
                 buf_in_ext_tmp.param = 0;
                 int in_flags = 0;
                 for (int i = 0; i < chan_per_port; i++) {
@@ -32,10 +32,10 @@ class HbmFpga : public FpgaObj<V, W> {
                 }
                 buf_in_ext_tmp.flags = in_flags;
                 
-                this.buf_in_ext.push_back(buf_in_ext_tmp);
+                this->buf_in_ext.push_back(buf_in_ext_tmp);
 
                 cl_mem_ext_ptr_t buf_out_ext_tmp;
-                buf_out_ext_tmp.obj = this.source_hw_results.data() + ((ib*this._numCU + ik) * this._kernOutputSize);
+                buf_out_ext_tmp.obj = this->source_hw_results.data() + ((ib*this->_numCU + ik) * this->_kernOutputSize);
                 buf_out_ext_tmp.param = 0;
                 int out_flags = 0;
                 for (int i = 0; i < chan_per_port; i++) {
@@ -43,7 +43,7 @@ class HbmFpga : public FpgaObj<V, W> {
                 }
                 buf_out_ext_tmp.flags = out_flags;
                 
-                this.buf_out_ext.push_back(buf_out_ext_tmp);
+                this->buf_out_ext.push_back(buf_out_ext_tmp);
             }
         }
 
@@ -53,22 +53,22 @@ class HbmFpga : public FpgaObj<V, W> {
         its own host side Buffer. So it is recommended to use this allocator if user wishes to
         create Buffer using CL_MEM_USE_HOST_PTR to align user buffer to page boundary. It will 
         ensure that user buffer is used when user creates Buffer/Mem object with CL_MEM_USE_HOST_PTR */
-        size_t vector_size_in_bytes = sizeof(V) * this._kernInputSize;
-        size_t vector_size_out_bytes = sizeof(W) * this._kernOutputSize;
-        for (int ib = 0; ib < this._numThreads; ib++) {
-            for (int ik = 0; ik < this._numCU; ik++) {
-                cl::Buffer buffer_in_tmp (this.context, 
+        size_t vector_size_in_bytes = sizeof(V) * this->_kernInputSize;
+        size_t vector_size_out_bytes = sizeof(W) * this->_kernOutputSize;
+        for (int ib = 0; ib < this->_numThreads; ib++) {
+            for (int ik = 0; ik < this->_numCU; ik++) {
+                cl::Buffer buffer_in_tmp (this->context, 
                         CL_MEM_USE_HOST_PTR | CL_MEM_EXT_PTR_XILINX | CL_MEM_READ_ONLY,
                         vector_size_in_bytes,
-                        &(this.buf_in_ext[ib*this._numCU + ik]));
-                cl::Buffer buffer_out_tmp(this.context,
+                        &(this->buf_in_ext[ib*this->_numCU + ik]));
+                cl::Buffer buffer_out_tmp(this->context,
                         CL_MEM_USE_HOST_PTR | CL_MEM_EXT_PTR_XILINX | CL_MEM_WRITE_ONLY,
                         vector_size_out_bytes,
-                        &(this.buf_out_ext[ib*this._numCU + ik]));
-                this.buffer_in.push_back(buffer_in_tmp);
-                this.buffer_out.push_back(buffer_out_tmp);
-                this.krnl_xil[ib*this._numCU + ik].setArg(0, this.buffer_in[ib*this._numCU + ik]);
-                this.krnl_xil[ib*this._numCU + ik].setArg(1, this.buffer_out[ib*this._numCU + ik]);
+                        &(this->buf_out_ext[ib*this->_numCU + ik]));
+                this->buffer_in.push_back(buffer_in_tmp);
+                this->buffer_out.push_back(buffer_out_tmp);
+                this->krnl_xil[ib*this->_numCU + ik].setArg(0, this->buffer_in[ib*this->_numCU + ik]);
+                this->krnl_xil[ib*this->_numCU + ik].setArg(1, this->buffer_out[ib*this->_numCU + ik]);
             }
         }
     }
