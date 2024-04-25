@@ -37,22 +37,22 @@ myproject_kernel.xclbin: ./build/myproject_kernel.xo
 
 # Building Host 
 INCLUDES += -I$(XILINX_XRT)/include/ -I$(XILINX_VIVADO)/include/ -I$(XILINX_HLS)/include/ \
-				 -I$(PWD)/libs/ -I$(PWD)/firmware/ -I$(PWD)/firmware/nnet_utils/
-CXXFLAGS +=  -Wall -std=c++11 -Wno-unknown-pragmas -g -O0 
+			-I$(PWD)/libs/ -I$(PWD)/firmware/ -I$(PWD)/firmware/nnet_utils/
+CXXFLAGS += -Wall -std=c++11 -Wno-unknown-pragmas -g -O0 
 LDFLAGS = -L$(XILINX_XRT)/lib/ -lOpenCL -lrt -lstdc++ -lpthread
 
 SOURCES = myproject_host_cl.cpp ${PWD}/libs/xcl2.cpp ${PWD}/libs/FpgaObj.cpp ${PWD}/libs/HbmFpga.cpp
 OBJECTS = $(patsubst %.cpp,%.o,$(SOURCES))
 
 host: $(OBJECTS)
-    $(CXX) $(LDFLAGS) $^ -o $@
+	$(CXX) $(LDFLAGS) $^ -o $@
 
 %.o: %.cpp
-    $(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
 
 # FpgaObj.o: timing.o xcl.o
 # HbmFpga.o: FpgaObj.o timing.o xcl.o
-# yproject_host_cl.o: HbmFpga.o FpgaObj.o timing.o xcl.o
+# myproject_host_cl.o: HbmFpga.o FpgaObj.o timing.o xcl.o
 
 .PHONY: kernel
 kernel: myproject_kernel.xclbin
