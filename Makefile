@@ -42,8 +42,7 @@ CXXFLAGS += -Wall -std=c++11 -Wno-unknown-pragmas -g -O0
 LDFLAGS = -L$(XILINX_XRT)/lib/ -lstdc++ -lpthread -lrt -lOpenCL
 
 host: myproject_host_cl.cpp libs/xcl2.cpp
-	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS) 
-
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(INCLUDES) $(LDFLAGS) 
 
 .PHONY: kernel
 kernel: myproject_kernel.xclbin
