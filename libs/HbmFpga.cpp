@@ -54,15 +54,15 @@ void HbmFpga<V, W>::allocateHostMemory(int chan_per_port) {
             cl::Buffer buffer_in_tmp (this.context, 
                     CL_MEM_USE_HOST_PTR | CL_MEM_EXT_PTR_XILINX | CL_MEM_READ_ONLY,
                     vector_size_in_bytes,
-                    &(this.buf_in_ext[ib*_numCU + ik]));
+                    &(this.buf_in_ext[ib*this._numCU + ik]));
             cl::Buffer buffer_out_tmp(this.context,
                     CL_MEM_USE_HOST_PTR | CL_MEM_EXT_PTR_XILINX | CL_MEM_WRITE_ONLY,
                     vector_size_out_bytes,
-                    &(this.buf_out_ext[ib*_numCU + ik]));
+                    &(this.buf_out_ext[ib*this._numCU + ik]));
             this.buffer_in.push_back(buffer_in_tmp);
             this.buffer_out.push_back(buffer_out_tmp);
-            this.krnl_xil[ib*_numCU + ik].setArg(0, this.buffer_in[ib*_numCU + ik]);
-            this.krnl_xil[ib*_numCU + ik].setArg(1, this.buffer_out[ib*_numCU + ik]);
+            this.krnl_xil[ib*this._numCU + ik].setArg(0, this.buffer_in[ib*this._numCU + ik]);
+            this.krnl_xil[ib*this._numCU + ik].setArg(1, this.buffer_out[ib*this._numCU + ik]);
         }
     }
 }
