@@ -499,8 +499,8 @@
     "time_stamp": "2022-10-13-17:52:11",
     "options": "/tools/Xilinx/Vitis/2022.2/bin/unwrapped/lnx64.o/v++ -l -t hw --config ./u55c.cfg ./build/myproject_kernel.xo -o kernel_wrapper.xclbin ",
     "xclbin_name": "kernel_wrapper",
-    "uuid": "1a90ebce-51f2-4f5d-9886-b9b40ceb6235",
-    "link_uuid": "1a90ebce-51f2-4f5d-9886-b9b40ceb6235",
+    "uuid": "3221c817-9d8f-4dbe-8dff-8e2bd844f641",
+    "link_uuid": "3221c817-9d8f-4dbe-8dff-8e2bd844f641",
     "package_uuid": "",
     "system_compile_flow": false
    },
