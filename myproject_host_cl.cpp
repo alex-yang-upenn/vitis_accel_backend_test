@@ -32,11 +32,7 @@ int main(int argc, char** argv) {
 
     HbmFpga<in_buffer_t, out_buffer_t> fpga(INSTREAMSIZE, OUTSTREAMSIZE, NUM_CU, NUM_THREAD, 100);
 
-    /* 
-    get_xil_devices() is a utility API which will find the xilinx
-    platforms and will return list of devices connected to Xilinx platform
-    */ 
-    std::vector<cl::Device> devices = xcl::get_xil_devices();
+    std::vector<cl::Device> devices = xcl::get_xil_devices();  // Utility API that finds xilinx platforms and return a list of devices connected to Xilinx platforms
 
     // Load xclbin
     cl::Program::Binaries bins = xcl::import_binary_file(xclbinFilename);
