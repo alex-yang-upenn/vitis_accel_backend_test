@@ -6872,7 +6872,7 @@ typedef ap_fixed<18,8> output_softmax_table_t;
 typedef ap_fixed<18,8,AP_RND,AP_SAT> output_softmax_exp_table_t;
 typedef ap_fixed<18,8,AP_RND,AP_SAT> output_softmax_inv_table_t;
 # 5 "/home/ayvol/vitis_accel_backend_test/kernel_wrapper.h" 2
-# 18 "/home/ayvol/vitis_accel_backend_test/kernel_wrapper.h"
+# 19 "/home/ayvol/vitis_accel_backend_test/kernel_wrapper.h"
 typedef ap_fixed<16,6> in_buffer_t;
 typedef ap_fixed<16,6> out_buffer_t;
 # 2 "/home/ayvol/vitis_accel_backend_test/kernel_wrapper.cpp" 2

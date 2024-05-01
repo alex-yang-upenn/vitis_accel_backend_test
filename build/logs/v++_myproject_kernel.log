@@ -1,8 +1,8 @@
 INFO: [v++ 60-1306] Additional information associated with this v++ compile can be found at:
 	Reports: /home/ayvol/vitis_accel_backend_test/build/reports/myproject_kernel
 	Log files: /home/ayvol/vitis_accel_backend_test/build/logs/myproject_kernel
-INFO: [v++ 60-1548] Creating build summary session with primary output /home/ayvol/vitis_accel_backend_test/build/myproject_kernel.xo.compile_summary, at Wed Apr 17 20:22:49 2024
-INFO: [v++ 60-1315] Creating rulecheck session with output '/home/ayvol/vitis_accel_backend_test/build/reports/myproject_kernel/v++_compile_myproject_kernel_guidance.html', at Wed Apr 17 20:22:49 2024
+INFO: [v++ 60-1548] Creating build summary session with primary output /home/ayvol/vitis_accel_backend_test/build/myproject_kernel.xo.compile_summary, at Wed May  1 05:15:42 2024
+INFO: [v++ 60-1315] Creating rulecheck session with output '/home/ayvol/vitis_accel_backend_test/build/reports/myproject_kernel/v++_compile_myproject_kernel_guidance.html', at Wed May  1 05:15:42 2024
 INFO: [v++ 60-895]   Target platform: /opt/xilinx/platforms/xilinx_u55c_gen3x16_xdma_3_202210_1/xilinx_u55c_gen3x16_xdma_3_202210_1.xpfm
 INFO: [v++ 60-1578]   This platform contains Xilinx Shell Archive '/opt/xilinx/platforms/xilinx_u55c_gen3x16_xdma_3_202210_1/hw/hw.xsa'
 INFO: [v++ 74-78] Compiler Version string: 2022.2
@@ -59,5 +59,5 @@ INFO: [v++ 60-1092] Generated system estimate report: /home/ayvol/vitis_accel_ba
 INFO: [v++ 60-586] Created ./build/myproject_kernel.xo
 INFO: [v++ 60-2343] Use the vitis_analyzer tool to visualize and navigate the relevant reports. Run the following command. 
     vitis_analyzer /home/ayvol/vitis_accel_backend_test/build/myproject_kernel.xo.compile_summary 
-INFO: [v++ 60-791] Total elapsed time: 0h 57m 43s
+INFO: [v++ 60-791] Total elapsed time: 1h 0m 35s
 INFO: [v++ 60-1653] Closing dispatch client.

@@ -9,10 +9,10 @@
 <ENTRY>
 {
  "type": "ET_CmdStep",
- "dateTimestamp": "Wed Apr 17 20:22:47 2024",
- "timestampMillis": "1713385367250",
+ "dateTimestamp": "Wed May  1 05:15:40 2024",
+ "timestampMillis": "1714540540461",
  "buildStep": {
-  "cmdId": "26b7858b-91ad-46e2-8769-5da73a17abef",
+  "cmdId": "ce08431f-c19f-4f1d-b5a3-58afd2213111",
   "name": "v++",
   "logFile": "/home/ayvol/vitis_accel_backend_test/build/myproject_kernel/myproject_kernel.steps.log",
   "commandLine": "/tools/Xilinx/Vitis/2022.2/bin/unwrapped/lnx64.o/v++  --vivado.prop \"run.__KERNEL__.{STEPS.SYNTH_DESIGN.ARGS.MORE OPTIONS}={-directive sdx_optimization_effort_high}\" --advanced.misc \"report=type report_timing_summary name impl_report_timing_summary_route_design_summary steps {route_design} runs {impl_1} options {-max_paths 10}\" --advanced.misc \"report=type report_timing_summary name impl_report_timing_summary_post_route_phys_opt_design_summary steps {post_route_phys_opt_design} runs {impl_1} options {-max_paths 10}\" -c -t hw --config ./u55c.cfg kernel_wrapper.cpp firmware/myproject.cpp -o ./build/myproject_kernel.xo -I./ -I./firmware/ -I./firmware/weights -I./firmware/nnet_utils/ ",
@@ -44,10 +44,10 @@
 <ENTRY>
 {
  "type": "ET_Status",
- "dateTimestamp": "Wed Apr 17 20:22:47 2024",
- "timestampMillis": "1713385367250",
+ "dateTimestamp": "Wed May  1 05:15:40 2024",
+ "timestampMillis": "1714540540461",
  "status": {
-  "cmdId": "26b7858b-91ad-46e2-8769-5da73a17abef",
+  "cmdId": "ce08431f-c19f-4f1d-b5a3-58afd2213111",
   "state": "CS_RUNNING"
  }
 }
@@ -55,8 +55,8 @@
 <ENTRY>
 {
  "type": "ET_FlowMetaData",
- "dateTimestamp": "Wed Apr 17 20:23:01 2024",
- "timestampMillis": "1713385381694",
+ "dateTimestamp": "Wed May  1 05:15:54 2024",
+ "timestampMillis": "1714540554764",
  "buildSummary": {
   "hardwarePlatform": "xilinx_u55c_gen3x16_xdma_3_202210_1.xpfm",
   "hardwareDsa": "",
@@ -92,10 +92,10 @@
 <ENTRY>
 {
  "type": "ET_SubCmdStep",
- "dateTimestamp": "Wed Apr 17 20:23:02 2024",
- "timestampMillis": "1713385382305",
+ "dateTimestamp": "Wed May  1 05:15:55 2024",
+ "timestampMillis": "1714540555298",
  "buildStep": {
-  "cmdId": "82eb91f3-79b6-497b-ad17-14584d9e67b5",
+  "cmdId": "ebe55907-5f58-45dd-9e43-8e3da8e571c9",
   "name": "vitis_hls",
   "logFile": "/home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/vitis_hls.log",
   "commandLine": "vitis_hls -f /home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper.tcl -messageDb vitis_hls.pb",
@@ -114,10 +114,10 @@
 <ENTRY>
 {
  "type": "ET_Status",
- "dateTimestamp": "Wed Apr 17 20:23:02 2024",
- "timestampMillis": "1713385382305",
+ "dateTimestamp": "Wed May  1 05:15:55 2024",
+ "timestampMillis": "1714540555298",
  "status": {
-  "cmdId": "82eb91f3-79b6-497b-ad17-14584d9e67b5",
+  "cmdId": "ebe55907-5f58-45dd-9e43-8e3da8e571c9",
   "state": "CS_RUNNING"
  }
 }
@@ -125,10 +125,10 @@
 <ENTRY>
 {
  "type": "ET_Status",
- "dateTimestamp": "Wed Apr 17 21:19:50 2024",
- "timestampMillis": "1713388790497",
+ "dateTimestamp": "Wed May  1 06:15:35 2024",
+ "timestampMillis": "1714544135654",
  "status": {
-  "cmdId": "82eb91f3-79b6-497b-ad17-14584d9e67b5",
+  "cmdId": "ebe55907-5f58-45dd-9e43-8e3da8e571c9",
   "state": "CS_PASSED"
  }
 }
@@ -136,8 +136,8 @@
 <ENTRY>
 {
  "type": "ET_Report",
- "dateTimestamp": "Wed Apr 17 21:20:14 2024",
- "timestampMillis": "1713388814974",
+ "dateTimestamp": "Wed May  1 06:16:00 2024",
+ "timestampMillis": "1714544160433",
  "report": {
   "path": "/home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/kernel_wrapper.design.xml",
   "name": "kernel_wrapper",
@@ -150,8 +150,8 @@
 <ENTRY>
 {
  "type": "ET_Report",
- "dateTimestamp": "Wed Apr 17 21:20:14 2024",
- "timestampMillis": "1713388814975",
+ "dateTimestamp": "Wed May  1 06:16:00 2024",
+ "timestampMillis": "1714544160433",
  "report": {
   "path": "/home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/.autopilot/db/.message_syn.xml",
   "name": "kernel_wrapper",
@@ -164,8 +164,8 @@
 <ENTRY>
 {
  "type": "ET_Report",
- "dateTimestamp": "Wed Apr 17 21:20:15 2024",
- "timestampMillis": "1713388815220",
+ "dateTimestamp": "Wed May  1 06:16:00 2024",
+ "timestampMillis": "1714544160677",
  "report": {
   "path": "/home/ayvol/vitis_accel_backend_test/build/reports/myproject_kernel/hls_reports/kernel_wrapper_csynth.rpt",
   "name": "kernel_wrapper",
@@ -178,8 +178,8 @@
 <ENTRY>
 {
  "type": "ET_Report",
- "dateTimestamp": "Wed Apr 17 21:20:15 2024",
- "timestampMillis": "1713388815220",
+ "dateTimestamp": "Wed May  1 06:16:00 2024",
+ "timestampMillis": "1714544160678",
  "report": {
   "path": "/home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/kernel_wrapper/solution/syn/report/kernel_wrapper_csynth.xml",
   "name": "kernel_wrapper",
@@ -192,8 +192,8 @@
 <ENTRY>
 {
  "type": "ET_Report",
- "dateTimestamp": "Wed Apr 17 21:20:15 2024",
- "timestampMillis": "1713388815465",
+ "dateTimestamp": "Wed May  1 06:16:00 2024",
+ "timestampMillis": "1714544160846",
  "report": {
   "path": "/home/ayvol/vitis_accel_backend_test/build/reports/myproject_kernel/system_estimate_myproject_kernel.xtxt",
   "name": "",
@@ -206,10 +206,10 @@
 <ENTRY>
 {
  "type": "ET_Status",
- "dateTimestamp": "Wed Apr 17 21:20:18 2024",
- "timestampMillis": "1713388818856",
+ "dateTimestamp": "Wed May  1 06:16:04 2024",
+ "timestampMillis": "1714544164283",
  "status": {
-  "cmdId": "26b7858b-91ad-46e2-8769-5da73a17abef",
+  "cmdId": "ce08431f-c19f-4f1d-b5a3-58afd2213111",
   "state": "CS_PASSED"
  }
 }
@@ -217,8 +217,8 @@
 <ENTRY>
 {
  "type": "ET_Report",
- "dateTimestamp": "Wed Apr 17 21:20:20 2024",
- "timestampMillis": "1713388820640",
+ "dateTimestamp": "Wed May  1 06:16:05 2024",
+ "timestampMillis": "1714544165976",
  "report": {
   "path": "/home/ayvol/vitis_accel_backend_test/build/reports/myproject_kernel/v++_compile_myproject_kernel_guidance.html",
   "name": "",
@@ -231,8 +231,8 @@
 <ENTRY>
 {
  "type": "ET_Report",
- "dateTimestamp": "Wed Apr 17 21:20:20 2024",
- "timestampMillis": "1713388820640",
+ "dateTimestamp": "Wed May  1 06:16:05 2024",
+ "timestampMillis": "1714544165976",
  "report": {
   "path": "/home/ayvol/vitis_accel_backend_test/build/v++_compile_myproject_kernel_guidance.pb3",
   "name": "",
