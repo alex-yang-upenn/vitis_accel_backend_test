@@ -7,19 +7,19 @@
 #include <vector>
 
 #include "kernel_wrapper.h"
-#include "libs/FpgaObj.h"
-#include "libs/FpgaObj.cpp"
-#include "libs/timing.h"
-#include "libs/xcl2.hpp"
+#include "FpgaObj.hpp"
+#include "HbmFpga.hpp"
+#include "timing.hpp"
+#include "xcl2.hpp"
 
 #define STRINGIFY(var) #var
 #define EXPAND_STRING(var) STRINGIFY(var)
 
 
-void runFPGAHelper(fpgaObj<in_buffer_t, out_buffer_t> &theFPGA) {
+void runFPGAHelper(FpgaObj<in_buffer_t, out_buffer_t> &fpga) {
     std::stringstream ss;
-    ss << (theFPGA.runFPGA()).str();
-    theFPGA.write_ss_safe(ss.str());
+    ss << (fpga.runFPGA()).str();
+    fpga.write_ss_safe(ss.str());
 }
 
 int main(int argc, char** argv) {
@@ -30,25 +30,21 @@ int main(int argc, char** argv) {
     
     std::string xclbinFilename = argv[1];
 
-    fpgaObj<in_buffer_t, out_buffer_t> fpga(INSTREAMSIZE, OUTSTREAMSIZE, NUM_CU, NBUFFER, 100);
+    HbmFpga<in_buffer_t, out_buffer_t> fpga(INSTREAMSIZE, OUTSTREAMSIZE, NUM_CU, NUM_THREAD, 100);
 
-    /* 
-    get_xil_devices() is a utility API which will find the xilinx
-    platforms and will return list of devices connected to Xilinx platform
-    */ 
-    std::vector<cl::Device> devices = xcl::get_xil_devices();
+    std::vector<cl::Device> devices = xcl::get_xil_devices();  // Utility API that finds xilinx platforms and return a list of devices connected to Xilinx platforms
 
     // Load xclbin
     cl::Program::Binaries bins = xcl::import_binary_file(xclbinFilename);
 
     fpga.initializeOpenCL(devices, bins);
 
-    fpga.allocateHostMemory();
+    fpga.allocateHostMemory(NUM_CHANNEL);
+      
+    std::cout << "Loading input data from tb_data/tb_input_features.dat" 
+              << "and output predictions from tb_data/tb_output_features.dat" << std::endl;
 
     std::cout << "Writing output predictions to tb_data/tb_output_predictions.dat" << std::endl;
-      
-    std::cout << "Loading input data from tb_data/tb_input_features.dat " 
-              << "and output predictions from tb_data/tb_output_features.dat" << std::endl;
     
     std::ifstream fpr("tb_data/tb_output_predictions.dat");
     std::ifstream fin("tb_data/tb_input_features.dat");
@@ -93,27 +89,29 @@ int main(int argc, char** argv) {
     }
 
     // Padding rest of buffer with arbitrary values
-    for (int i = n; i < NUM_CU * NBUFFER * INSTREAMSIZE; i++) {
+    for (int i = n; i < NUM_CU * NUM_THREAD * INSTREAMSIZE; i++) {
         fpga.source_in[i] = (in_buffer_t)(1234.567);
     }
 
     std::vector<std::thread> hostAccelerationThreads;
-    hostAccelerationThreads.reserve(NBUFFER);
+    hostAccelerationThreads.reserve(NUM_THREAD);
+
+    std::cout << "Beginning FPGA run" << std::endl;
 
     auto ts_start = SClock::now();
 
-    for (int i = 0; i < NBUFFER; i++) {
+    for (int i = 0; i < NUM_THREAD; i++) {
         hostAccelerationThreads.push_back(std::thread(runFPGAHelper, std::ref(fpga)));
     }
 
-    for (int i = 0; i < NBUFFER; i++) {
+    for (int i = 0; i < NUM_THREAD; i++) {
         hostAccelerationThreads[i].join();
     }
 
     fpga.finishRun();
 
     auto ts_end = SClock::now();
-    float throughput = (float(NUM_CU * NBUFFER * 100 * BATCHSIZE) /
+    float throughput = (float(NUM_CU * NUM_THREAD * 100 * BATCHSIZE) /
             float(std::chrono::duration_cast<std::chrono::nanoseconds>(ts_end - ts_start).count())) *
             1000000000.;
     

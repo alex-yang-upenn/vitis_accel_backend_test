@@ -22,11 +22,6 @@ CXX := $(XILINX_VIVADO)/tps/lnx64/gcc-6.2.0/bin/g++
 $(warning [WARNING]: g++ version older. Using g++ provided by the tool : $(CXX))
 endif
 
-CXX_LIBRARIES += -I$(XILINX_XRT)/include/ -I$(XILINX_VIVADO)/include/ -I$(XILINX_HLS)/include/ \
-				 -I$(PWD)/libs/ -I$(PWD)/firmware/ -I$(PWD)/firmware/nnet_utils/ \
-				 -L$(XILINX_XRT)/lib/ -lOpenCL -lrt -lstdc++ -lpthread
-CXX_SETTINGS +=  -Wall -std=c++11 -Wno-unknown-pragmas -g -O0 
-
 KERN_LIBRARIES += -I./ -I./firmware/ -I./firmware/weights -I./firmware/nnet_utils/
 
 .PHONY: all
@@ -40,9 +35,14 @@ all: host kernel
 myproject_kernel.xclbin: ./build/myproject_kernel.xo
 	v++ -l -t hw --config ./u55c.cfg ./build/myproject_kernel.xo -o kernel_wrapper.xclbin
 
-# Building Host
-host: myproject_host_cl.cpp ${PWD}/libs/xcl2.cpp 
-	$(CXX) myproject_host_cl.cpp ${PWD}/libs/xcl2.cpp -o host.exe $(CXX_LIBRARIES) $(CXX_SETTINGS)
+# Building Host 
+INCLUDES += -I$(XILINX_XRT)/include/ -I$(XILINX_VIVADO)/include/ -I$(XILINX_HLS)/include/ \
+			-I$(PWD)/libs/ -I$(PWD)/firmware/ -I$(PWD)/firmware/nnet_utils/
+CXXFLAGS += -Wall -std=c++11 -Wno-unknown-pragmas -g -O0 
+LDFLAGS = -L$(XILINX_XRT)/lib/ -lstdc++ -lpthread -lrt -lOpenCL
+
+host: myproject_host_cl.cpp libs/xcl2.cpp
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(INCLUDES) $(LDFLAGS) 
 
 .PHONY: kernel
 kernel: myproject_kernel.xclbin
@@ -50,5 +50,7 @@ kernel: myproject_kernel.xclbin
 # Cleaning stuff
 .PHONY: clean
 clean:
-	-rm -rf build* *.xclbin*
-	-rm -rf *.log *.jou *.rpt *.csv *.mdb *.ltx *.exe
+	-rm -rf host libs/*.o
+	-rm -rf *.xclbin*
+	-rm -rf build*
+	-rm -rf *.log *.jou *.rpt *.csv *.mdb *.ltx
