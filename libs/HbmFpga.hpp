@@ -59,7 +59,7 @@ class HbmFpga : public FpgaObj<V, W> {
             for (int ik = 0; ik < this->_numCU; ik++) {
                 cl::Buffer buffer_in_tmp(this->context, 
                         CL_MEM_USE_HOST_PTR | CL_MEM_EXT_PTR_XILINX | CL_MEM_READ_ONLY,
-                        vector_size_in_byt es,
+                        vector_size_in_bytes,
                         &(this->buf_in_ext[ib*this->_numCU + ik]));
                 cl::Buffer buffer_out_tmp(this->context,
                         CL_MEM_USE_HOST_PTR | CL_MEM_EXT_PTR_XILINX | CL_MEM_WRITE_ONLY,
