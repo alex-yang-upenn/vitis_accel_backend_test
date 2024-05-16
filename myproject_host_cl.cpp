@@ -34,8 +34,7 @@ int main(int argc, char **argv) {
 
     std::vector<cl::Device> devices = xcl::get_xil_devices();  // Utility API that finds xilinx platforms and return a list of devices connected to Xilinx platforms
 
-    // Load xclbin
-    cl::Program::Binaries bins = xcl::import_binary_file(xclbinFilename);
+    cl::Program::Binaries bins = xcl::import_binary_file(xclbinFilename);  // Load xclbin
 
     fpga.initializeOpenCL(devices, bins);
 

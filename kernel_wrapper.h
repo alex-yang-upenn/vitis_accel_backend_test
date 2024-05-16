@@ -14,7 +14,7 @@
 #define DATA_SIZE_OUT N_LAYER_11
 #define OUTSTREAMSIZE (BATCHSIZE * DATA_SIZE_OUT)
 
-typedef input_t in_buffer_t
-typedef result_t out_buffer_t
+typedef input_t in_buffer_t;
+typedef result_t out_buffer_t;
 
 #endif
