@@ -22,7 +22,7 @@ void runFPGAHelper(FpgaObj<in_buffer_t, out_buffer_t> &fpga) {
     fpga.write_ss_safe(ss.str());
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
     if (argc != 2) {
         std::cout << "Usage: " << argv[0] << " <XCLBIN Filename>" << std::endl;
         return EXIT_FAILURE;
@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
     
     std::string xclbinFilename = argv[1];
 
-    HbmFpga<in_buffer_t, out_buffer_t> fpga(INSTREAMSIZE, OUTSTREAMSIZE, NUM_CU, NUM_THREAD, 100);
+    HbmFpga<in_buffer_t, out_buffer_t> fpga(INSTREAMSIZE, OUTSTREAMSIZE, NUM_CU, NUM_THREAD, 100); 
 
     std::vector<cl::Device> devices = xcl::get_xil_devices();  // Utility API that finds xilinx platforms and return a list of devices connected to Xilinx platforms
 
