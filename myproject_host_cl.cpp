@@ -115,16 +115,14 @@ int main(int argc, char **argv) {
             float(std::chrono::duration_cast<std::chrono::nanoseconds>(ts_end - ts_start).count())) *
             1000000000.;
     
-    std::ofstream outFile("u55c_executable_logfile.log", std::ios::trunc);
-    if (outFile.is_open()) {
-        outFile << fpga.ss.rdbuf();
-        outFile.close();
-    } else {
-        std::cerr << "Error opening file for logging." << std::endl;
-    }
+    std::cout << "Throughput = "
+            << throughput
+            <<" predictions/second\n" << std::endl;
 
-    std::ofstream resultsFile("tb_data/hw_results.dat", std::ios::trunc);
-    if (resultsFile.is_open()) {
+    std::cout << "Writing hw resaults to file\n" << std::endl;
+    std::ofstream resultsFile;
+    resultsFile.open("tb_data/hw_results.dat", std::ios::trunc);
+    if (resultsFile.is_open()) {   
         for (int i = 0; i < NUM_THREAD * NUM_CU * BATCHSIZE; i++) {
             std::stringstream line;
             for (int n = 0; n < DATA_SIZE_OUT; n++) {
@@ -132,13 +130,19 @@ int main(int argc, char **argv) {
             }
             resultsFile << line.str() << "\n";
         }
-        resultsFile.close();      
+        resultsFile.close();
     } else {
-        std::cerr << "Error opening file for writing hw results." << std::endl;
+        std::cerr << "Error writing hw results to file\n" << std::endl;
     }
 
-    std::cout << "Throughput = "
-            << throughput
-            <<" predictions/second" << std::endl;
+    std::cout << "Writing run logs to file\n" << std::endl;
+    std::ofstream outFile("u55c_executable_logfile.log", std::ios::trunc);
+    if (outFile.is_open()) {
+        outFile << fpga.ss.rdbuf();
+        outFile.close();
+    } else {
+        std::cerr << "Error opening file for logging\n" << std::endl;
+    }
+    
     return EXIT_SUCCESS;
 }
