@@ -83,13 +83,13 @@ int main(int argc, char **argv) {
     }
     
     // Copying in testbench data
-    int n = std::min(inputData.size(), fpga.source_in.size());
+    int n = std::min(inputData.size(), INSTREAMSIZE * NUM_CU * NUM_THREAD);
     for (int i = 0; i < n; i++) {
         fpga.source_in[i] = inputData[i];
     }
 
     // Padding rest of buffer with arbitrary values
-    for (int i = n; i < fpga.source_in.size(); i++) {
+    for (int i = n; i < INSTREAMSIZE * NUM_CU * NUM_THREAD; i++) {
         fpga.source_in[i] = (in_buffer_t)(1234.567);
     }
 
