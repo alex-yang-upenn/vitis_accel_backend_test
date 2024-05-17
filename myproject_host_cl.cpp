@@ -130,7 +130,7 @@ int main(int argc, char **argv) {
             for (int n = 0; n < DATA_SIZE_OUT; n++) {
                 line << (float)fpga.source_hw_results[(i * DATA_SIZE_OUT) + n] << " ";
             }
-            resultsFile << ss.str() << "\n";
+            resultsFile << line.str() << "\n";
         }
         resultsFile.close();      
     } else {
