@@ -9,6 +9,7 @@
 #include "kernel_wrapper.h"
 #include "FpgaObj.hpp"
 #include "HbmFpga.hpp"
+#include "DdrFpga.hpp"
 #include "timing.hpp"
 #include "xcl2.hpp"
 
@@ -82,13 +83,13 @@ int main(int argc, char **argv) {
     }
     
     // Copying in testbench data
-    int n = inputData.size();
+    int n = std::min(inputData.size(), fpga.source_in.size());
     for (int i = 0; i < n; i++) {
         fpga.source_in[i] = inputData[i];
     }
 
     // Padding rest of buffer with arbitrary values
-    for (int i = n; i < NUM_CU * NUM_THREAD * INSTREAMSIZE; i++) {
+    for (int i = n; i < fpga.source_in.size(); i++) {
         fpga.source_in[i] = (in_buffer_t)(1234.567);
     }
 
@@ -119,7 +120,21 @@ int main(int argc, char **argv) {
         outFile << fpga.ss.rdbuf();
         outFile.close();
     } else {
-        std::cerr << "Error opening file for writing." << std::endl;
+        std::cerr << "Error opening file for logging." << std::endl;
+    }
+
+    std::ofstream resultsFile("tb_data/hw_results.dat", std::ios::trunc);
+    if (resultsFile.is_open()) {
+        for (int i = 0; i < NUM_THREAD * NUM_CU * BATCHSIZE; i++) {
+            std::stringstream line;
+            for (int n = 0; n < DATA_SIZE_OUT; n++) {
+                line << (float)fpga.source_hw_results[(i * DATA_SIZE_OUT) + n] << " ";
+            }
+            resultsFile << ss.str() << "\n";
+        }
+        resultsFile.close();      
+    } else {
+        std::cerr << "Error opening file for writing hw results." << std::endl;
     }
 
     std::cout << "Throughput = "

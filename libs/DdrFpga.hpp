@@ -25,7 +25,7 @@ class DdrFpga : public FpgaObj<V, W> {
                         vector_size_in_bytes,
                         this->source_in.data() + ((ib*this->_numCU + ik) * this->_kernInputSize));
                 cl::Buffer buffer_out_tmp(this->context,
-                        CL_MEM_USE_HOST_PTR | CL_MEM_EXT_PTR_XILINX | CL_MEM_WRITE_ONLY,
+                        CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY,
                         vector_size_out_bytes,
                         this->source_hw_results.data() + ((ib*this->_numCU + ik) * this->_kernOutputSize));
                 this->buffer_in.push_back(buffer_in_tmp);
