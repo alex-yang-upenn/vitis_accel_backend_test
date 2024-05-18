@@ -119,7 +119,7 @@ int main(int argc, char **argv) {
             << throughput
             <<" predictions/second\n" << std::endl;
 
-    std::cout << "Writing hw resaults to file\n" << std::endl;
+    std::cout << "Writing hw resaults to file" << std::endl;
     std::ofstream resultsFile;
     resultsFile.open("tb_data/hw_results.dat", std::ios::trunc);
     if (resultsFile.is_open()) {   
@@ -132,16 +132,16 @@ int main(int argc, char **argv) {
         }
         resultsFile.close();
     } else {
-        std::cerr << "Error writing hw results to file\n" << std::endl;
+        std::cerr << "Error writing hw results to file" << std::endl;
     }
 
-    std::cout << "Writing run logs to file\n" << std::endl;
+    std::cout << "\nWriting run logs to file" << std::endl;
     std::ofstream outFile("u55c_executable_logfile.log", std::ios::trunc);
     if (outFile.is_open()) {
         outFile << fpga.ss.rdbuf();
         outFile.close();
     } else {
-        std::cerr << "Error opening file for logging\n" << std::endl;
+        std::cerr << "Error opening file for logging" << std::endl;
     }
     
     return EXIT_SUCCESS;

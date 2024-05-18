@@ -25,15 +25,16 @@ endif
 KERN_LIBRARIES += -I./ -I./firmware/ -I./firmware/weights -I./firmware/nnet_utils/
 
 .PHONY: all
-all: host kernel 
+all: host xclbin
 
 # Building kernel
 ./build/myproject_kernel.xo: kernel_wrapper.cpp
-	mkdir -p ./build
-	v++ -c -t hw --config ./accelerator_card.cfg kernel_wrapper.cpp firmware/myproject.cpp -o ./build/myproject_kernel.xo $(KERN_LIBRARIES)
- 
-myproject_kernel.xclbin: ./build/myproject_kernel.xo
-	v++ -l -t hw --config ./accelerator_card.cfg ./build/myproject_kernel.xo -o kernel_wrapper.xclbin
+	mkdir -p ./build && mkdir -p ./build/xo
+	v++ -c -t hw --config ./accelerator_card.cfg --temp_dir build/xo kernel_wrapper.cpp firmware/myproject.cpp -o ./build/myproject_kernel.xo $(KERN_LIBRARIES)
+
+./build/kernel_wrapper.xclbin: ./build/myproject_kernel.xo
+	mkdir -p ./build/xclbin
+	v++ -l -t hw --config ./accelerator_card.cfg --temp_dir build/xclbin ./build/myproject_kernel.xo -o ./build/kernel_wrapper.xclbin
 
 # Building Host 
 INCLUDES += -I$(XILINX_XRT)/include/ -I$(XILINX_VIVADO)/include/ -I$(XILINX_HLS)/include/ \
@@ -44,8 +45,11 @@ LDFLAGS = -L$(XILINX_XRT)/lib/ -lstdc++ -lpthread -lrt -lOpenCL
 host: myproject_host_cl.cpp libs/xcl2.cpp
 	$(CXX) $(CXXFLAGS) $^ -o $@ $(INCLUDES) $(LDFLAGS) 
 
-.PHONY: kernel
-kernel: myproject_kernel.xclbin
+.PHONY: hls
+hls: ./build/myproject_kernel.xo
+
+.PHONY: xclbin
+xclbin: ./build/kernel_wrapper.xclbin
 
 # Cleaning stuff
 .PHONY: clean
