@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+
+<html>
+<!-- Styles -->
+<style>
+    #chartdiv {
+      width: 100%;
+      height: 1000px;
+    }
+</style>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>OPTraceViewer</title>
+  <script src="https://www.amcharts.com/lib/3/amcharts.js">
+  </script>
+  <script src="https://www.amcharts.com/lib/3/serial.js">
+  </script>
+  <script src="https://www.amcharts.com/lib/3/gantt.js">
+  </script>
+  <script src="https://www.amcharts.com/lib/3/themes/light.js">
+  </script>
+  <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js">
+  </script>
+  <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all"/>
+
+  <form name="userInputForm" action="javascript:userInputFormCallback()">
+    <fieldset>
+    <legend>Graph Filters:</legend>
+    <table style="width:100%">
+      <col width="50"></col>
+      <col width="20"></col>
+      <col width="60"></col>
+      <tr>
+        <td style="text-align: center"; colspan="3"><input type="number" name="userDurationFilterSecInput" id="userDurationFilterSecInput" value="2" min="0" max="6000" step="1"> sec</td>
+        <td>Filter out run durations lower than this value</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td style="text-align: center"><input type="checkbox" name="userGroupPidSortSelected" id="userGroupPidSortSelected"></td>
+        <td>Group sort by process ID</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td bgcolor="#0099ff"></td>
+        <td style="text-align: center"><input type="checkbox" name="userRollupSelected" id="userRollupSelected"></td>
+        <td>Show rollup entries</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td bgcolor="#8dc49f"></td>
+        <td style="text-align: center"><input type="checkbox" name="userIndividualEntrySelected" id="userIndividualEntrySelected"></td>
+        <td>Show individual entries</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td bgcolor="#cd82ad"></td>
+        <td style="text-align: center"><input type="checkbox" name="userCheckpointEntrySelected" id="userCheckpointEntrySelected"></td>
+        <td>Show checkpoints entry</td>
+      </tr>
+       <tr>
+        <td></td>
+        <td bgcolor="#b9783f"></td>
+        <td style="text-align: center"><input type="checkbox" name="userReportEntrySelected" id="userReportEntrySelected"></td>
+        <td>Show report entry</td>
+      </tr>
+
+    </table>
+    <br>
+    <input name="Submit" type="submit" value="Update Graph">
+    </fieldset>
+  </form> 
+
+  <div id="chartdiv">
+  </div>
+
+  <script>
+  </script>
+
+</head>
+
+
+<body>
+<table id="myDynamicTable" cellpadding="2" cellspacing="2" border="1" onclick="tester()">
+  <tr>
+  <td>Task</td>
+  <td>Start</td>
+  <td>Duration</td>
+  </tr>
+</table>
+<script>
+  // Default User Selected variables
+  var m_secondFilter = 1;
+  var m_groupPidSort = true;
+  var m_showRollup = true;
+  var m_showIndividualEntry = false;
+  var m_showCheckpointEntry = false;
+  var m_showReportEntry = false;
+
+  function SetDefaultUserValues()
+  {
+    document.getElementById("userDurationFilterSecInput").value = m_secondFilter;
+    document.getElementById("userGroupPidSortSelected").checked = m_groupPidSort;
+    document.getElementById("userRollupSelected").checked = m_showRollup;
+    document.getElementById("userIndividualEntrySelected").checked = m_showIndividualEntry;
+    document.getElementById("userCheckpointEntrySelected").checked = m_showCheckpointEntry;
+    document.getElementById("userReportEntrySelected").checked = m_showReportEntry;
+  }
+
+  window.onload = function(){
+    SetDefaultUserValues();
+  }
+
+
+
+
+  // Header
+  var header = "Keyword|pid|Entry|SrcFile|Catagory|TimeStampMSec|Action|Task|Tags|Misc";
+                         
+  // Insert Raw Data Here
+  // Note: Do not change the following signature. 
+  var csvData =    [
+      "[OPTRACE]|1131|206|runPlatformLinker|cpp|1716106433274|START|Generate Resource Availability Report|",
+      "[OPTRACE]|1131|207||cpp|1716106433458|END|Generate Resource Availability Report|",
+      "[OPTRACE]|1131|208||cpp|1716106433458|END|runPlatformLinker|",
+      "[OPTRACE]|1131|209||cpp|1716106433978|END|vpl|",
+      "[OPTRACE]|1131|22|main|cpp|1716095614434|START|vpl|",
+      "[OPTRACE]|1131|23|runPlatformLinker|cpp|1716095614516|START|runPlatformLinker|",
+      "[OPTRACE]|1131|24|setupBinaryForLink|cpp|1716095614516|START|Create Solution|",
+      "[OPTRACE]|1131|25||cpp|1716095614825|END|Create Solution|",
+      "[OPTRACE]|1131|26|setupBinaryForLink|cpp|1716095614825|START|Add platform|",
+      "[OPTRACE]|1131|27||cpp|1716095618388|END|Add platform|",
+      "[OPTRACE]|1131|28|setupBinaryForLink|cpp|1716095618388|START|Create Binary|",
+      "[OPTRACE]|1131|29||cpp|1716095618389|END|Create Binary|",
+      "[OPTRACE]|1131|30|setupBinaryForLink|cpp|1716095618389|START|Create Kernels|",
+      "[OPTRACE]|1131|31||cpp|1716095618400|END|Create Kernels|",
+      "[OPTRACE]|1131|32|runPlatformLinker|cpp|1716095618650|START|Process Kernels|",
+      "[OPTRACE]|1131|33|runPlatformLinker|cpp|1716095618651|START|Set Board Repo Paths and Connections|",
+      "[OPTRACE]|1131|34||cpp|1716095618651|END|Set Board Repo Paths and Connections|",
+      "[OPTRACE]|1131|35|runPlatformLinker|cpp|1716095618651|START|Process Kernel Profiles|",
+      "[OPTRACE]|1131|36||cpp|1716095618651|END|Process Kernel Profiles|",
+      "[OPTRACE]|1131|37|runPlatformLinker|cpp|1716095618651|START|Process Trace Memory|",
+      "[OPTRACE]|1131|38||cpp|1716095618651|END|Process Trace Memory|",
+      "[OPTRACE]|1131|39|runPlatformLinker|cpp|1716095618651|START|Process AIE Trace|",
+      "[OPTRACE]|1131|40||cpp|1716095618651|END|Process AIE Trace|",
+      "[OPTRACE]|1131|41||cpp|1716095618651|END|Process Kernels|",
+      "[OPTRACE]|1131|42|runPlatformLinker|cpp|1716095618651|START|Process Kernel Debug|",
+      "[OPTRACE]|1131|43||cpp|1716095618651|END|Process Kernel Debug|",
+      "[OPTRACE]|1131|44|runPlatformLinker|cpp|1716095618651|START|Set Kernel Debug|",
+      "[OPTRACE]|1131|45||cpp|1716095618651|END|Set Kernel Debug|",
+      "[OPTRACE]|1131|46|runPlatformLinker|cpp|1716095618651|START|Set Miscellaneous|",
+      "[OPTRACE]|1131|47||cpp|1716095618651|END|Set Miscellaneous|",
+      "[OPTRACE]|1131|48|run|cpp|1716095618651|START|Extract Platform|",
+      "[OPTRACE]|1131|49||cpp|1716095650131|END|Extract Platform|",
+      "[OPTRACE]|1212|205|ipirun.tcl|vpl|1716106427996|END|Implementation|",
+      "[OPTRACE]|1212|50|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/vpl.tcl|vivado_impl|1716095675410|START|Implementation|ROLLUP_1",
+      "[OPTRACE]|1212|51|ipirun.tcl|vpl|1716095676617|START|ipirun|ROLLUP_0",
+      "[OPTRACE]|1212|52|ipirun.tcl|vpl|1716095676619|END|ipirun|",
+      "[OPTRACE]|1212|53|ipirun.tcl|vpl|1716095677008|START|Source pre_sys_link Tcl script|",
+      "[OPTRACE]|1212|54|ipirun.tcl|vpl|1716095677009|END|Source pre_sys_link Tcl script|",
+      "[OPTRACE]|1212|55|ipirun.tcl|vpl|1716095677009|START|Create project|",
+      "[OPTRACE]|1212|56|ipirun.tcl|vpl|1716095720431|END|Create project|",
+      "[OPTRACE]|1212|57|ipirun.tcl|vpl|1716095721574|START|Create IP caching environment|",
+      "[OPTRACE]|1212|58|ipirun.tcl|vpl|1716095733622|END|Create IP caching environment|",
+      "[OPTRACE]|1212|59|ipirun.tcl|vpl|1716095733622|START|Import/add dynamic BD|",
+      "[OPTRACE]|1212|60|ipirun.tcl|vpl|1716095804599|END|Import/add dynamic BD|",
+      "[OPTRACE]|1212|61|ipirun.tcl|vpl|1716095804599|START|Open BD and insert kernels|",
+      "[OPTRACE]|1212|62|ipirun.tcl|vpl|1716096061188|END|Open BD and insert kernels|",
+      "[OPTRACE]|1212|63|ipirun.tcl|vpl|1716096061433|START|Add debug/profiling support|",
+      "[OPTRACE]|1212|64|ipirun.tcl|vpl|1716096062130|END|Add debug/profiling support|",
+      "[OPTRACE]|1212|65|ipirun.tcl|vpl|1716096062131|START|IPI address assignments|",
+      "[OPTRACE]|1212|66|ipirun.tcl|vpl|1716096062165|END|IPI address assignments|",
+      "[OPTRACE]|1212|67|ipirun.tcl|vpl|1716096062165|START|Source hardware platform post_sys_link Tcl script|",
+      "[OPTRACE]|1212|68|ipirun.tcl|vpl|1716096062357|END|Source hardware platform post_sys_link Tcl script|",
+      "[OPTRACE]|1212|69|ipirun.tcl|vpl|1716096062607|START|Create address map and debug IP profile files|",
+      "[OPTRACE]|1212|70|ipirun.tcl|vpl|1716096062696|END|Create address map and debug IP profile files|",
+      "[OPTRACE]|1212|71|ipirun.tcl|vpl|1716096062696|START|Collect BD interface connectivity and write automation summary report|",
+      "[OPTRACE]|1212|72|ipirun.tcl|vpl|1716096062891|END|Collect BD interface connectivity and write automation summary report|",
+      "[OPTRACE]|1212|73|ipirun.tcl|vpl|1716096072955|START|Generate output products|",
+      "[OPTRACE]|1212|74|ipirun.tcl|vpl|1716097112372|END|Generate output products|",
+      "[OPTRACE]|1212|75|ipirun.tcl|vpl|1716097113313|START|Source report_commands_tcl|",
+      "[OPTRACE]|1212|76|ipirun.tcl|vpl|1716097122523|END|Source report_commands_tcl|",
+      "[OPTRACE]|1212|77|ipirun.tcl|vpl|1716097122524|START|Source synth_props_tcl|",
+      "[OPTRACE]|1212|78|ipirun.tcl|vpl|1716097170701|END|Source synth_props_tcl|",
+      "[OPTRACE]|1212|79|ipirun.tcl|vpl|1716097172606|START|Source impl_props_tcl|",
+      "[OPTRACE]|1212|80|ipirun.tcl|vpl|1716097177102|END|Source impl_props_tcl|",
+      "[OPTRACE]|1212|81|ipirun.tcl|vpl|1716097177347|START|Synthesis|ROLLUP_1,SYNTH",
+      "[OPTRACE]|1212|94|ipirun.tcl|vpl|1716097540514|END|Synthesis|",
+      "[OPTRACE]|1475|82|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/my_rm_synth_1/ulp.tcl|vivado_synth|1716097212569|START|my_rm_synth_1|ROLLUP_AUTO",
+      "[OPTRACE]|1475|83|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/my_rm_synth_1/ulp.tcl|vivado_synth|1716097212570|START|Creating in-memory project|",
+      "[OPTRACE]|1475|84|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/my_rm_synth_1/ulp.tcl|vivado_synth|1716097223394|END|Creating in-memory project|",
+      "[OPTRACE]|1475|85|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/my_rm_synth_1/ulp.tcl|vivado_synth|1716097223394|START|Adding files|",
+      "[OPTRACE]|1475|86|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/my_rm_synth_1/ulp.tcl|vivado_synth|1716097252010|END|Adding files|",
+      "[OPTRACE]|1475|87|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/my_rm_synth_1/ulp.tcl|vivado_synth|1716097252108|START|synth_design|",
+      "[OPTRACE]|1475|88|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/my_rm_synth_1/ulp.tcl|vivado_synth|1716097509666|END|synth_design|",
+      "[OPTRACE]|1475|89|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/my_rm_synth_1/ulp.tcl|vivado_synth|1716097509682|START|write_checkpoint|CHECKPOINT",
+      "[OPTRACE]|1475|90|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/my_rm_synth_1/ulp.tcl|vivado_synth|1716097513519|END|write_checkpoint|",
+      "[OPTRACE]|1475|91|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/my_rm_synth_1/ulp.tcl|vivado_synth|1716097513520|START|synth reports|REPORT",
+      "[OPTRACE]|1475|92|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/my_rm_synth_1/ulp.tcl|vivado_synth|1716097513520|END|synth reports|",
+      "[OPTRACE]|1475|93|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/my_rm_synth_1/ulp.tcl|vivado_synth|1716097514923|END|my_rm_synth_1|",
+      "[OPTRACE]|1694|100|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716097559595|END|Design Initialization: pre hook|",
+      "[OPTRACE]|1694|101|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716097559596|START|create in-memory project|",
+      "[OPTRACE]|1694|102|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716097566172|END|create in-memory project|",
+      "[OPTRACE]|1694|103|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716097566173|START|set parameters|",
+      "[OPTRACE]|1694|104|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716097570327|END|set parameters|",
+      "[OPTRACE]|1694|105|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716097570327|START|add files|",
+      "[OPTRACE]|1694|106|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716097750952|START|read constraints: implementation|",
+      "[OPTRACE]|1694|107|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716097750954|END|read constraints: implementation|",
+      "[OPTRACE]|1694|108|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716097750956|END|add files|",
+      "[OPTRACE]|1694|109|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716097750956|START|link_design|",
+      "[OPTRACE]|1694|110|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716098345912|END|link_design|",
+      "[OPTRACE]|1694|111|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716098345913|START|gray box cells|",
+      "[OPTRACE]|1694|112|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716098345913|END|gray box cells|",
+      "[OPTRACE]|1694|113|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716098345913|START|Design Initialization: post hook|",
+      "[OPTRACE]|1694|114|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716098346196|END|Design Initialization: post hook|",
+      "[OPTRACE]|1694|115|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716098346197|START|init_design_reports|REPORT",
+      "[OPTRACE]|1694|116|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716098346197|END|init_design_reports|",
+      "[OPTRACE]|1694|117|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716098346197|START|init_design_write_hwdef|",
+      "[OPTRACE]|1694|118|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716098346197|END|init_design_write_hwdef|",
+      "[OPTRACE]|1694|119|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716098346259|END|Phase: Init Design|",
+      "[OPTRACE]|1694|120|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716098346259|START|Phase: Opt Design|ROLLUP_AUTO",
+      "[OPTRACE]|1694|121|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716098346650|START|Opt Design: pre hook|",
+      "[OPTRACE]|1694|122|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716098401569|END|Opt Design: pre hook|",
+      "[OPTRACE]|1694|123|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716098401569|START|read constraints: opt_design|",
+      "[OPTRACE]|1694|124|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716098401569|END|read constraints: opt_design|",
+      "[OPTRACE]|1694|125|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716098401569|START|opt_design|",
+      "[OPTRACE]|1694|126|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716098604301|END|opt_design|",
+      "[OPTRACE]|1694|127|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716098604301|START|read constraints: opt_design_post|",
+      "[OPTRACE]|1694|128|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716098604301|END|read constraints: opt_design_post|",
+      "[OPTRACE]|1694|129|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716098604301|START|Opt Design: post hook|",
+      "[OPTRACE]|1694|130|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716098604506|END|Opt Design: post hook|",
+      "[OPTRACE]|1694|131|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716098604506|START|opt_design reports|REPORT",
+      "[OPTRACE]|1694|132|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716098604506|END|opt_design reports|",
+      "[OPTRACE]|1694|133|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716098604568|END|Phase: Opt Design|",
+      "[OPTRACE]|1694|134|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716098604568|START|Phase: Place Design|ROLLUP_AUTO",
+      "[OPTRACE]|1694|135|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716098604690|START|Place Design: pre hook|",
+      "[OPTRACE]|1694|136|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716098604789|END|Place Design: pre hook|",
+      "[OPTRACE]|1694|137|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716098604790|START|read constraints: place_design|",
+      "[OPTRACE]|1694|138|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716098604790|END|read constraints: place_design|",
+      "[OPTRACE]|1694|139|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716098604790|START|implement_debug_core|",
+      "[OPTRACE]|1694|140|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716098605181|END|implement_debug_core|",
+      "[OPTRACE]|1694|141|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716098605181|START|place_design|",
+      "[OPTRACE]|1694|142|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716102384118|END|place_design|",
+      "[OPTRACE]|1694|143|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716102384118|START|read constraints: place_design_post|",
+      "[OPTRACE]|1694|144|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716102384118|END|read constraints: place_design_post|",
+      "[OPTRACE]|1694|145|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716102384118|START|Place Design: post hook|",
+      "[OPTRACE]|1694|146|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716102491791|END|Place Design: post hook|",
+      "[OPTRACE]|1694|147|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716102491791|START|place_design reports|REPORT",
+      "[OPTRACE]|1694|148|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716102491791|END|place_design reports|",
+      "[OPTRACE]|1694|149|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716102491852|END|Phase: Place Design|",
+      "[OPTRACE]|1694|150|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716102491852|START|Phase: Physical Opt Design|ROLLUP_AUTO",
+      "[OPTRACE]|1694|151|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716102492071|START|read constraints: phys_opt_design|",
+      "[OPTRACE]|1694|152|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716102492071|END|read constraints: phys_opt_design|",
+      "[OPTRACE]|1694|153|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716102492071|START|phys_opt_design|",
+      "[OPTRACE]|1694|154|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716102564181|END|phys_opt_design|",
+      "[OPTRACE]|1694|155|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716102564181|START|read constraints: phys_opt_design_post|",
+      "[OPTRACE]|1694|156|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716102564182|END|read constraints: phys_opt_design_post|",
+      "[OPTRACE]|1694|157|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716102564182|START|phys_opt_design report|REPORT",
+      "[OPTRACE]|1694|158|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716102564182|END|phys_opt_design report|",
+      "[OPTRACE]|1694|159|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716102564243|END|Phase: Physical Opt Design|",
+      "[OPTRACE]|1694|160|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716102564243|START|Phase: Route Design|ROLLUP_AUTO",
+      "[OPTRACE]|1694|161|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716102564462|START|read constraints: route_design|",
+      "[OPTRACE]|1694|162|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716102564462|END|read constraints: route_design|",
+      "[OPTRACE]|1694|163|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716102564462|START|route_design|",
+      "[OPTRACE]|1694|164|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716104848160|END|route_design|",
+      "[OPTRACE]|1694|165|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716104848160|START|read constraints: route_design_post|",
+      "[OPTRACE]|1694|166|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716104848160|END|read constraints: route_design_post|",
+      "[OPTRACE]|1694|167|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716104848160|START|Route Design: post hook|",
+      "[OPTRACE]|1694|168|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716105069916|END|Route Design: post hook|",
+      "[OPTRACE]|1694|169|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716105069917|START|Route Design: write_checkpoint|CHECKPOINT",
+      "[OPTRACE]|1694|170|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716105176853|END|Route Design: write_checkpoint|",
+      "[OPTRACE]|1694|171|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716105176853|START|route_design reports|REPORT",
+      "[OPTRACE]|1694|172|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716105196946|END|route_design reports|",
+      "[OPTRACE]|1694|173|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716105196946|START|route_design misc|",
+      "[OPTRACE]|1694|174|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716105197008|END|route_design misc|",
+      "[OPTRACE]|1694|175|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716105197008|END|Phase: Route Design|",
+      "[OPTRACE]|1694|176|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716105197008|START|Phase: Phys-Opt Design|ROLLUP_AUTO",
+      "[OPTRACE]|1694|177|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716105197287|START|phys_opt_design|",
+      "[OPTRACE]|1694|178|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716105200166|END|phys_opt_design|",
+      "[OPTRACE]|1694|179|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716105200166|START|Post-Route Phys Opt Design: post hook|",
+      "[OPTRACE]|1694|180|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716105200351|END|Post-Route Phys Opt Design: post hook|",
+      "[OPTRACE]|1694|181|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716105200351|START|Post-Route Phys Opt Design: write_checkpoint|CHECKPOINT",
+      "[OPTRACE]|1694|182|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716105296793|END|Post-Route Phys Opt Design: write_checkpoint|",
+      "[OPTRACE]|1694|183|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716105296793|START|phys_opt_design reports|REPORT",
+      "[OPTRACE]|1694|184|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716105316187|END|phys_opt_design reports|",
+      "[OPTRACE]|1694|185|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716105316187|START|phys_opt_design misc|",
+      "[OPTRACE]|1694|186|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716105316249|END|phys_opt_design misc|",
+      "[OPTRACE]|1694|187|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716105316249|END|Phase: Phys-Opt Design|",
+      "[OPTRACE]|1694|188|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716105316249|START|Phase: Write Bitstream|ROLLUP_AUTO",
+      "[OPTRACE]|1694|189|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716105316249|START|write_bitstream setup|",
+      "[OPTRACE]|1694|190|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716105316371|START|Write Bitstream: pre hook|",
+      "[OPTRACE]|1694|191|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716105344537|END|Write Bitstream: pre hook|",
+      "[OPTRACE]|1694|192|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716105344537|START|read constraints: write_bitstream|",
+      "[OPTRACE]|1694|193|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716105344537|END|read constraints: write_bitstream|",
+      "[OPTRACE]|1694|194|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716105344540|END|write_bitstream setup|",
+      "[OPTRACE]|1694|195|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716105344540|START|write_bitstream|",
+      "[OPTRACE]|1694|196|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716106419386|END|write_bitstream|",
+      "[OPTRACE]|1694|197|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716106419387|START|write_bitstream misc|",
+      "[OPTRACE]|1694|198|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716106419387|START|read constraints: write_bitstream_post|",
+      "[OPTRACE]|1694|199|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716106419387|END|read constraints: write_bitstream_post|",
+      "[OPTRACE]|1694|200|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716106419387|START|Write Bitstream: post hook|",
+      "[OPTRACE]|1694|201|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716106419830|END|Write Bitstream: post hook|",
+      "[OPTRACE]|1694|202|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716106420082|END|write_bitstream misc|",
+      "[OPTRACE]|1694|203|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716106420082|END|Phase: Write Bitstream|",
+      "[OPTRACE]|1694|204|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716106420082|END|impl_1|",
+      "[OPTRACE]|1694|95|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716097558845|START|impl_1|ROLLUP_1",
+      "[OPTRACE]|1694|96|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716097558845|START|Phase: Init Design|ROLLUP_AUTO",
+      "[OPTRACE]|1694|97|/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/level0_wrapper.tcl|vivado_impl|1716097558906|START|Design Initialization: pre hook|",
+      "[OPTRACE]|1694|98|ipirun.tcl|vpl|1716097559532|START|ipirun|ROLLUP_0",
+      "[OPTRACE]|1694|99|ipirun.tcl|vpl|1716097559533|END|ipirun|",
+      "[OPTRACE]|791|10|run|cpp|1716095501370|START|OCL_LINK|",
+      "[OPTRACE]|791|11|setupBinaryForLink|cpp|1716095501370|START|Create Binary|",
+      "[OPTRACE]|791|12||cpp|1716095501370|END|Create Binary|",
+      "[OPTRACE]|791|13|setupBinaryForLink|cpp|1716095501370|START|Extract Kernels|",
+      "[OPTRACE]|791|14||cpp|1716095513599|END|Extract Kernels|",
+      "[OPTRACE]|791|15|launchStep_|cpp|1716095517354|START|Launch Step: system_link|",
+      "[OPTRACE]|791|16||cpp|1716095598704|END|Launch Step: system_link|",
+      "[OPTRACE]|791|17|launchStep_|cpp|1716095599223|START|Launch Step: cf2sw|",
+      "[OPTRACE]|791|18||cpp|1716095609116|END|Launch Step: cf2sw|",
+      "[OPTRACE]|791|19|launchStep_|cpp|1716095610366|START|Launch Step: rtd2_system_diagram|",
+      "[OPTRACE]|791|1|main|cpp|1716095487301|START|v++|ROLLUP_0",
+      "[OPTRACE]|791|20||cpp|1716095610992|END|Launch Step: rtd2_system_diagram|",
+      "[OPTRACE]|791|210||cpp|1716106434052|END|Launch Step: vpl|",
+      "[OPTRACE]|791|211|launchStep_|cpp|1716106435376|START|Launch Step: rtdgen|",
+      "[OPTRACE]|791|212|launchCf2sw_|cpp|1716106436188|START|Launch cf2sw|",
+      "[OPTRACE]|791|213||cpp|1716106455400|END|Launch cf2sw|",
+      "[OPTRACE]|791|214|writeSystemDiagram|cpp|1716106455400|START|writeSystemDiagram|",
+      "[OPTRACE]|791|215||cpp|1716106455467|END|writeSystemDiagram|",
+      "[OPTRACE]|791|216|writeAutomationSummary|cpp|1716106455467|START|writeAutomationSummary|",
+      "[OPTRACE]|791|217||cpp|1716106455591|END|writeAutomationSummary|",
+      "[OPTRACE]|791|218||cpp|1716106455661|END|Launch Step: rtdgen|",
+      "[OPTRACE]|791|219|launchStep_|cpp|1716106457255|START|Launch Step: xclbinutil|",
+      "[OPTRACE]|791|21|launchStep_|cpp|1716095611417|START|Launch Step: vpl|",
+      "[OPTRACE]|791|220||cpp|1716106460941|END|Launch Step: xclbinutil|",
+      "[OPTRACE]|791|221|launchStep_|cpp|1716106461002|START|Launch Step: xclbinutilinfo|",
+      "[OPTRACE]|791|222||cpp|1716106461839|END|Launch Step: xclbinutilinfo|",
+      "[OPTRACE]|791|223|launchStep_|cpp|1716106461900|START|Launch Step: generate_sc_driver|",
+      "[OPTRACE]|791|224||cpp|1716106462294|END|Launch Step: generate_sc_driver|",
+      "[OPTRACE]|791|225||cpp|1716106464334|END|OCL_LINK|",
+      "[OPTRACE]|791|226||cpp|1716106466067|END|v++|",
+      "[OPTRACE]|791|2|run|cpp|1716095487301|START|Validate Kernels|",
+      "[OPTRACE]|791|3||cpp|1716095487708|END|Validate Kernels|",
+      "[OPTRACE]|791|4|prepareProject|cpp|1716095487729|START|Create Solution|",
+      "[OPTRACE]|791|5||cpp|1716095498229|END|Create Solution|",
+      "[OPTRACE]|791|6|prepareProject|cpp|1716095498229|START|Add Device|",
+      "[OPTRACE]|791|7|addDevice|cpp|1716095498229|START|Find & Load Device|",
+      "[OPTRACE]|791|8||cpp|1716095499535|END|Find & Load Device|",
+      "[OPTRACE]|791|9||cpp|1716095501296|END|Add Device|"
+      ];
+
+  var legendData = [
+  { "title": "Report Generation",
+    "color": "#b9783f"
+  }, {
+    "title": "Write Checkpoint",
+    "color": "#cd82ad"
+  },
+  {
+    "title": "Incomplete Data",
+    "color": "#cc4748"
+  } ];
+
+  // -- Convert Raw data into something we can use ---------------------------
+  console.log("Convert log data (%s entries) to Javascript 'JSON' objects...", csvData.length);
+  var jsonData = csvArrayToJSON(header, csvData, "|");
+
+  // -- Clean up the JSON objects --------------------------------------------
+  for (var i = 0; i < jsonData.length; i++) {
+    jsonData[i].Action = jsonData[i].Action.toUpperCase();
+    jsonData[i].Tags = jsonData[i].Tags.toUpperCase();
+    jsonData[i].Tags = jsonData[i].Tags.trim();
+    jsonData[i].TimeStampMSec = parseInt(jsonData[i].TimeStampMSec, 10);
+    jsonData[i].pid = parseInt(jsonData[i].pid, 10);
+  }
+
+  // -- Sort JSON array ------------------------------------------------------
+  console.log("Sorting JSON objects (%s objects) according to timestamps...", jsonData.length);
+  jsonData.sort(compareByTimeStamp);
+
+  // Record the PID grouping order
+  var pidOrder = new Map();
+  for (var i = 0; i < jsonData.length; i++) {
+    if (pidOrder.has(jsonData[i].pid) == false) {
+      pidOrder.set(jsonData[i].pid, i);    // Simple ordering (lower is first)
+    }
+  }
+
+  // -- Create secondary data array for the chart data array -----------------
+  console.log("Preparing graph data...");
+
+  // Task limits
+  var m_startTS = 0;      // Earliest Timestamp
+  var m_endTS = 0;        // Latest Timestamp
+
+  if (jsonData.length > 0) {
+    m_startTS = jsonData[0].TimeStampMSec;
+    m_endTS = jsonData[jsonData.length - 1].TimeStampMSec;
+  }
+
+
+  var chartData = [ ];   // Empty JSON array
+
+
+  populateChartData();
+  tableCreate( chartData );
+
+  filterChartEntries();
+
+  // -- Search for "holes"
+  // -- Sort by common PID
+  // -- Create groupings by process
+
+  console.log("done");
+
+  var chart = AmCharts.makeChart("chartdiv", {
+    "type": "gantt",
+    "theme": "light",
+    "titles": [
+    { "text": "OPTrace", "size": 15}],
+    "marginRight": 70,
+    "period": "fff",                                     // X-Axis
+    "balloonDateFormat": "JJ:NN:SS",
+    "columnWidth": 0.5,                                 // Bar thickness
+    "valueAxis": {
+      "type": "numeric",
+      "title": "Time [HH:MM:SS]",
+      "duration": "ss",
+      "durationUnits": { DD: 'd. ', hh: ':', mm: ':', ss: '' },
+    },
+    "brightnessStep": 10,
+    "graph": {
+      "fillAlphas": 1,
+      "labelFunction": barLabelCallBack,
+      "labelText": " ",
+      "labelPosition": "right",
+      "balloonFunction": ballonLabelCallBack,
+      "balloonText": "<p align='left'> Task: [[task]]<br/>Start:[[start]]<br/>End:[[end]]<br/>Duration:[[duration]]</p>",
+      "bulletField": "bullet",
+      "bulletSize": 8
+    },
+    "rotate": true,
+    "categoryField": "category",
+    "segmentsField": "segments",
+    "colorField": "color",
+    "startDate": "2015-01-01 00:00:00",
+    "startField": "start",
+    "endField": "end",
+    "durationField": "duration",
+    "dataProvider": chartData,
+    "valueScrollbar": {
+      "autoGridCount": true
+    },
+    "chartScrollbar": {
+      "enable": true
+    },
+    "chartCursor": {
+      "cursorColor": "#55bb76",
+      "valueBalloonsEnabled": false,
+      "cursorAlpha": 0.1,
+      "valueLineAlpha": 0.5,
+      "valueLineBalloonEnabled": true,
+      "valueLineEnabled": true,
+      "zoomable": true,
+      "valueZoomable": true,
+      "fullWidth": true
+    },
+    "legend": {
+      "data": legendData,
+    },
+    "export": {
+      "enabled": true
+    }
+  });
+
+  // =========================================================================
+  // Call back methods
+  // =========================================================================
+function ballonLabelCallBack( _graphDataItem )
+{
+  var start = _graphDataItem.values.open;
+  var end = _graphDataItem.values.value;
+  var duration = end - start;
+
+  var result = "<p align='left'>Task: " + _graphDataItem.category + "<br/>Start: " + secondsToHHMMSS(start) + "<br/>End: " + secondsToHHMMSS( end ) + "<br/>Duration: " + secondsToHHMMSS( duration ) + "</p>";
+  return result;
+}
+
+
+function barLabelCallBack( _graphDataItem )
+{
+   var duration = _graphDataItem.values.value - _graphDataItem.values.open;
+
+   return secondsToHHMMSS( duration);
+}
+
+
+function userInputFormCallback()
+{
+  // Second filter
+  m_secondFilter = document.getElementById("userDurationFilterSecInput").value;
+  console.log("Setting second filter to: " + m_secondFilter + " seconds");
+
+  // Group PID Sort
+  m_groupPidSort = document.getElementById("userGroupPidSortSelected").checked;
+  console.log("Group PID filter is set to: " + m_groupPidSort);
+
+  // Rollup filter
+  m_showRollup = document.getElementById("userRollupSelected").checked;
+  console.log("Rollup filter is set to: " + m_showRollup);
+
+  // Individual filter
+  m_showIndividualEntry = document.getElementById("userIndividualEntrySelected").checked;
+  console.log("Individual filter is set to: " + m_showIndividualEntry);
+
+  // Checkpoint Report Entries filter
+  m_showCheckpointEntry = document.getElementById("userCheckpointEntrySelected").checked;
+  console.log("Checkpoint Entry filter is set to: " + m_showCheckpointEntry);
+
+  // Checkpoint Report Entries filter
+  m_showReportEntry = document.getElementById("userReportEntrySelected").checked;
+  console.log("Report Entry filter is set to: " + m_showReportEntry);
+
+  populateChartData();
+  filterChartEntries()
+  chart.dataProvider = chartData;
+  chart.validateData();
+}
+
+  // =========================================================================
+  // Utilities
+  // =========================================================================
+
+
+function populateChartData()
+{
+  chartData = [ ];
+  if (m_groupPidSort == false) {
+    jsonData.sort(compareByTimeStamp);
+  } else {
+    jsonData.sort(compareByGroupTimeStamp);
+  }
+
+  for (var i = 0; i < jsonData.length; i++) {
+    var timestamp = parseInt(jsonData[0].TimeStampMSec, 10);
+
+    if (m_startTS > timestamp) m_startTS = timestamp;
+    if (m_endTS < timestamp) m_endTS = timestamp;
+
+    for (var i = 0; i < jsonData.length; i++) {
+      switch (jsonData[i].Action) {
+      case "START":
+        var categoryEntry = { };
+        categoryEntry["category"] = jsonData[i].Task;
+        categoryEntry["pid"] = jsonData[i].pid;
+
+        var segmentEntry = { };
+        // Normalize entry and convert to seconds
+        segmentEntry["start"] = (jsonData[i].TimeStampMSec - m_startTS) / 1000;
+        segmentEntry["color"] = getTaskBarColor(jsonData[i].Tags)
+        segmentEntry["task"] = jsonData[i].Task;
+        segmentEntry["tags"] = jsonData[i].Tags;
+        segmentEntry["duration"] = -1;
+
+        categoryEntry["segments"] = [ ];
+        categoryEntry["segments"].push(segmentEntry);
+        chartData.push(categoryEntry);
+        break;
+
+      case "END":
+        var catagory = findCatagory(jsonData[i].pid, jsonData[i].Task, chartData);
+        if (catagory != null) {
+          var segmentsEntry = catagory.segments[0];
+          segmentsEntry["end"] = (jsonData[i].TimeStampMSec - m_startTS) / 1000;
+          segmentsEntry["duration"] = segmentsEntry.end - segmentsEntry.start;
+        } else {
+          console.log("Null entry found: pid:%s, Task: %s", jsonData[i].pid, jsonData[i].Task);
+        }
+
+        break;
+
+      default:
+        console.log("Default");
+        break;
+      }
+    }
+  }
+}
+
+function filterChartEntries()
+{
+  for(var i = chartData.length - 1; i >= 0; i--) {
+    var segment = chartData[i].segments[0];
+
+    // -- Remove entries less than 1 seconds
+    if ( segment["duration"] == -1) {
+      segment["bullet"] = "xError";
+      segment["color"] = "#cc4748";
+      segment["duration"] = ((m_endTS - m_startTS) / 1000) - segment["start"];
+    } else if (segment["duration"] <  m_secondFilter) {
+      chartData.splice(i, 1);
+      continue;
+    }
+  
+
+    // Filter by tags
+    var bHasRollup = false;
+    var bHasCheckpoint = false;
+    var bHasReport = false;
+
+    var tags = segment["tags"];
+    console.log("Tag: " + tags);
+    if (tags.search(/ROLLUP_/i) != -1) { bHasRollup = true; }
+    if (tags.search(/CHECKPOINT/i) != -1) { bHasCheckpoint = true; }
+    if (tags.search(/REPORT/i) != -1) { bHasReport = true; }
+
+    var bRemoveEntry = false;
+
+    // Remove rollups
+    if ((m_showRollup == false) && (bHasRollup == true)) {
+      bRemoveEntry = true;
+    }
+    
+    // Remove checkpoints    
+    if ((m_showCheckpointEntry == false) && (bHasCheckpoint == true)) {
+      bRemoveEntry = true;
+    }
+
+    // Remove reports
+    if ((m_showReportEntry == false) && (bHasReport == true)) {
+      bRemoveEntry = true;
+    }
+
+    // Remove individual entry
+    if (((m_showIndividualEntry == false) && 
+         ((bHasRollup == false) &&
+          (bHasCheckpoint == false) &&
+          (bHasReport == false)))) {
+      bRemoveEntry = true;
+    }
+
+    if (bRemoveEntry == true) {
+      chartData.splice(i, 1);
+      continue;
+    }
+  }
+
+  console.log("ChartData.length: " + chartData.length);
+}
+
+
+function getTaskBarColor( _tags )
+{
+  if (_tags == null)
+    return "#8dc49f";
+
+  if (_tags.search(/ROLLUP_AUTO/i) != -1){ return "#0099ff"; }
+  if (_tags.search(/ROLLUP_0/i) != -1)   { return "#006699"; }
+  if (_tags.search(/ROLLUP_1/i) != -1)   { return "#009933"; }
+  if (_tags.search(/ROLLUP_2/i) != -1)   { return "#66ccff"; }
+  if (_tags.search(/REPORT/i) != -1)     { return "#b9783f"; }
+  if (_tags.search(/CHECKPOINT/i) != -1) { return "#cd82ad"; }
+
+  return "#8dc49f"
+}
+
+
+function tableCreate( _chartData ){
+    var myTableDiv = document.getElementById("myDynamicTable");
+
+
+    for ( var i = 0; i < _chartData.length; i++) {
+      var tr = myTableDiv.insertRow();
+
+      var td_task = tr.insertCell();
+      td_task.appendChild(document.createTextNode( _chartData[i].category ));
+
+      var segmentEntry = _chartData[i].segments;
+      var td_start = tr.insertCell();
+      td_start.appendChild(document.createTextNode( secondsToHHMMSS(segmentEntry[0].start) ));
+
+      var td_duration = tr.insertCell();
+      td_duration.appendChild(document.createTextNode( secondsToHHMMSS(segmentEntry[0].duration) ));
+
+    }
+}
+
+function secondsToHHMMSS( _seconds )
+{
+  var hours = Math.floor(_seconds / 3600);
+  var minutes = Math.floor(_seconds % 3600 / 60);
+  var seconds = Math.floor(_seconds % 3600 % 60);
+
+  var result = hours + ":" + (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds; 
+
+  return result;
+}
+
+
+  function findCatagory(_pid, _category, _catagoryArray) {
+    for (var i = (_catagoryArray.length - 1); i >= 0; i--) {
+      if (_pid == _catagoryArray[i].pid) {
+        if (_catagoryArray[i].category == _category) {
+          return  _catagoryArray[i];
+        }
+      }
+    }
+    return null;
+  }
+
+
+  // Compares the timestamps between to JSON objects
+  function compareByTimeStamp(_a, _b) {
+    if (_a.TimeStampMSec < _b.TimeStampMSec) return -1;
+    if (_a.TimeStampMSec > _b.TimeStampMSec) return 1;
+
+    if (_a.pid == _b.pid) {
+      if ((_a.Action == "START") && (_b.Action == "END")) return -1;
+      if ((_a.Action == "END") && (_b.Action == "START")) return 1;
+
+      if(_a.Entry < _b.Entry) return -1;
+      if(_a.Entry > _b.Entry) return 1;
+    }
+
+    return 0;
+  }
+
+
+  // Compares the timestamps between to JSON objects
+  function compareByGroupTimeStamp(_a, _b) {
+    if (pidOrder.get(_a.pid) < pidOrder.get(_b.pid)) return -1;
+
+    if (pidOrder.get(_a.pid) > pidOrder.get(_b.pid)) return 1;
+
+    return compareByTimeStamp(_a, _b);
+  }
+
+
+  // Return array of string values, or NULL if CSV string not well formed.
+  function CSVtoArray(_text, _sep) {
+    // Regex expressions
+    var re_valid_default = /^\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*(?:,\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*)*$/;
+    var re_value_default = /(?!\s*$)\s*(?:'([^'\\]*(?:\\[\S\s][^'\\]*)*)'|"([^"\\]*(?:\\[\S\s][^"\\]*)*)"|([^,'"\s\\]*(?:\s+[^,'"\s\\]+)*))\s*(?:,|$)/g;
+    var re_special_default = /,\s*$/;
+
+    // Algorithm:
+    //   1) Convert regex expression to a string.
+    //   2) Remove leading regex escape character (e.g., '\')
+    //   3) Remove training regex escape character(s) (e.g., '\' or "\g")
+    //   4) Replace the comma (',') character witht he new delimiter character
+    //   5) Build the regex command
+
+    // Check delimiter, if special insert escapes
+    if (_sep == "|") _sep = "\\|";
+
+    var re_valid = new RegExp(re_valid_default.toString().substr(1).slice(0, -1).replace(/,/g, _sep));
+    var re_value = new RegExp(re_value_default.toString().substr(1).slice(0, -2).replace(/,/g, _sep), 'g');
+    var re_special = new RegExp(re_special_default.toString().substr(1).slice(0, -1).replace(/,/g, _sep));
+
+    // Validate the input string to determine if it is well formed
+    if (!re_valid.test(_text)) return null;
+
+    var a = [ ];                     // Initialize array to receive values.
+    _text.replace(re_value,           // "Walk" the string using replace with callback.
+                  function(m0, m1, m2, m3) {
+                      // Remove backslash from \' in single quoted values.
+                      if      (m1 !== undefined) a.push(m1.replace(/\\'/g, "'"));
+                      // Remove backslash from \" in double quoted values.
+                      else if (m2 !== undefined) a.push(m2.replace(/\\"/g, '"'));
+                      else if (m3 !== undefined) a.push(m3);
+                      return ''; // Return empty string.
+                  });
+
+    // Handle special case of empty last value.
+    if (re_special.test(_text)) a.push('');
+
+    return a;
+  };
+
+
+  // Converts the given CSV array & header into a JSON array
+  function csvArrayToJSON(_header, _csvArray, _sep) {
+    var result = [ ];
+    var headers = CSVtoArray(_header, _sep);
+
+    for (var i = 0; i < _csvArray.length; i++) {
+
+      var obj = { };
+      var currentline = CSVtoArray(_csvArray[i], _sep);
+
+      for (var j = 0; j < headers.length; j++) {
+        obj[headers[j]] = currentline[j];
+      }
+
+      result.push(obj);
+
+    }
+
+    return result; //JavaScript object
+  }
+
+
+</script>
+</body>
+
+</html>
+

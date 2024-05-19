@@ -1,0 +1,1286 @@
+<ENTRY>
+{
+ "thisFile": "/home/ayvol/vitis_accel_backend_test/build/kernel_wrapper.xclbin.link_summary",
+ "connectId": "",
+ "serverToken": "",
+ "timestamp": "0"
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_CmdStep",
+ "dateTimestamp": "Sun May 19 05:11:37 2024",
+ "timestampMillis": "1716095497983",
+ "buildStep": {
+  "cmdId": "8a932915-2d7b-47c3-a618-222a6b52af05",
+  "name": "v++",
+  "logFile": "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/link.steps.log",
+  "commandLine": "/tools/Xilinx/Vitis/2022.2/bin/unwrapped/lnx64.o/v++  --vivado.prop \"run.__KERNEL__.{STEPS.SYNTH_DESIGN.ARGS.MORE OPTIONS}={-directive sdx_optimization_effort_high}\" --advanced.misc \"report=type report_timing_summary name impl_report_timing_summary_route_design_summary steps {route_design} runs {impl_1} options {-max_paths 10}\" --advanced.misc \"report=type report_timing_summary name impl_report_timing_summary_post_route_phys_opt_design_summary steps {post_route_phys_opt_design} runs {impl_1} options {-max_paths 10}\" -l -t hw --config ./accelerator_card.cfg --temp_dir build/xclbin ./build/myproject_kernel.xo -o ./build/kernel_wrapper.xclbin ",
+  "args": [
+   "-l",
+   "-t",
+   "hw",
+   "--config",
+   "./accelerator_card.cfg",
+   "--temp_dir",
+   "build/xclbin",
+   "./build/myproject_kernel.xo",
+   "-o",
+   "./build/kernel_wrapper.xclbin"
+  ],
+  "iniFiles": [
+   {
+    "path": "/home/ayvol/vitis_accel_backend_test/accelerator_card.cfg",
+    "content": "kernel=kernel_wrapper\nmessageDb=build/kernel_wrapper.mdb\nplatform=xilinx_u55c_gen3x16_xdma_3_202210_1\nsave-temps=1\n\n[advanced]\nprop=kernel.kernel_wrapper.kernel_flags=-std=c++11\n\n[hls]\npre_tcl=./hls_config.tcl\n\n[connectivity]\nnk=kernel_wrapper:4\n\nsp=kernel_wrapper_1.in:HBM[0:3]\nsp=kernel_wrapper_1.out:HBM[4:7]\nsp=kernel_wrapper_2.in:HBM[8:11]\nsp=kernel_wrapper_2.out:HBM[12:15]\nsp=kernel_wrapper_3.in:HBM[16:19]\nsp=kernel_wrapper_3.out:HBM[20:23]\nsp=kernel_wrapper_4.in:HBM[24:27]\nsp=kernel_wrapper_4.out:HBM[28:31]\n\n[vivado]\nprop=run.impl_1.STEPS.OPT_DESIGN.IS_ENABLED=true\nprop=run.impl_1.STEPS.OPT_DESIGN.ARGS.DIRECTIVE=Explore\n\nprop=run.impl_1.STEPS.PLACE_DESIGN.ARGS.DIRECTIVE=AltSpreadLogic_high\n\nprop=run.impl_1.STEPS.PHYS_OPT_DESIGN.IS_ENABLED=true\nprop=run.imp1_1.STEPS.PHYS_OPT_DESIGN.ARGS.DIRECTIVE=AggressiveExplore\n\nprop=run.impl_1.STEPS.ROUTE_DESIGN.ARGS.DIRECTIVE=Explore\n\nprop=run.impl_1.STEPS.POST_ROUTE_PHYS_OPT_DESIGN.IS_ENABLED=true\nprop=run.impl_1.STEPS.POST_ROUTE_PHYS_OPT_DESIGN.ARGS.DIRECTIVE=AggressiveExplore"
+   }
+  ],
+  "cwd": "/home/ayvol/vitis_accel_backend_test"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Sun May 19 05:11:37 2024",
+ "timestampMillis": "1716095497984",
+ "status": {
+  "cmdId": "8a932915-2d7b-47c3-a618-222a6b52af05",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_FlowMetaData",
+ "dateTimestamp": "Sun May 19 05:11:53 2024",
+ "timestampMillis": "1716095513599",
+ "buildSummary": {
+  "hardwarePlatform": "xilinx_u55c_gen3x16_xdma_3_202210_1.xpfm",
+  "hardwareDsa": "",
+  "platformDirectory": "/opt/xilinx/platforms/xilinx_u55c_gen3x16_xdma_3_202210_1",
+  "runtime": "OpenCL",
+  "systemConfig": "Linux",
+  "flow": "BF_LINK",
+  "target": "TT_HW",
+  "binaryContainer": {
+   "base": {
+    "type": "BT_UKNOWN",
+    "name": "kernel_wrapper",
+    "file": "/home/ayvol/vitis_accel_backend_test/build/kernel_wrapper.xclbin",
+    "reports": [],
+    "uuid": ""
+   },
+   "kernels": []
+  },
+  "kernels": [
+   {
+    "base": {
+     "type": "KERNEL",
+     "name": "kernel_wrapper",
+     "file": "/home/ayvol/vitis_accel_backend_test/build/myproject_kernel.xo",
+     "reports": [],
+     "uuid": ""
+    },
+    "sources": [
+     "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/xo/kernel_wrapper/kernel_wrapper/cpu_sources/kernel_wrapper.cpp",
+     "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/xo/kernel_wrapper/kernel_wrapper/cpu_sources/myproject.cpp"
+    ],
+    "psSources": [],
+    "cuNames": [
+     "kernel_wrapper_1",
+     "kernel_wrapper_2",
+     "kernel_wrapper_3",
+     "kernel_wrapper_4"
+    ],
+    "type": "HLS",
+    "frequency": 0,
+    "freqUnits": ""
+   }
+  ],
+  "toolVersion": "Vitis V++ Compiler Release 2022.2. SW Build 3671529 on 2022-10-13-17:52:11"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_SubCmdStep",
+ "dateTimestamp": "Sun May 19 05:11:57 2024",
+ "timestampMillis": "1716095517505",
+ "buildStep": {
+  "cmdId": "6701ba37-dcf8-4ba4-9eae-1d749babf326",
+  "name": "system_link",
+  "logFile": "",
+  "commandLine": "system_link --xo /home/ayvol/vitis_accel_backend_test/build/myproject_kernel.xo -keep --config /home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/syslinkConfig.ini --xpfm /opt/xilinx/platforms/xilinx_u55c_gen3x16_xdma_3_202210_1/xilinx_u55c_gen3x16_xdma_3_202210_1.xpfm --target hw --output_dir /home/ayvol/vitis_accel_backend_test/build/xclbin/link/int --temp_dir /home/ayvol/vitis_accel_backend_test/build/xclbin/link/sys_link",
+  "args": [
+   "--xo",
+   "/home/ayvol/vitis_accel_backend_test/build/myproject_kernel.xo",
+   "-keep",
+   "--config",
+   "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/syslinkConfig.ini",
+   "--xpfm",
+   "/opt/xilinx/platforms/xilinx_u55c_gen3x16_xdma_3_202210_1/xilinx_u55c_gen3x16_xdma_3_202210_1.xpfm",
+   "--target",
+   "hw",
+   "--output_dir",
+   "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int",
+   "--temp_dir",
+   "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/sys_link"
+  ],
+  "iniFiles": [
+   {
+    "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/syslinkConfig.ini",
+    "content": "nk=kernel_wrapper:4\nsp=kernel_wrapper_1.in:HBM[0:3]\nsp=kernel_wrapper_1.out:HBM[4:7]\nsp=kernel_wrapper_2.in:HBM[8:11]\nsp=kernel_wrapper_2.out:HBM[12:15]\nsp=kernel_wrapper_3.in:HBM[16:19]\nsp=kernel_wrapper_3.out:HBM[20:23]\nsp=kernel_wrapper_4.in:HBM[24:27]\nsp=kernel_wrapper_4.out:HBM[28:31]\n\n"
+   }
+  ],
+  "cwd": "/home/ayvol/vitis_accel_backend_test"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Sun May 19 05:11:57 2024",
+ "timestampMillis": "1716095517506",
+ "status": {
+  "cmdId": "6701ba37-dcf8-4ba4-9eae-1d749babf326",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Sun May 19 05:13:18 2024",
+ "timestampMillis": "1716095598703",
+ "status": {
+  "cmdId": "6701ba37-dcf8-4ba4-9eae-1d749babf326",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_SubCmdStep",
+ "dateTimestamp": "Sun May 19 05:13:19 2024",
+ "timestampMillis": "1716095599438",
+ "buildStep": {
+  "cmdId": "a02ac2f2-b49e-47f8-bb51-516359506499",
+  "name": "cf2sw",
+  "logFile": "",
+  "commandLine": "cf2sw -sdsl /home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/sdsl.dat -rtd /home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/cf2sw.rtd -nofilter /home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/cf2sw_full.rtd -xclbin /home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/xclbin_orig.xml -o /home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/xclbin_orig.1.xml",
+  "args": [
+   "-sdsl",
+   "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/sdsl.dat",
+   "-rtd",
+   "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/cf2sw.rtd",
+   "-nofilter",
+   "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/cf2sw_full.rtd",
+   "-xclbin",
+   "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/xclbin_orig.xml",
+   "-o",
+   "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/xclbin_orig.1.xml"
+  ],
+  "iniFiles": [],
+  "cwd": "/home/ayvol/vitis_accel_backend_test"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Sun May 19 05:13:19 2024",
+ "timestampMillis": "1716095599438",
+ "status": {
+  "cmdId": "a02ac2f2-b49e-47f8-bb51-516359506499",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Sun May 19 05:13:29 2024",
+ "timestampMillis": "1716095609115",
+ "status": {
+  "cmdId": "a02ac2f2-b49e-47f8-bb51-516359506499",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_SubCmdStep",
+ "dateTimestamp": "Sun May 19 05:13:30 2024",
+ "timestampMillis": "1716095610553",
+ "buildStep": {
+  "cmdId": "4351686a-85e9-4c2c-bcf6-e1d78481769f",
+  "name": "rtd2_system_diagram",
+  "logFile": "",
+  "commandLine": "rtd2SystemDiagram",
+  "args": [],
+  "iniFiles": [],
+  "cwd": "/home/ayvol/vitis_accel_backend_test"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Sun May 19 05:13:30 2024",
+ "timestampMillis": "1716095610553",
+ "status": {
+  "cmdId": "4351686a-85e9-4c2c-bcf6-e1d78481769f",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 05:13:30 2024",
+ "timestampMillis": "1716095610930",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/systemDiagramModel.json",
+  "name": "",
+  "fileType": "JSON",
+  "reportType": "SYSTEM_DIAGRAM",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Sun May 19 05:13:30 2024",
+ "timestampMillis": "1716095610991",
+ "status": {
+  "cmdId": "4351686a-85e9-4c2c-bcf6-e1d78481769f",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_SubCmdStep",
+ "dateTimestamp": "Sun May 19 05:13:31 2024",
+ "timestampMillis": "1716095611663",
+ "buildStep": {
+  "cmdId": "54113cc4-c144-4c67-aecd-867eeee48f01",
+  "name": "vpl",
+  "logFile": "",
+  "commandLine": "vpl -t hw -f xilinx_u55c_gen3x16_xdma_3_202210_1 -s --remote_ip_cache /home/ayvol/vitis_accel_backend_test/.ipcache --output_dir /home/ayvol/vitis_accel_backend_test/build/xclbin/link/int --log_dir /home/ayvol/vitis_accel_backend_test/build/xclbin/logs/link --report_dir /home/ayvol/vitis_accel_backend_test/build/xclbin/reports/link --config /home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/vplConfig.ini -k /home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/kernel_info.dat --webtalk_flag Vitis --temp_dir /home/ayvol/vitis_accel_backend_test/build/xclbin/link --no-info --iprepo /home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/xo/ip_repo/xilinx_com_hls_kernel_wrapper_1_0 --messageDb /home/ayvol/vitis_accel_backend_test/build/xclbin/link/run_link/vpl.pb /home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/dr.bd.tcl",
+  "args": [
+   "-t",
+   "hw",
+   "-f",
+   "xilinx_u55c_gen3x16_xdma_3_202210_1",
+   "-s",
+   "--remote_ip_cache",
+   "/home/ayvol/vitis_accel_backend_test/.ipcache",
+   "--output_dir",
+   "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int",
+   "--log_dir",
+   "/home/ayvol/vitis_accel_backend_test/build/xclbin/logs/link",
+   "--report_dir",
+   "/home/ayvol/vitis_accel_backend_test/build/xclbin/reports/link",
+   "--config",
+   "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/vplConfig.ini",
+   "-k",
+   "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/kernel_info.dat",
+   "--webtalk_flag",
+   "Vitis",
+   "--temp_dir",
+   "/home/ayvol/vitis_accel_backend_test/build/xclbin/link",
+   "--no-info",
+   "--iprepo",
+   "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/xo/ip_repo/xilinx_com_hls_kernel_wrapper_1_0",
+   "--messageDb",
+   "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/run_link/vpl.pb",
+   "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/dr.bd.tcl"
+  ],
+  "iniFiles": [
+   {
+    "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/vplConfig.ini",
+    "content": "[advanced]\nmisc=report=type report_timing_summary name impl_report_timing_summary_route_design_summary steps {route_design} runs {impl_1} options {-max_paths 10}\nmisc=report=type report_timing_summary name impl_report_timing_summary_post_route_phys_opt_design_summary steps {post_route_phys_opt_design} runs {impl_1} options {-max_paths 10}\nparam=compiler.enablePerformanceTrace=1\nprop=kernel.kernel_wrapper.kernel_flags=-std=c++11\nparam=compiler.vppCurrentWorkingDir=/home/ayvol/vitis_accel_backend_test\nmisc=BinaryName=kernel_wrapper\n\n[connectivity]\nnk=kernel_wrapper:4:kernel_wrapper_1,kernel_wrapper_2,kernel_wrapper_3,kernel_wrapper_4\n\n[vivado]\nprop=run.__KERNEL__.{STEPS.SYNTH_DESIGN.ARGS.MORE OPTIONS}={-directive sdx_optimization_effort_high}\nprop=run.impl_1.STEPS.OPT_DESIGN.IS_ENABLED=true\nprop=run.impl_1.STEPS.OPT_DESIGN.ARGS.DIRECTIVE=Explore\nprop=run.impl_1.STEPS.PLACE_DESIGN.ARGS.DIRECTIVE=AltSpreadLogic_high\nprop=run.impl_1.STEPS.PHYS_OPT_DESIGN.IS_ENABLED=true\nprop=run.imp1_1.STEPS.PHYS_OPT_DESIGN.ARGS.DIRECTIVE=AggressiveExplore\nprop=run.impl_1.STEPS.ROUTE_DESIGN.ARGS.DIRECTIVE=Explore\nprop=run.impl_1.STEPS.POST_ROUTE_PHYS_OPT_DESIGN.IS_ENABLED=true\nprop=run.impl_1.STEPS.POST_ROUTE_PHYS_OPT_DESIGN.ARGS.DIRECTIVE=AggressiveExplore\n\n"
+   }
+  ],
+  "cwd": "/home/ayvol/vitis_accel_backend_test"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Sun May 19 05:13:31 2024",
+ "timestampMillis": "1716095611663",
+ "status": {
+  "cmdId": "54113cc4-c144-4c67-aecd-867eeee48f01",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_CmdStep",
+ "dateTimestamp": "Sun May 19 05:13:34 2024",
+ "timestampMillis": "1716095614824",
+ "buildStep": {
+  "cmdId": "0053f432-ecdb-4da0-a68a-746d718a1fee",
+  "name": "vpl",
+  "logFile": "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/link.steps.log",
+  "commandLine": "/tools/Xilinx/Vitis/2022.2/bin/unwrapped/lnx64.o/vpl -t hw -f xilinx_u55c_gen3x16_xdma_3_202210_1 -s --remote_ip_cache /home/ayvol/vitis_accel_backend_test/.ipcache --output_dir /home/ayvol/vitis_accel_backend_test/build/xclbin/link/int --log_dir /home/ayvol/vitis_accel_backend_test/build/xclbin/logs/link --report_dir /home/ayvol/vitis_accel_backend_test/build/xclbin/reports/link --config /home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/vplConfig.ini -k /home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/kernel_info.dat --webtalk_flag Vitis --temp_dir /home/ayvol/vitis_accel_backend_test/build/xclbin/link --no-info --iprepo /home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/xo/ip_repo/xilinx_com_hls_kernel_wrapper_1_0 --messageDb /home/ayvol/vitis_accel_backend_test/build/xclbin/link/run_link/vpl.pb /home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/dr.bd.tcl ",
+  "args": [],
+  "iniFiles": [],
+  "cwd": "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/run_link"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Sun May 19 05:13:34 2024",
+ "timestampMillis": "1716095614824",
+ "status": {
+  "cmdId": "0053f432-ecdb-4da0-a68a-746d718a1fee",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_VivadoProject",
+ "dateTimestamp": "Sun May 19 05:14:17 2024",
+ "timestampMillis": "1716095657801",
+ "vivadoProject": {
+  "openDir": "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl",
+  "openScript": "openprj.tcl",
+  "relativeProject": "prj/prj.xpr"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_SubCmdStep",
+ "dateTimestamp": "Sun May 19 05:14:17 2024",
+ "timestampMillis": "1716095657803",
+ "buildStep": {
+  "cmdId": "997ea2f1-6317-4a64-a514-9fdb59f21122",
+  "name": "vivado",
+  "logFile": "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/vivado.log",
+  "commandLine": "vivado -log vivado.log -applog -m64 -messageDb vivado.pb -mode batch -source vpl.tcl -notrace",
+  "args": [
+   "-log",
+   "vivado.log",
+   "-applog",
+   " -m64",
+   "-messageDb",
+   "vivado.pb",
+   "-mode",
+   "batch",
+   "-source",
+   "vpl.tcl",
+   "-notrace"
+  ],
+  "iniFiles": [],
+  "cwd": "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/run_link"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Sun May 19 05:14:17 2024",
+ "timestampMillis": "1716095657804",
+ "status": {
+  "cmdId": "997ea2f1-6317-4a64-a514-9fdb59f21122",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 05:21:02 2024",
+ "timestampMillis": "1716096062770",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/automation_summary_update_bd.txt",
+  "name": "",
+  "fileType": "TEXT",
+  "reportType": "VITIS_DESIGN_FLOW",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_CmdStep",
+ "dateTimestamp": "Sun May 19 05:45:41 2024",
+ "timestampMillis": "1716097541158",
+ "buildStep": {
+  "cmdId": "c89d194f-df46-45ae-ad28-3a7f2d236e07",
+  "name": "vivado.impl",
+  "logFile": "",
+  "commandLine": "",
+  "args": [],
+  "iniFiles": [],
+  "cwd": "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Sun May 19 05:45:41 2024",
+ "timestampMillis": "1716097541235",
+ "status": {
+  "cmdId": "c89d194f-df46-45ae-ad28-3a7f2d236e07",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_CmdStep",
+ "dateTimestamp": "Sun May 19 05:45:41 2024",
+ "timestampMillis": "1716097541236",
+ "buildStep": {
+  "cmdId": "7f924f11-0a73-479e-b77f-01697a43afb4",
+  "name": "vivado.impl.impl_1",
+  "logFile": "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/runme.log",
+  "commandLine": "",
+  "args": [],
+  "iniFiles": [],
+  "cwd": "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Sun May 19 05:45:41 2024",
+ "timestampMillis": "1716097541236",
+ "status": {
+  "cmdId": "7f924f11-0a73-479e-b77f-01697a43afb4",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 07:47:59 2024",
+ "timestampMillis": "1716104879989",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/system_diagram.json",
+  "name": "",
+  "fileType": "JSON",
+  "reportType": "SYSTEM_DIAGRAM_PLUS",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 07:49:40 2024",
+ "timestampMillis": "1716104980478",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/kernel_service.json",
+  "name": "",
+  "fileType": "JSON",
+  "reportType": "KERNEL_SERVICE",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 07:49:40 2024",
+ "timestampMillis": "1716104980540",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/kernel_service.pb",
+  "name": "",
+  "fileType": "BINARY_PROTOBUF",
+  "reportType": "KERNEL_SERVICE",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 07:55:44 2024",
+ "timestampMillis": "1716105344432",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/dr_timing_summary.rpt",
+  "name": "",
+  "fileType": "TEXT",
+  "reportType": "GLOBAL_REPORT_TIMING_SUMMARY_FAIL",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 07:55:44 2024",
+ "timestampMillis": "1716105344535",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/vivado/vpl/prj/prj.runs/impl_1/dr_timing_summary.rpt",
+  "name": "",
+  "fileType": "TEXT",
+  "reportType": "GLOBAL_REPORT_TIMING_SUMMARY_FAIL",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Sun May 19 08:13:48 2024",
+ "timestampMillis": "1716106428926",
+ "status": {
+  "cmdId": "997ea2f1-6317-4a64-a514-9fdb59f21122",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 08:13:50 2024",
+ "timestampMillis": "1716106430203",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/reports/link/imp/impl_1_kernel_util_routed.rpt",
+  "name": "",
+  "fileType": "TEXT",
+  "reportType": "KERNEL_UTILIZATION_ROUTE",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 08:13:50 2024",
+ "timestampMillis": "1716106430265",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/reports/link/imp/impl_1_kernel_util_placed.xutil",
+  "name": "",
+  "fileType": "XUTIL",
+  "reportType": "KERNEL_UTILIZATION_PLACEMENT",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 08:13:50 2024",
+ "timestampMillis": "1716106430416",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/reports/link/imp/impl_1_kernel_util_synthed.rpt",
+  "name": "",
+  "fileType": "TEXT",
+  "reportType": "KERNEL_UTILIZATION_SYNTHESIS",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 08:13:50 2024",
+ "timestampMillis": "1716106430538",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/reports/link/imp/impl_1_slr_util_placed.pb",
+  "name": "",
+  "fileType": "BINARY_PROTOBUF",
+  "reportType": "GLOBAL_SLR_UTIL_PLACED",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 08:13:50 2024",
+ "timestampMillis": "1716106430599",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/reports/link/imp/impl_1_slr_util_placed.rpt",
+  "name": "",
+  "fileType": "TEXT",
+  "reportType": "GLOBAL_SLR_UTIL_PLACED",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 08:13:50 2024",
+ "timestampMillis": "1716106430939",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/reports/link/imp/impl_1_full_util_synthed.rpt",
+  "name": "",
+  "fileType": "TEXT",
+  "reportType": "GLOBAL_UTILIZATION_SYNTHESIS",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 08:13:51 2024",
+ "timestampMillis": "1716106431000",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/reports/link/imp/impl_1_slr_util_routed.rpt",
+  "name": "",
+  "fileType": "TEXT",
+  "reportType": "GLOBAL_SLR_UTIL_ROUTED",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 08:13:51 2024",
+ "timestampMillis": "1716106431061",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/reports/link/imp/impl_1_kernel_util_placed.rpt",
+  "name": "",
+  "fileType": "TEXT",
+  "reportType": "KERNEL_UTILIZATION_PLACEMENT",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 08:13:51 2024",
+ "timestampMillis": "1716106431122",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/reports/link/imp/impl_1_slr_util_routed.pb",
+  "name": "",
+  "fileType": "BINARY_PROTOBUF",
+  "reportType": "GLOBAL_SLR_UTIL_ROUTED",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 08:13:51 2024",
+ "timestampMillis": "1716106431302",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/reports/link/imp/impl_1_kernel_util_synthed.xutil",
+  "name": "",
+  "fileType": "XUTIL",
+  "reportType": "KERNEL_UTILIZATION_SYNTHESIS",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 08:13:51 2024",
+ "timestampMillis": "1716106431363",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/reports/link/imp/impl_1_full_util_routed.pb",
+  "name": "",
+  "fileType": "BINARY_PROTOBUF",
+  "reportType": "GLOBAL_UTILIZATION_ROUTE",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 08:13:51 2024",
+ "timestampMillis": "1716106431425",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/reports/link/imp/impl_1_kernel_util_routed.xutil",
+  "name": "",
+  "fileType": "XUTIL",
+  "reportType": "KERNEL_UTILIZATION_ROUTE",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 08:13:51 2024",
+ "timestampMillis": "1716106431904",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/reports/link/imp/impl_1_full_util_synthed.pb",
+  "name": "",
+  "fileType": "BINARY_PROTOBUF",
+  "reportType": "GLOBAL_UTILIZATION_SYNTHESIS",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 08:13:51 2024",
+ "timestampMillis": "1716106431966",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/reports/link/imp/impl_1_full_util_routed.rpt",
+  "name": "",
+  "fileType": "TEXT",
+  "reportType": "GLOBAL_UTILIZATION_ROUTE",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 08:13:52 2024",
+ "timestampMillis": "1716106432246",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/reports/link/imp/impl_1_system_diagram.json",
+  "name": "",
+  "fileType": "JSON",
+  "reportType": "SYSTEM_DIAGRAM_PLUS",
+  "cmdId": "7f924f11-0a73-479e-b77f-01697a43afb4"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 08:13:52 2024",
+ "timestampMillis": "1716106432481",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/reports/link/imp/impl_1_hw_bb_locked_timing_summary_routed.rpt",
+  "name": "",
+  "fileType": "TEXT",
+  "reportType": "GLOBAL_REPORT_TIMING_SUMMARY",
+  "cmdId": "7f924f11-0a73-479e-b77f-01697a43afb4"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 08:13:52 2024",
+ "timestampMillis": "1716106432699",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/reports/link/imp/impl_1_hw_bb_locked_timing_summary_routed.rpx",
+  "name": "",
+  "fileType": "BINARY_PROTOBUF",
+  "reportType": "GLOBAL_REPORT_TIMING_SUMMARY",
+  "cmdId": "7f924f11-0a73-479e-b77f-01697a43afb4"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 08:13:52 2024",
+ "timestampMillis": "1716106432761",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/reports/link/imp/impl_1_hw_bb_locked_timing_summary_routed.rpv",
+  "name": "",
+  "fileType": "BINARY_PROTOBUF",
+  "reportType": "GLOBAL_REPORT_TIMING_SUMMARY_CONCISE",
+  "cmdId": "7f924f11-0a73-479e-b77f-01697a43afb4"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 08:13:52 2024",
+ "timestampMillis": "1716106432980",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/reports/link/imp/impl_1_hw_bb_locked_timing_summary_postroute_physopted.rpt",
+  "name": "",
+  "fileType": "TEXT",
+  "reportType": "GLOBAL_REPORT_TIMING_SUMMARY",
+  "cmdId": "7f924f11-0a73-479e-b77f-01697a43afb4"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 08:13:53 2024",
+ "timestampMillis": "1716106433212",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/reports/link/imp/impl_1_hw_bb_locked_timing_summary_postroute_physopted.rpx",
+  "name": "",
+  "fileType": "BINARY_PROTOBUF",
+  "reportType": "GLOBAL_REPORT_TIMING_SUMMARY",
+  "cmdId": "7f924f11-0a73-479e-b77f-01697a43afb4"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 08:13:53 2024",
+ "timestampMillis": "1716106433273",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/reports/link/imp/impl_1_hw_bb_locked_timing_summary_postroute_physopted.rpv",
+  "name": "",
+  "fileType": "BINARY_PROTOBUF",
+  "reportType": "GLOBAL_REPORT_TIMING_SUMMARY_CONCISE",
+  "cmdId": "7f924f11-0a73-479e-b77f-01697a43afb4"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Sun May 19 08:13:53 2024",
+ "timestampMillis": "1716106433978",
+ "status": {
+  "cmdId": "0053f432-ecdb-4da0-a68a-746d718a1fee",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Sun May 19 08:13:54 2024",
+ "timestampMillis": "1716106434051",
+ "status": {
+  "cmdId": "54113cc4-c144-4c67-aecd-867eeee48f01",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_SubCmdStep",
+ "dateTimestamp": "Sun May 19 08:13:55 2024",
+ "timestampMillis": "1716106435620",
+ "buildStep": {
+  "cmdId": "bc60de3d-6d99-4f39-9b3f-2d9e6ee9df14",
+  "name": "rtdgen",
+  "logFile": "",
+  "commandLine": "rtdgen",
+  "args": [],
+  "iniFiles": [],
+  "cwd": "/home/ayvol/vitis_accel_backend_test"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Sun May 19 08:13:55 2024",
+ "timestampMillis": "1716106435620",
+ "status": {
+  "cmdId": "bc60de3d-6d99-4f39-9b3f-2d9e6ee9df14",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 08:13:56 2024",
+ "timestampMillis": "1716106436188",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/kernel_wrapper_xml.rtd",
+  "name": "",
+  "fileType": "JSON",
+  "reportType": "XCLBIN_INFO",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_SubCmdStep",
+ "dateTimestamp": "Sun May 19 08:13:56 2024",
+ "timestampMillis": "1716106436523",
+ "buildStep": {
+  "cmdId": "4ec994b1-fda3-482f-a4eb-ec60e819dea7",
+  "name": "cf2sw",
+  "logFile": "",
+  "commandLine": "cf2sw -a /home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/address_map.xml -sdsl /home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/sdsl.dat -xclbin /home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/xclbin_orig.xml -rtd /home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/kernel_wrapper.rtd -o /home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/kernel_wrapper.xml",
+  "args": [
+   "-a",
+   "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/address_map.xml",
+   "-sdsl",
+   "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/sdsl.dat",
+   "-xclbin",
+   "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/xclbin_orig.xml",
+   "-rtd",
+   "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/kernel_wrapper.rtd",
+   "-o",
+   "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/kernel_wrapper.xml"
+  ],
+  "iniFiles": [],
+  "cwd": "/home/ayvol/vitis_accel_backend_test"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Sun May 19 08:13:56 2024",
+ "timestampMillis": "1716106436523",
+ "status": {
+  "cmdId": "4ec994b1-fda3-482f-a4eb-ec60e819dea7",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Sun May 19 08:14:15 2024",
+ "timestampMillis": "1716106455400",
+ "status": {
+  "cmdId": "4ec994b1-fda3-482f-a4eb-ec60e819dea7",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_SubCmdStep",
+ "dateTimestamp": "Sun May 19 08:14:15 2024",
+ "timestampMillis": "1716106455400",
+ "buildStep": {
+  "cmdId": "331da20e-5de2-40a6-90a2-8ea360f9eee0",
+  "name": "rtdgen",
+  "logFile": "",
+  "commandLine": "writeSystemDiagram",
+  "args": [
+   "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/kernel_wrapper.rtd",
+   "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/systemDiagramModelSlrBaseAddress.json"
+  ],
+  "iniFiles": [],
+  "cwd": "/home/ayvol/vitis_accel_backend_test"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Sun May 19 08:14:15 2024",
+ "timestampMillis": "1716106455401",
+ "status": {
+  "cmdId": "331da20e-5de2-40a6-90a2-8ea360f9eee0",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 08:14:15 2024",
+ "timestampMillis": "1716106455466",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/systemDiagramModelSlrBaseAddress.json",
+  "name": "",
+  "fileType": "JSON",
+  "reportType": "SYSTEM_DIAGRAM_PLUS",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Sun May 19 08:14:15 2024",
+ "timestampMillis": "1716106455467",
+ "status": {
+  "cmdId": "331da20e-5de2-40a6-90a2-8ea360f9eee0",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_SubCmdStep",
+ "dateTimestamp": "Sun May 19 08:14:15 2024",
+ "timestampMillis": "1716106455467",
+ "buildStep": {
+  "cmdId": "375e53bb-fa94-4fe2-af54-8b0cad1ed889",
+  "name": "rtdgen",
+  "logFile": "",
+  "commandLine": "writeAutomationSummary",
+  "args": [
+   "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/automation_summary.txt"
+  ],
+  "iniFiles": [],
+  "cwd": "/home/ayvol/vitis_accel_backend_test"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Sun May 19 08:14:15 2024",
+ "timestampMillis": "1716106455467",
+ "status": {
+  "cmdId": "375e53bb-fa94-4fe2-af54-8b0cad1ed889",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 08:14:15 2024",
+ "timestampMillis": "1716106455530",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/automation_summary.txt",
+  "name": "",
+  "fileType": "TEXT",
+  "reportType": "VITIS_DESIGN_FLOW",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Sun May 19 08:14:15 2024",
+ "timestampMillis": "1716106455530",
+ "status": {
+  "cmdId": "375e53bb-fa94-4fe2-af54-8b0cad1ed889",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Sun May 19 08:14:15 2024",
+ "timestampMillis": "1716106455660",
+ "status": {
+  "cmdId": "bc60de3d-6d99-4f39-9b3f-2d9e6ee9df14",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_SubCmdStep",
+ "dateTimestamp": "Sun May 19 08:14:17 2024",
+ "timestampMillis": "1716106457451",
+ "buildStep": {
+  "cmdId": "bc22717b-00bc-4122-8e9e-6f070491e5ee",
+  "name": "xclbinutil",
+  "logFile": "",
+  "commandLine": "xclbinutil --add-section BITSTREAM:RAW:/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/partial.bit --force --target hw --key-value SYS:dfx_enable:true --add-section :JSON:/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/kernel_wrapper.rtd --append-section :JSON:/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/appendSection.rtd --add-section CLOCK_FREQ_TOPOLOGY:JSON:/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/kernel_wrapper_xml.rtd --add-section BUILD_METADATA:JSON:/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/kernel_wrapper_build.rtd --add-section EMBEDDED_METADATA:RAW:/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/kernel_wrapper.xml --add-section SYSTEM_METADATA:RAW:/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/systemDiagramModelSlrBaseAddress.json --key-value SYS:PlatformVBNV:xilinx_u55c_gen3x16_xdma_3_202210_1 --output /home/ayvol/vitis_accel_backend_test/./build/kernel_wrapper.xclbin",
+  "args": [
+   "--add-section",
+   "BITSTREAM:RAW:/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/partial.bit",
+   "--force",
+   "--target",
+   "hw",
+   "--key-value",
+   "SYS:dfx_enable:true",
+   "--add-section",
+   ":JSON:/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/kernel_wrapper.rtd",
+   "--append-section",
+   ":JSON:/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/appendSection.rtd",
+   "--add-section",
+   "CLOCK_FREQ_TOPOLOGY:JSON:/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/kernel_wrapper_xml.rtd",
+   "--add-section",
+   "BUILD_METADATA:JSON:/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/kernel_wrapper_build.rtd",
+   "--add-section",
+   "EMBEDDED_METADATA:RAW:/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/kernel_wrapper.xml",
+   "--add-section",
+   "SYSTEM_METADATA:RAW:/home/ayvol/vitis_accel_backend_test/build/xclbin/link/int/systemDiagramModelSlrBaseAddress.json",
+   "--key-value",
+   "SYS:PlatformVBNV:xilinx_u55c_gen3x16_xdma_3_202210_1",
+   "--output",
+   "/home/ayvol/vitis_accel_backend_test/./build/kernel_wrapper.xclbin"
+  ],
+  "iniFiles": [],
+  "cwd": "/home/ayvol/vitis_accel_backend_test"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Sun May 19 08:14:17 2024",
+ "timestampMillis": "1716106457452",
+ "status": {
+  "cmdId": "bc22717b-00bc-4122-8e9e-6f070491e5ee",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Sun May 19 08:14:20 2024",
+ "timestampMillis": "1716106460939",
+ "status": {
+  "cmdId": "bc22717b-00bc-4122-8e9e-6f070491e5ee",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_SubCmdStep",
+ "dateTimestamp": "Sun May 19 08:14:21 2024",
+ "timestampMillis": "1716106461150",
+ "buildStep": {
+  "cmdId": "7f532fb1-0c15-4519-bea2-76d1b46bac8a",
+  "name": "xclbinutilinfo",
+  "logFile": "",
+  "commandLine": "xclbinutil --quiet --force --info /home/ayvol/vitis_accel_backend_test/./build/kernel_wrapper.xclbin.info --input /home/ayvol/vitis_accel_backend_test/./build/kernel_wrapper.xclbin",
+  "args": [
+   "--quiet",
+   "--force",
+   "--info",
+   "/home/ayvol/vitis_accel_backend_test/./build/kernel_wrapper.xclbin.info",
+   "--input",
+   "/home/ayvol/vitis_accel_backend_test/./build/kernel_wrapper.xclbin"
+  ],
+  "iniFiles": [],
+  "cwd": "/home/ayvol/vitis_accel_backend_test"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Sun May 19 08:14:21 2024",
+ "timestampMillis": "1716106461150",
+ "status": {
+  "cmdId": "7f532fb1-0c15-4519-bea2-76d1b46bac8a",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Sun May 19 08:14:21 2024",
+ "timestampMillis": "1716106461839",
+ "status": {
+  "cmdId": "7f532fb1-0c15-4519-bea2-76d1b46bac8a",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_SubCmdStep",
+ "dateTimestamp": "Sun May 19 08:14:22 2024",
+ "timestampMillis": "1716106462049",
+ "buildStep": {
+  "cmdId": "5793db74-efb3-4a7f-84ff-cb512a072939",
+  "name": "generate_sc_driver",
+  "logFile": "",
+  "commandLine": "",
+  "args": [],
+  "iniFiles": [],
+  "cwd": "/home/ayvol/vitis_accel_backend_test"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Sun May 19 08:14:22 2024",
+ "timestampMillis": "1716106462049",
+ "status": {
+  "cmdId": "5793db74-efb3-4a7f-84ff-cb512a072939",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Sun May 19 08:14:22 2024",
+ "timestampMillis": "1716106462293",
+ "status": {
+  "cmdId": "5793db74-efb3-4a7f-84ff-cb512a072939",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 08:14:24 2024",
+ "timestampMillis": "1716106464795",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/reports/link/system_estimate_kernel_wrapper.xtxt",
+  "name": "",
+  "fileType": "TEXT",
+  "reportType": "GLOBAL_SYSTEM_ESTIMATE",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 08:14:26 2024",
+ "timestampMillis": "1716106466131",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/logs/optraceViewer.html",
+  "name": "",
+  "fileType": "HTML",
+  "reportType": "OPERATION_TRACE",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Sun May 19 08:14:26 2024",
+ "timestampMillis": "1716106466195",
+ "status": {
+  "cmdId": "8a932915-2d7b-47c3-a618-222a6b52af05",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 08:14:28 2024",
+ "timestampMillis": "1716106468090",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/reports/link/v++_link_kernel_wrapper_guidance.html",
+  "name": "",
+  "fileType": "HTML",
+  "reportType": "GLOBAL_RULECHECK_GUIDANCE",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Sun May 19 08:14:28 2024",
+ "timestampMillis": "1716106468090",
+ "report": {
+  "path": "/home/ayvol/vitis_accel_backend_test/build/xclbin/v++_link_kernel_wrapper_guidance.pb3",
+  "name": "",
+  "fileType": "BINARY_PROTOBUF",
+  "reportType": "GLOBAL_RULECHECK_GUIDANCE",
+  "cmdId": ""
+ }
+}
+</ENTRY>
