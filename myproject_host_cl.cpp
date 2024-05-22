@@ -41,56 +41,38 @@ int main(int argc, char **argv) {
 
     fpga.allocateHostMemory(NUM_CHANNEL);
       
-    std::cout << "Loading input data from tb_data/tb_input_features.dat" 
-              << "and output predictions from tb_data/tb_output_features.dat" << std::endl;
-
-    std::cout << "Writing output predictions to tb_data/tb_output_predictions.dat" << std::endl;
-    
-    std::ifstream fpr("tb_data/tb_output_predictions.dat");
+    std::cout << "Loading input data from tb_data/tb_input_features.dat" << std::endl;
     std::ifstream fin("tb_data/tb_input_features.dat");
-
     if (!fin.is_open()) {
         std::cerr << "Error: Could not open tb_input_features.dat" << std::endl;
     }
 
-    if (!fpr.is_open()) {
-        std::cerr << "Error: Could not open tb_output_predictions.dat" << std::endl;
-    }
-
     std::vector<in_buffer_t> inputData;
-    std::vector<out_buffer_t> outputPredictions;
-    if (fin.is_open() && fpr.is_open()) {
+    if (fin.is_open()) {
         int e = 0;
         std::string iline;
         std::string pline;
-        while (std::getline(fin, iline) && std::getline(fpr, pline)) {
+        while (std::getline(fin, iline)) {
             if (e % 10 == 0) {
-                std::cout << "Processing input/prediction " << e << std::endl;
+                std::cout << "Processing input " << e << std::endl;
             }
             std::stringstream in(iline); 
-            std::stringstream pred(pline); 
             std::string token;
             while (in >> token) {
                 in_buffer_t tmp = stof(token);
                 inputData.push_back(tmp);
-            }
-            while (pred >> token) {
-                out_buffer_t tmp = stof(token);
-                outputPredictions.push_back(tmp);
             }
         }
         e++;
     }
     
     // Copying in testbench data
-    int n = std::min((int) inputData.size(), INSTREAMSIZE * NUM_CU * NUM_THREAD);
-    for (int i = 0; i < n; i++) {
-        fpga.source_in[i] = inputData[i];
-    }
+    int num_samples = std::min((int)inputData.size(), INSTREAMSIZE * NUM_CU * NUM_THREAD);
+    memcpy(fpga.source_in, inputData, num_samples * sizeof(in_buffer_t));
 
     // Padding rest of buffer with arbitrary values
-    for (int i = n; i < INSTREAMSIZE * NUM_CU * NUM_THREAD; i++) {
-        fpga.source_in[i] = (in_buffer_t)(1234.567);
+    for (int i = num_samples; i < INSTREAMSIZE * NUM_CU * NUM_THREAD; i++) {
+        fpga.source_in[i] = (in_buffer_t)(1.234567);
     }
 
     std::vector<std::thread> hostAccelerationThreads;
@@ -119,11 +101,11 @@ int main(int argc, char **argv) {
             << throughput
             <<" predictions/second\n" << std::endl;
 
-    std::cout << "Writing hw resaults to file" << std::endl;
+    std::cout << "Writing hw results to file" << std::endl;
     std::ofstream resultsFile;
     resultsFile.open("tb_data/hw_results.dat", std::ios::trunc);
     if (resultsFile.is_open()) {   
-        for (int i = 0; i < NUM_THREAD * NUM_CU * BATCHSIZE; i++) {
+        for (int i = 0; i < num_samples; i++) {
             std::stringstream line;
             for (int n = 0; n < DATA_SIZE_OUT; n++) {
                 line << (float)fpga.source_hw_results[(i * DATA_SIZE_OUT) + n] << " ";
