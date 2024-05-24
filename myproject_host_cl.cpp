@@ -48,12 +48,13 @@ int main(int argc, char **argv) {
     }
 
     std::vector<in_buffer_t> inputData;
+    int num_inputs = 0;
     if (fin.is_open()) {
         int e = 0;
         std::string iline;
         std::string pline;
         while (std::getline(fin, iline)) {
-            if (e % 10 == 0) {
+            if (num_inputs % 10 == 0) {
                 std::cout << "Processing input " << e << std::endl;
             }
             std::stringstream in(iline); 
@@ -62,17 +63,17 @@ int main(int argc, char **argv) {
                 in_buffer_t tmp = stof(token);
                 inputData.push_back(tmp);
             }
+            num_inputs++;
         }
-        e++;
     }
     
     // Copying in testbench data
-    int num_samples = std::min((int)inputData.size(), INSTREAMSIZE * NUM_CU * NUM_THREAD);
+    int num_samples = std::min(num_inputs, INSTREAMSIZE * NUM_CU * NUM_THREAD);
     memcpy(fpga.source_in.data(), inputData.data(), num_samples * sizeof(in_buffer_t));
 
     // Padding rest of buffer with arbitrary values
     for (int i = num_samples; i < INSTREAMSIZE * NUM_CU * NUM_THREAD; i++) {
-        fpga.source_in[i] = (in_buffer_t)(1.234567);
+        fpga.source_in[i] = (in_buffer_t)(2.345678);
     }
 
     std::vector<std::thread> hostAccelerationThreads;
@@ -105,7 +106,7 @@ int main(int argc, char **argv) {
     std::ofstream resultsFile;
     resultsFile.open("tb_data/hw_results.dat", std::ios::trunc);
     if (resultsFile.is_open()) {   
-        for (int i = 0; i < num_samples; i++) {
+        for (int i = 0; i < num_samples + 5; i++) {
             std::stringstream line;
             for (int n = 0; n < DATA_SIZE_OUT; n++) {
                 line << (float)fpga.source_hw_results[(i * DATA_SIZE_OUT) + n] << " ";
