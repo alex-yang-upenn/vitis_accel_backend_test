@@ -96,7 +96,7 @@ int main(int argc, char **argv) {
     std::ofstream resultsFile;
     resultsFile.open("tb_data/hw_results.dat", std::ios::trunc);
     if (resultsFile.is_open()) {   
-        for (int i = 0; i < num_samples + 5; i++) {
+        for (int i = 0; i < num_samples; i++) {
             std::stringstream oline;
             for (int n = 0; n < DATA_SIZE_OUT; n++) {
                 oline << (float)fpga.source_hw_results[(i * DATA_SIZE_OUT) + n] << " ";
