@@ -68,7 +68,7 @@ int main(int argc, char **argv) {
     
     // Copying in testbench data
     int num_samples = std::min((int)inputData.size(), INSTREAMSIZE * NUM_CU * NUM_THREAD);
-    memcpy(fpga.source_in, inputData, num_samples * sizeof(in_buffer_t));
+    memcpy(fpga.source_in.data(), inputData.data(), num_samples * sizeof(in_buffer_t));
 
     // Padding rest of buffer with arbitrary values
     for (int i = num_samples; i < INSTREAMSIZE * NUM_CU * NUM_THREAD; i++) {
