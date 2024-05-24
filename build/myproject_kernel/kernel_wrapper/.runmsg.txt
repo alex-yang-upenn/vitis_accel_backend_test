@@ -1,2 +1,0 @@
-performing high-level synthesis for kernel: kernel_wrapper
-Log file: /home/ayvol/vitis_accel_backend_test/build/myproject_kernel/kernel_wrapper/vitis_hls.log
