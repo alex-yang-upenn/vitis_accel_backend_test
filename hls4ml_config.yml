@@ -135,5 +135,5 @@ KerasModel: !keras_model 'vitis_accel_cnn//keras_model.h5'
 OutputDir: vitis_accel_cnn/
 Part: xcvu13p-flga2577-2-e
 ProjectName: myproject
-Stamp: FFf23321
+Stamp: Afa9CC3C
 Version: 1.0.0
