@@ -9,10 +9,10 @@
 #define BATCHSIZE 8192
 
 #define DATA_SIZE_IN N_INPUT_1_1
-#define INSTREAMSIZE (BATCHSIZE * DATA_SIZE_IN)
+#define INSTREAMSIZE DATA_SIZE_IN
 
 #define DATA_SIZE_OUT N_LAYER_11
-#define OUTSTREAMSIZE (BATCHSIZE * DATA_SIZE_OUT)
+#define OUTSTREAMSIZE DATA_SIZE_OUT
 
 typedef input_t in_buffer_t;
 typedef result_t out_buffer_t;

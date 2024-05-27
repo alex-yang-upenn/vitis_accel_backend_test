@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
     }
     std::string xclbinFilename = argv[1];
 
-    HbmFpga<in_buffer_t, out_buffer_t> fpga(INSTREAMSIZE, OUTSTREAMSIZE, NUM_CU, NUM_THREAD, 100); 
+    HbmFpga<in_buffer_t, out_buffer_t> fpga(BATCHSIZE * INSTREAMSIZE, BATCHSIZE * OUTSTREAMSIZE, NUM_CU, NUM_THREAD, 100); 
 
     std::vector<cl::Device> devices = xcl::get_xil_devices();  // Utility API that finds xilinx platforms and return a list of devices connected to Xilinx platforms
     cl::Program::Binaries bins = xcl::import_binary_file(xclbinFilename);  // Load xclbin
