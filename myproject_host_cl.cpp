@@ -32,6 +32,8 @@ int main(int argc, char **argv) {
 
     HbmFpga<in_buffer_t, out_buffer_t> fpga(BATCHSIZE * INSTREAMSIZE, BATCHSIZE * OUTSTREAMSIZE, NUM_CU, NUM_THREAD, 10); 
 
+    std::out << "Object initialized" << std::endl
+
     std::vector<cl::Device> devices = xcl::get_xil_devices();  // Utility API that finds xilinx platforms and return a list of devices connected to Xilinx platforms
     cl::Program::Binaries bins = xcl::import_binary_file(xclbinFilename);  // Load xclbin
     fpga.initializeOpenCL(devices, bins);
@@ -60,15 +62,22 @@ int main(int argc, char **argv) {
             num_inputs++;
         }
     }
-    
+    fin.close();
+
+    std::cout << "Finished copying in data" << std::endl;
+
     // Copying in testbench data
     int num_samples = std::min(num_inputs, BATCHSIZE * NUM_CU * NUM_THREAD);
     memcpy(fpga.source_in.data(), inputData.data(), num_samples * INSTREAMSIZE * sizeof(in_buffer_t));
+
+    std::cout << "memcpy complete" << std::endl;
 
     // Padding rest of buffer with arbitrary values
     for (int i = num_samples * INSTREAMSIZE; i < BATCHSIZE * INSTREAMSIZE * NUM_CU * NUM_THREAD; i++) {
         fpga.source_in[i] = (in_buffer_t)(2.345678);
     }
+
+    std::cout << "padding complete" << std::endl;
 
     std::vector<std::thread> hostAccelerationThreads;
     hostAccelerationThreads.reserve(NUM_THREAD);
