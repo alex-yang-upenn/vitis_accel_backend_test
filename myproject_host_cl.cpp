@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
     }
     std::string xclbinFilename = argv[1];
 
-    HbmFpga<in_buffer_t, out_buffer_t> fpga(INSTREAMSIZE, OUTSTREAMSIZE, NUM_CU, NUM_THREAD, 25); 
+    HbmFpga<in_buffer_t, out_buffer_t> fpga(BATCHSIZE * INSTREAMSIZE, BATCHSIZE * OUTSTREAMSIZE, NUM_CU, NUM_THREAD, 10); 
 
     std::vector<cl::Device> devices = xcl::get_xil_devices();  // Utility API that finds xilinx platforms and return a list of devices connected to Xilinx platforms
     cl::Program::Binaries bins = xcl::import_binary_file(xclbinFilename);  // Load xclbin
@@ -63,10 +63,10 @@ int main(int argc, char **argv) {
     
     // Copying in testbench data
     int num_samples = std::min(num_inputs, BATCHSIZE * NUM_CU * NUM_THREAD);
-    memcpy(fpga.source_in.data(), inputData.data(), num_samples * DATA_SIZE_IN * sizeof(in_buffer_t));
+    memcpy(fpga.source_in.data(), inputData.data(), num_samples * INSTREAMSIZE * sizeof(in_buffer_t));
 
     // Padding rest of buffer with arbitrary values
-    for (int i = num_samples * DATA_SIZE_IN; i < INSTREAMSIZE * NUM_CU * NUM_THREAD; i++) {
+    for (int i = num_samples * INSTREAMSIZE; i < BATCHSIZE * INSTREAMSIZE * NUM_CU * NUM_THREAD; i++) {
         fpga.source_in[i] = (in_buffer_t)(2.345678);
     }
 
@@ -87,7 +87,7 @@ int main(int argc, char **argv) {
     fpga.finishRun();
 
     auto ts_end = SClock::now();
-    float throughput = (float(NUM_CU * NUM_THREAD * 25 * BATCHSIZE) /
+    float throughput = (float(NUM_CU * NUM_THREAD * 10 * BATCHSIZE) /
             float(std::chrono::duration_cast<std::chrono::nanoseconds>(ts_end - ts_start).count())) *
             1000000000.;
     std::cout << "Throughput = " << throughput <<" predictions/second\n" << std::endl;
