@@ -63,18 +63,11 @@ int main(int argc, char **argv) {
     int num_samples = std::min(num_inputs, BATCHSIZE * NUM_CU * NUM_THREAD);
     memcpy(fpga.source_in.data(), inputData.data(), num_samples * INSTREAMSIZE * sizeof(in_buffer_t));
 
-    // Padding rest of buffer with arbitrary values
-    for (int i = num_samples * INSTREAMSIZE; i < BATCHSIZE * INSTREAMSIZE * NUM_CU * NUM_THREAD; i++) {
-        fpga.source_in[i] = (in_buffer_t)(2.345678);
-    }
-
-    std::cout << "padding complete" << std::endl;
-
     std::vector<std::thread> hostAccelerationThreads;
     hostAccelerationThreads.reserve(NUM_THREAD);
 
     std::cout << "Beginning FPGA run" << std::endl;
-    auto ts_start = SClock::now();
+    auto ts_start = std::chrono::system_clock::now();
 
     for (int i = 0; i < NUM_THREAD; i++) {
         hostAccelerationThreads.push_back(std::thread(runFPGAHelper, std::ref(fpga)));
@@ -86,7 +79,7 @@ int main(int argc, char **argv) {
 
     fpga.finishRun();
 
-    auto ts_end = SClock::now();
+    auto ts_end = std::chrono::system_clock::now();
     float throughput = (float(BATCHSIZE* NUM_CU * NUM_THREAD * 10 ) /
             float(std::chrono::duration_cast<std::chrono::nanoseconds>(ts_end - ts_start).count())) *
             1000000000.;
